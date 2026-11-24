@@ -44,6 +44,70 @@
       padding-bottom: 60px;
     }
 
+    /* 通關密碼鎖定遮罩 */
+    #authGate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background-color: var(--bg-paper);
+      background-image: radial-gradient(#DFD7C8 1.2px, transparent 1.2px);
+      background-size: 20px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+      background: linear-gradient(135deg, #FFF8E7 0%, #FFEFE8 100%);
+      border: 3px solid var(--ink);
+      border-radius: 24px 18px 22px 20px / 18px 24px 20px 22px;
+      box-shadow: 6px 6px 0px var(--ink);
+      padding: 28px 22px;
+      text-align: center;
+    }
+
+    .auth-icon {
+      font-size: 2.6rem;
+      margin-bottom: 6px;
+    }
+
+    .auth-title {
+      margin: 0 0 6px;
+      font-size: 1.4rem;
+      font-weight: 900;
+    }
+
+    .auth-desc {
+      margin: 0 0 18px;
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2.5px solid var(--ink);
+      border-radius: 12px;
+      font-family: 'Patrick Hand', 'Zen Maru Gothic', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      background: #FFF;
+    }
+
+    .auth-err {
+      color: #C53030;
+      font-size: 0.84rem;
+      font-weight: 700;
+      min-height: 20px;
+      margin-bottom: 8px;
+    }
+
     .font-hand {
       font-family: 'Patrick Hand', 'Zen Maru Gothic', sans-serif;
       letter-spacing: 0.5px;
@@ -448,8 +512,14 @@
 
     .tl-actions {
       display: flex;
+      flex-wrap: wrap;
       justify-content: flex-end;
       gap: 8px;
+    }
+
+    .btn-naver {
+      background: #03C75A;
+      color: #FFFFFF;
     }
 
     /* 住宿與交通資訊網格 */
@@ -642,6 +712,17 @@
       color: var(--ink-soft);
     }
 
+    .edit-btn {
+      background: #EBF8FF;
+      color: #2B6CB0;
+      border: 1.8px solid var(--ink);
+      border-radius: 8px;
+      width: 28px;
+      height: 28px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
     .del-btn {
       background: #FFF5F5;
       color: #C53030;
@@ -799,11 +880,27 @@
   </style>
 </head>
 <body>
+
+  <!-- 通關密碼驗證閘門（輸入一次即記憶於該裝置瀏覽器） -->
+  <div id="authGate">
+    <div class="auth-card">
+      <div class="auth-icon">🔐</div>
+      <h2 class="auth-title">2026 釜山三人行手札</h2>
+      <p class="auth-desc">為保護住宿密碼與訂位代號，請輸入通關密語<br><small>（同一支手機／瀏覽器只需輸入一次，之後免重登）</small></p>
+      <input type="password" id="passcodeInput" class="auth-input" placeholder="請輸入出發日期 (8碼)" inputmode="numeric" onkeydown="if(event.key==='Enter') verifyPasscode()">
+      <div class="auth-err" id="authErrorMsg"></div>
+      <button type="button" class="btn btn-primary" style="width:100%; padding:11px; font-size:1rem;" onclick="verifyPasscode()">🔓 解鎖進入手札</button>
+    </div>
+  </div>
+
   <div class="container">
 
     <!-- 1. 網頁頂部 Hero -->
     <header class="hero-card">
-      <div class="hero-badge">✏️ 2026 WINTER BUSAN TRIP ・ 兄妹三人行</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:6px;">
+        <div class="hero-badge" style="margin-bottom:0;">✏️ 2026 WINTER BUSAN TRIP ・ 兄妹三人行</div>
+        <button type="button" class="btn btn-sm" onclick="lockPage()" title="重新鎖定畫面">🔒 鎖定手札</button>
+      </div>
       <h1 class="hero-title">🇰🇷 釜山四天三夜・海風與美食手札</h1>
       <p class="hero-subtitle">
         📅 <strong>2026/12/09 (週三) ～ 12/12 (週六)</strong> ｜ 👥 <strong>旅伴：我、妹妹、妹夫（共 3 人）</strong><br>
@@ -846,7 +943,7 @@
           <button class="day-tab" data-day="3" onclick="filterDay('3', this)">Day 3 (12/11 生日)</button>
           <button class="day-tab" data-day="4" onclick="filterDay('4', this)">Day 4 (12/12 返台)</button>
         </div>
-        <span style="font-size:0.8rem; color:var(--ink-soft); font-weight:700;">🚕 交通皆附計程車預估參考</span>
+        <span style="font-size:0.8rem; color:var(--ink-soft); font-weight:700;">📍 附 Google Maps ＋ 🧭 Naver Map 雙導航</span>
       </div>
 
       <div id="itineraryContainer"></div>
@@ -869,7 +966,10 @@
             <p style="margin:4px 0;"><b>行李寄放：</b>2F / 14F 自助行李室（入住當日 09:00 開放）</p>
             <p style="margin:4px 0;"><b>訂單編號：</b><code>ORD0031261978</code> / 代號 <code>19XH88R</code></p>
             <p style="margin:4px 0 8px;"><b>地址：</b>釜山廣域市釜山鎮區中央大路 752 (부산 부산진구 중앙대로 752)</p>
-            <a class="btn btn-sm btn-yellow" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Urbanstay+Seomyeon+Busan">📍 開啟飯店 Google Maps</a>
+            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+              <a class="btn btn-sm btn-yellow" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Urbanstay+Seomyeon+Busan">📍 Google Maps</a>
+              <a class="btn btn-sm btn-naver" target="_blank" href="https://map.naver.com/p/search/%EC%96%B4%EB%B0%98%EC%8A%A4%ED%85%8C%EC%9D%B4%20%EC%84%9C%EB%A9%B4">🧭 Naver Map</a>
+            </div>
           </div>
           <div style="margin-top:10px; padding-top:8px; border-top:1.5px dashed var(--ink);">
             <label style="font-size:0.8rem; font-weight:900;">🔑 入住大門 / 房門 / 行李室密碼備忘（出發前 1–2 天填入）：</label>
@@ -929,14 +1029,14 @@
     <section id="sec-expense" class="sketch-box">
       <div class="section-header">
         <h2 class="section-title">💰 旅費記帳與請款計算機</h2>
-        <button class="btn btn-sm" onclick="resetDefaultExpenses()">↺ 恢復最新預設帳目</button>
+        <button class="btn btn-sm" onclick="resetDefaultExpenses()">↺ 恢復預設預訂帳目</button>
       </div>
 
       <!-- 自訂匯率設定 -->
       <div class="rate-box">
         <div>
           <strong>💱 出國當天自訂匯率設定</strong>
-          <div style="font-size:0.8rem; color:var(--ink-soft);">所有韓元現金消費會依此匯率自動換算為台幣加總（目前預設 41.5，出國當天可隨時調整）</div>
+          <div style="font-size:0.8rem; color:var(--ink-soft);">所有韓元現金／刷卡消費會依此匯率自動換算為台幣加總（目前預設 41.5，出國當天可隨時調整）</div>
         </div>
         <div class="rate-input-group">
           <span>1 台幣 (TWD) =</span>
@@ -947,9 +1047,9 @@
 
       <!-- 預約單金額輸入提示 -->
       <div class="booking-prompt">
-        <strong>📌 帳務說明（所有已預訂項目皆由「我」全數代墊）：</strong>
-        已預填 <b>Urbanstay 兩間房</b>、<b>3 張 VBP</b>、<b>機場停車費（5天 $750）</b>、<b>TONE&amp;ME 個人色彩（NT$7,674 依實際比例分攤）</b>、<b>天空膠囊列車</b> 與 <b>豚笑訂金</b>。<br>
-        ⚠️ <b>機票部分：</b>請點下方按鈕或直接輸入<b>正確的刷卡台幣金額</b>新增（若之前有舊資料，可按右上角「↺ 恢復最新預設帳目」重置並重新輸入機票）。
+        <strong>📌 帳務說明（目前所有費用 100% 皆由「我」先代墊，完全沒有妹妹或妹夫先付的部分）：</strong>
+        已預填 <b>Urbanstay 兩間房</b>、<b>3 張 VBP</b>、<b>機場停車費（5天 $750）</b>、<b>TONE&amp;ME 個人色彩（NT$7,674 依實際比例分攤）</b>、<b>天空膠囊列車</b>、<b>豚笑訂金</b> 以及 <b>四張機票參考金額</b>。<br>
+        ✏️ <b>機票金額微調：</b>每筆帳目右側都有「<b>✎</b>」修改按鈕！你可隨時點擊修改成正確的機票刷卡台幣金額（或刪除重建）。
         <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px;">
           <button type="button" class="btn btn-sm btn-yellow" onclick="quickFill('易斯達機票（我 ZE988去＋ZE987回含15kg行李）', 'TWD', '交通', '刷卡', '我')">+ 快速帶入：我的來回機票</button>
           <button type="button" class="btn btn-sm btn-yellow" onclick="quickFill('易斯達機票（妹妹＆妹夫 ZE984去＋ZE983回）', 'TWD', '交通', '刷卡', '妹妹')">+ 快速帶入：妹妹＆妹夫來回機票</button>
@@ -961,7 +1061,7 @@
       <form class="expense-form" onsubmit="addExpense(event)">
         <div class="form-group full">
           <label>店家名稱 / 消費內容說明</label>
-          <input type="text" id="expDesc" class="form-control" placeholder="例如：易斯達機票（我的來回）、松亭三代豬肉湯飯" required>
+          <input type="text" id="expDesc" class="form-control" placeholder="例如：易斯達機票、松亭三代豬肉湯飯" required>
         </div>
 
         <div class="form-group">
@@ -987,7 +1087,7 @@
         </div>
 
         <div class="form-group">
-          <label>付款方式（皆由我先代付）</label>
+          <label>付款方式（皆由我先墊付）</label>
           <select id="expPayMethod" class="form-control">
             <option value="現金">💵 現金（我先付）</option>
             <option value="刷卡">💳 刷卡（我先付）</option>
@@ -1004,7 +1104,7 @@
         </div>
 
         <div class="form-group full">
-          <button type="submit" class="btn btn-primary" style="width:100%; padding:10px;">➕ 新增這筆花費（由我代墊）</button>
+          <button type="submit" class="btn btn-primary" style="width:100%; padding:10px;">➕ 新增這筆花費（由我先墊付）</button>
         </div>
       </form>
 
@@ -1014,11 +1114,11 @@
       <!-- 尾段：總計與單人費用結算 -->
       <div class="summary-panel">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
-          <strong style="font-size:1.05rem;">📊 目前總計與單人費用結算（全數由我先代付）</strong>
+          <strong style="font-size:1.05rem;">📊 目前總計與單人費用結算（100% 由我先墊付）</strong>
           <button type="button" class="btn btn-sm btn-yellow" onclick="copySettlement()">📋 一鍵複製請款明細貼 LINE</button>
         </div>
         <div style="font-size:0.78rem; color:var(--ink-soft); margin-top:4px;">
-          ※ 目前所有支出皆由「我」先代付，無妹妹或妹夫先付之項目。「三人均分」自動拆為：我 1 份、妹妹＋妹夫共 2 份；指定比例項目（如個人色彩診斷）依實際金額拆分。
+          ※ 所有支出皆由「我」先墊付，完全沒有妹妹或妹夫先付的部分。「三人均分」自動拆為：我 1 份、妹妹＋妹夫共 2 份；指定比例項目（如個人色彩診斷）依實際金額拆分。
         </div>
         <div class="summary-grid" id="summaryGrid"></div>
       </div>
@@ -1052,7 +1152,41 @@
   </div>
 
   <script>
-    // ================= 1. 每日行程資料 =================
+    // ================= 0. 通關密碼閘門（單機記憶，免重複登入） =================
+    const PASSCODE = "20261209";
+    const AUTH_KEY = "busan2026_unlocked_v3";
+
+    function checkAuth() {
+      const gate = document.getElementById("authGate");
+      if (localStorage.getItem(AUTH_KEY) === "true") {
+        gate.style.display = "none";
+      } else {
+        gate.style.display = "flex";
+      }
+    }
+
+    function verifyPasscode() {
+      const input = document.getElementById("passcodeInput");
+      const errEl = document.getElementById("authErrorMsg");
+      if (input.value.trim() === PASSCODE) {
+        localStorage.setItem(AUTH_KEY, "true");
+        document.getElementById("authGate").style.display = "none";
+        errEl.textContent = "";
+      } else {
+        errEl.textContent = "❌ 密碼不正確喔！提示：出發日期 20261209";
+        input.value = "";
+        input.focus();
+      }
+    }
+
+    function lockPage() {
+      localStorage.removeItem(AUTH_KEY);
+      document.getElementById("passcodeInput").value = "";
+      document.getElementById("authErrorMsg").textContent = "";
+      document.getElementById("authGate").style.display = "flex";
+    }
+
+    // ================= 1. 每日行程資料（含 Google Maps + Naver Map 雙導航） =================
     const itineraryData = [
       {
         day: 1,
@@ -1068,7 +1202,8 @@
             duration: "約 1 小時 30 分（含入境）",
             desc: "妹妹與妹夫 ZE984（06:05 抵）、我 ZE988（06:15 抵），入境會合後一起搭車前往西面市區。",
             note: "機場 VBP 櫃檯 10:00 才開門，不需在機場停留領卡。",
-            mapQuery: "Gimhae International Airport International Terminal"
+            mapQuery: "Gimhae International Airport International Terminal",
+            naverQuery: "김해국제공항 국제선터미널"
           },
           {
             time: "08:00",
@@ -1077,7 +1212,8 @@
             duration: "停留約 55 分鐘",
             desc: "24 小時營業的西面老字號豬肉湯飯，紅眼班機落地後先吃熱騰騰湯飯暖胃。",
             note: "Urbanstay 行李室 09:00 才開放，先拉行李來吃早餐時間剛剛好！",
-            mapQuery: "송정3대국밥 부산 서면"
+            mapQuery: "송정3대국밥 부산 서면",
+            naverQuery: "송정3대국밥"
           },
           {
             time: "09:00",
@@ -1086,7 +1222,8 @@
             duration: "停留約 15 分鐘",
             desc: "前往飯店 2F 或 14F 自助行李寄放室，輸入密碼鎖入大件行李後輕裝出發。",
             note: "入住時間為 16:00 後，密碼將於出發前 1–2 天提供。",
-            mapQuery: "Urbanstay Seomyeon Busan"
+            mapQuery: "Urbanstay Seomyeon Busan",
+            naverQuery: "어반스테이 서면"
           },
           {
             time: "09:30",
@@ -1095,7 +1232,8 @@
             duration: "停留約 30 分鐘",
             desc: "至釜山站 2 樓 9 號出口旁櫃檯兌換 3 張 BIG 5 實體卡，並順道至超商儲值交通金。",
             note: "務必出示 KKday / Pelago APP 內「動態 QR Code（不可截圖）」＋ 3 本護照正本。",
-            mapQuery: "Busan Station Tourist Information Center"
+            mapQuery: "Busan Station Tourist Information Center",
+            naverQuery: "부산역"
           },
           {
             time: "10:30",
@@ -1105,7 +1243,8 @@
             tags: ["VBP B組 #1"],
             desc: "使用 VBP 免費兌換「水晶透明車廂來回票」，俯瞰松島海水浴場與岩南公園海岸線。",
             note: "去回程皆搭乘纜車返回松島灣站，方便直接叫車過橋去影島。",
-            mapQuery: "Songdo Marine Cable Car Busan"
+            mapQuery: "Songdo Marine Cable Car Busan",
+            naverQuery: "송도해상케이블카 송도베이스테이션"
           },
           {
             time: "12:00",
@@ -1114,7 +1253,8 @@
             duration: "停留約 1 小時 20 分",
             desc: "位於影島的在地人氣一隻雞名店，湯頭清甜濃郁，搭配年糕與刀削麵超滿足。",
             note: "三人共點一份大份或一隻半再加點麵條最剛好。",
-            mapQuery: "명성이인닭 부산 영도"
+            mapQuery: "명성이인닭 부산 영도",
+            naverQuery: "영도 명성일인닭"
           },
           {
             time: "13:45",
@@ -1124,7 +1264,8 @@
             tags: ["VBP B組 #2"],
             desc: "韓國最大規模沉浸式數位光影藝術美術館，結合聲光與香氛打造超好拍的奇幻空間。",
             note: "館內光影較暗，穿淺色衣服拍照效果更亮眼！",
-            mapQuery: "Arte Museum Busan Yeongdo"
+            mapQuery: "Arte Museum Busan Yeongdo",
+            naverQuery: "아르떼뮤지엄 부산"
           },
           {
             time: "15:30",
@@ -1133,7 +1274,8 @@
             duration: "停留約 1 小時 15 分",
             desc: "沿著影島懸崖海岸線延伸的純白藝術村，海景咖啡廳林立，還能走下彩虹階梯與海岸隧道拍照。",
             note: "海邊風大，記得戴好帽子與圍巾。",
-            mapQuery: "Huinnyeoul Culture Village Busan"
+            mapQuery: "Huinnyeoul Culture Village Busan",
+            naverQuery: "흰여울문화마을"
           },
           {
             time: "17:00",
@@ -1142,7 +1284,8 @@
             duration: "停留約 1 小時 45 分",
             desc: "欣賞 12 月限定的南浦洞華麗聖誕樹燈海，並到富平罐頭市場採買當季韓國草莓、橘子與麝香葡萄。",
             note: "生鮮水果嚴禁帶回台灣，這幾天在飯店盡情吃光光！",
-            mapQuery: "Bupyeong Kkangtong Market Busan"
+            mapQuery: "Bupyeong Kkangtong Market Busan",
+            naverQuery: "부평깡통시장"
           },
           {
             time: "19:00",
@@ -1151,7 +1294,8 @@
             duration: "自由休息",
             desc: "各自密碼進房休息補眠、享用草莓大餐；晚餐視體力於西面周邊覓食或請飯店/外送叫韓式炸雞。",
             note: "紅眼班機第一晚早點休息，養足精神迎接明天帝王蟹與樂園！",
-            mapQuery: "Urbanstay Seomyeon Busan"
+            mapQuery: "Urbanstay Seomyeon Busan",
+            naverQuery: "어반스테이 서면"
           }
         ]
       },
@@ -1169,7 +1313,8 @@
             duration: "移動時間",
             desc: "早上在房內悠閒吃前晚買的草莓與優格，約 10:45 出發前往機張。",
             note: "東海線班距約 20–30 分鐘一班，建議先查好時刻表。",
-            mapQuery: "Gijang Market Busan"
+            mapQuery: "Gijang Market Busan",
+            naverQuery: "기장시장"
           },
           {
             time: "12:00",
@@ -1178,7 +1323,8 @@
             duration: "停留約 1 小時 30 分",
             desc: "現場挑選現撈帝王蟹／松葉蟹，搭配免費贈送的鮑魚、蝦子、生魚片小菜與必點蟹膏炒飯！",
             note: "詢價時務必確認報價是否已包含「人頭小菜費＋蒸煮費＋炒飯費」。",
-            mapQuery: "Gijang Market Crab Street Busan"
+            mapQuery: "Gijang Market Crab Street Busan",
+            naverQuery: "기장시장 대게거리"
           },
           {
             time: "14:00",
@@ -1188,7 +1334,8 @@
             tags: ["VBP A組 #1"],
             desc: "刷 VBP 卡免費搭乘空中吊椅上山，體驗 2 趟超刺激重力斜坡滑車賽道！",
             note: "排隊與滑行速度約 40 分鐘可完成，玩完直接走去正對面的樂天世界。",
-            mapQuery: "Skyline Luge Busan"
+            mapQuery: "Skyline Luge Busan",
+            naverQuery: "스카이라인루지 부산"
           },
           {
             time: "14:45",
@@ -1198,7 +1345,8 @@
             tags: ["VBP A組 #2"],
             desc: "使用 VBP A 組第 2 項免費入園！主攻歐風城堡拍照與楓之谷周邊商品店採買。",
             note: "注意控管時間，若買太多娃娃戰利品，晚上可決定 Day 4 ZIM CARRY 要寄幾件！",
-            mapQuery: "Lotte World Adventure Busan"
+            mapQuery: "Lotte World Adventure Busan",
+            naverQuery: "롯데월드 어드벤처 부산"
           },
           {
             time: "15:55",
@@ -1209,7 +1357,8 @@
             tags: ["準時撤退"],
             desc: "15:55 前一定要離開樂天世界叫車，確保在 16:30 入場時段開始前抵達青沙浦站。",
             note: "若遇下班車流略塞，計程車是最保險直達車站的方式。",
-            mapQuery: "Haeundae Blueline Park Cheongsapo Station"
+            mapQuery: "Haeundae Blueline Park Cheongsapo Station",
+            naverQuery: "해운대블루라인파크 청사포정거장"
           },
           {
             time: "16:30",
@@ -1219,7 +1368,8 @@
             tags: ["已預約 16:30–17:00"],
             desc: "已預訂第 17 場次（16:30–17:00 入場，3 人獨立車廂），沿著絕美海岸線欣賞夕陽與海雲台建築群。",
             note: "訂單號：RS26020584414 / 票號：26021198210-1。",
-            mapQuery: "Haeundae Blueline Park Mipo Station"
+            mapQuery: "Haeundae Blueline Park Mipo Station",
+            naverQuery: "해운대블루라인파크 미포정거장"
           },
           {
             time: "17:30",
@@ -1228,7 +1378,8 @@
             duration: "停留約 1 小時",
             desc: "從尾浦站一路漫步至海雲台海水浴場，欣賞冬季星光燈飾與海邊夜景。",
             note: "海邊入夜後氣溫驟降，注意保暖。",
-            mapQuery: "Haeundae Beach Busan"
+            mapQuery: "Haeundae Beach Busan",
+            naverQuery: "해운대해수욕장"
           },
           {
             time: "18:30",
@@ -1237,7 +1388,8 @@
             duration: "停留約 1 小時 30 分",
             desc: "品嚐海雲台傳統市場盲鰻、海鮮煎餅、辣炒年糕與糖餅，或至巨松燉排骨海雲台店享用暖胃排骨。",
             note: "回飯店後清點戰利品重量，決定是否加購回程行李與預約 ZIM CARRY。",
-            mapQuery: "Haeundae Traditional Market Busan"
+            mapQuery: "Haeundae Traditional Market Busan",
+            naverQuery: "해운대전통시장"
           }
         ]
       },
@@ -1255,7 +1407,8 @@
             duration: "停留約 50 分鐘",
             desc: "簡單喝杯咖啡、吃吐司墊胃，保留食慾給中午的醬蟹大餐，並確認 3 人皆為全素顏＋透明隱眼狀態。",
             note: "店內禁止飲食，飲料請在 09:50 進店前飲用完畢！",
-            mapQuery: "Seomyeon Cafe Street Busan"
+            mapQuery: "Seomyeon Cafe Street Busan",
+            naverQuery: "서면 카페거리"
           },
           {
             time: "10:00",
@@ -1274,7 +1427,8 @@
                 <li><b>準時與拍攝：</b>遲到 20 分鐘以上視同 No-show 取消不退費；店內禁止飲食及未經許可錄影（可拍照）。</li>
               </ul>
             `,
-            mapQuery: "부산진구 중앙대로 707"
+            mapQuery: "부산진구 중앙대로 707",
+            naverQuery: "부산진구 중앙대로 707"
           },
           {
             time: "12:30",
@@ -1283,7 +1437,8 @@
             duration: "停留約 1 小時 15 分",
             desc: "釜山超知名生醃醬油螃蟹名店，蟹膏飽滿鮮甜不死鹹，測完個人色彩美美去吃白飯小偷！",
             note: "把白飯拌進蟹殼裡的醬汁與蟹膏中，搭配海苔超下飯。",
-            mapQuery: "이하정간장게장 부산 수영"
+            mapQuery: "이하정간장게장 부산 수영",
+            naverQuery: "이하정간장게장"
           },
           {
             time: "14:30",
@@ -1292,7 +1447,8 @@
             duration: "停留約 1 小時 20 分",
             desc: "趁測完個人色彩、畫上最適合自己的命定色系妝容後，衝 Life4Cuts / Photoism 拍生日紀念拍貼，再逛田浦文創選物店！",
             note: "拍貼機通常提供多款可愛頭套道具，三人合照超有紀念價值。",
-            mapQuery: "Jeonpo Cafe Street Busan"
+            mapQuery: "Jeonpo Cafe Street Busan",
+            naverQuery: "전포카페거리"
           },
           {
             time: "16:00",
@@ -1302,7 +1458,8 @@
             tags: ["VBP B組 #3"],
             desc: "刷 VBP 最後一張額度入場！60 分鐘限時體能闖關集 R 幣，玩完回飯店稍作整理即可步行赴晚宴。",
             note: "離晚上餐廳「老公寓」步行僅約 5 分鐘，動線超順！",
-            mapQuery: "Running Man Thematic Experience Center Busan"
+            mapQuery: "Running Man Thematic Experience Center Busan",
+            naverQuery: "런닝맨 부산점"
           },
           {
             time: "18:00",
@@ -1312,7 +1469,8 @@
             tags: ["已預約 18:00｜3人"],
             desc: "復古洋房氛圍的熟成烤肉名店，全程專人桌邊代烤，輕鬆享受肉汁爆發的生日大餐。",
             note: "預約編號：1404790795（大廳桌 3 人，已付訂金到店用餐後會退還，故未計入分攤費用）。",
-            mapQuery: "올드맨션 서면 부산"
+            mapQuery: "올드맨션 서면 부산",
+            naverQuery: "고옥 서면"
           },
           {
             time: "20:00",
@@ -1321,7 +1479,8 @@
             duration: "停留約 45 分鐘",
             desc: "釜山在地人私藏第一名夜景聖地，360 度俯瞰廣安大橋與整座釜山市區璀璨燈火。",
             note: "山頂氣溫比市區低 3–5 度且風強，請務必穿最保暖的外套並請司機在停車場稍候或用 APP 叫車下山。",
-            mapQuery: "Hwangnyeongsan Beacon Fire Station Busan"
+            mapQuery: "Hwangnyeongsan Beacon Fire Station Busan",
+            naverQuery: "황령산 봉수대"
           }
         ]
       },
@@ -1339,7 +1498,8 @@
             duration: "停留約 20 分鐘",
             desc: "11:00 前完成退房；依 ZIM CARRY 約定時間前將行李鎖入自助行李室並回傳密碼給客服。",
             note: "重要隨身物品、護照與行動電源記得帶在身上！",
-            mapQuery: "Urbanstay Seomyeon Busan"
+            mapQuery: "Urbanstay Seomyeon Busan",
+            naverQuery: "어반스테이 서면"
           },
           {
             time: "10:25",
@@ -1350,7 +1510,8 @@
             tags: ["最晚 10:25 出發"],
             desc: "豚笑預約時間為 11:10，最晚 10:25 必須離開西面站，預留出站步行時間於 11:00 前報到。",
             note: "若搭計程車請直接定位「톤쇼우 광안점」，可省去地鐵站步行 10 分鐘。",
-            mapQuery: "톤쇼우 광안점 부산"
+            mapQuery: "톤쇼우 광안점 부산",
+            naverQuery: "톤쇼우 광안점"
           },
           {
             time: "11:10",
@@ -1360,7 +1521,8 @@
             tags: ["已預約 11:10｜3人"],
             desc: "釜山最難搶的炭火低溫熟成炸豬排神店！已預付訂金 ₩59,500 並預點 4 份主餐，免現場排隊直接入座。",
             note: "建議 11:00 前抵達店門口向店員出示預約資訊報到。",
-            mapQuery: "톤쇼우 광안점 부산"
+            mapQuery: "톤쇼우 광안점 부산",
+            naverQuery: "톤쇼우 광안점"
           },
           {
             time: "13:00",
@@ -1369,7 +1531,8 @@
             duration: "停留約 4 小時 30 分",
             desc: "找一間正對廣安大橋的落地窗咖啡廳放空看海，下午順道逛廣安里巷弄文創店做最後伴手禮補貨。",
             note: "液體類、果醬或大型伴手禮記得保留空間，晚上到機場要集中塞進我的 15kg 託運行李箱。",
-            mapQuery: "Gwangalli Beach Busan"
+            mapQuery: "Gwangalli Beach Busan",
+            naverQuery: "광안리해수욕장"
           },
           {
             time: "18:00",
@@ -1378,7 +1541,8 @@
             duration: "停留約 1 小時",
             desc: "買飯捲、炸雞或超商小點墊胃，18:30 前走到沙灘中央面向廣安大橋找好觀賞位置。",
             note: "切勿進餐廳吃正餐，避免上菜慢影響 19:15 準時撤退。",
-            mapQuery: "Gwangalli Beach Busan"
+            mapQuery: "Gwangalli Beach Busan",
+            naverQuery: "광안리해수욕장"
           },
           {
             time: "19:00",
@@ -1387,7 +1551,8 @@
             duration: "演出約 15 分鐘",
             desc: "週六冬季第一場無人機大秀 19:00 準時開演，數百台無人機在廣安大橋夜空中排列出動態圖案。",
             note: "表演一結束（約 19:15）立刻往大馬路移動叫計程車！",
-            mapQuery: "Gwangalli Beach Busan"
+            mapQuery: "Gwangalli Beach Busan",
+            naverQuery: "광안리해수욕장"
           },
           {
             time: "19:15",
@@ -1398,7 +1563,8 @@
             tags: ["務必搭計程車"],
             desc: "週六晚間廣安里散場人潮多，建議走出沙灘一條街再用 Uber / Kakao T 叫車直奔機場。",
             note: "目標 20:15–20:30 前抵達金海機場國際線 3 樓。",
-            mapQuery: "Gimhae International Airport International Terminal"
+            mapQuery: "Gimhae International Airport International Terminal",
+            naverQuery: "김해국제공항 국제선터미널"
           },
           {
             time: "20:30",
@@ -1407,7 +1573,8 @@
             duration: "登機前準備",
             desc: "① 先至國際線 3F 領取 ZIM CARRY 行李（營業至 21:30）。② 我（ZE987）至易斯達櫃檯辦理 15kg 託運（21:10 前務必完成）。③ 三人一起過安檢登機（ZE983 22:00 / ZE987 22:10 起飛）。",
             note: "檢查隨身包包是否還有未吃完的草莓水果，務必在進海關前吃完或丟棄！",
-            mapQuery: "Gimhae International Airport International Terminal"
+            mapQuery: "Gimhae International Airport International Terminal",
+            naverQuery: "김해국제공항 국제선터미널"
           }
         ]
       }
@@ -1437,7 +1604,8 @@
             return `<span class="${cls}">${t}</span>`;
           }).join('');
 
-          const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
+          const googleMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
+          const naverMapUrl = `https://map.naver.com/p/search/${encodeURIComponent(item.naverQuery || item.mapQuery)}`;
 
           let noteBlock = '';
           if (item.noteHtml) {
@@ -1460,7 +1628,8 @@
               <p class="tl-desc">${item.desc}</p>
               ${noteBlock}
               <div class="tl-actions">
-                <a href="${mapUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-yellow">📍 Google Maps 導航</a>
+                <a href="${googleMapUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-yellow">📍 Google Maps</a>
+                <a href="${naverMapUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-naver">🧭 Naver Map</a>
               </div>
             </div>
           `;
@@ -1507,7 +1676,7 @@
 
     // ================= 3. 密碼與備忘儲存 =================
     function loadMemos() {
-      const saved = JSON.parse(localStorage.getItem('busan2026_memos_v2') || '{}');
+      const saved = JSON.parse(localStorage.getItem('busan2026_memos_v3') || '{}');
       if (saved.hotelPass) document.getElementById('memoHotelPass').value = saved.hotelPass;
       if (saved.salon) document.getElementById('memoSalon').value = saved.salon;
       if (saved.zim) document.getElementById('memoZim').value = saved.zim;
@@ -1519,14 +1688,49 @@
         salon: document.getElementById('memoSalon').value,
         zim: document.getElementById('memoZim').value
       };
-      localStorage.setItem('busan2026_memos_v2', JSON.stringify(data));
+      localStorage.setItem('busan2026_memos_v3', JSON.stringify(data));
     }
 
-    // ================= 4. 記帳與分帳系統（全部由「我」先代付） =================
-    // 使用新 key 'busan2026_expenses_v2' 確保載入最新正確的預設帳目
+    // ================= 4. 記帳與分帳系統（100% 全部由「我」先墊付） =================
     const defaultExpenses = [
       {
         id: 1,
+        desc: "去程機票 ZE988（我）",
+        amount: 77700,
+        currency: "KRW",
+        category: "交通",
+        payMethod: "刷卡（我先付）",
+        split: "我"
+      },
+      {
+        id: 2,
+        desc: "回程機票 ZE987（我＋15kg託運行李）",
+        amount: 2980,
+        currency: "TWD",
+        category: "交通",
+        payMethod: "刷卡（我先付）",
+        split: "我"
+      },
+      {
+        id: 3,
+        desc: "去程機票 ZE984（妹妹＆妹夫 2人）",
+        amount: 3458,
+        currency: "TWD",
+        category: "交通",
+        payMethod: "刷卡（我先付）",
+        split: "妹妹"
+      },
+      {
+        id: 4,
+        desc: "回程機票 ZE983（妹妹＆妹夫 2人）",
+        amount: 3893,
+        currency: "TWD",
+        category: "交通",
+        payMethod: "刷卡（我先付）",
+        split: "妹妹"
+      },
+      {
+        id: 5,
         desc: "Urbanstay 住宿三晚（我的雙人房）",
         amount: 2400,
         currency: "TWD",
@@ -1535,7 +1739,7 @@
         split: "我"
       },
       {
-        id: 2,
+        id: 6,
         desc: "Urbanstay 住宿三晚（妹妹＆妹夫雙人房）",
         amount: 2400,
         currency: "TWD",
@@ -1544,7 +1748,7 @@
         split: "妹妹"
       },
       {
-        id: 3,
+        id: 7,
         desc: "Visit Busan Pass BIG 5 實體卡 × 3 張（$1,135/張）",
         amount: 3405,
         currency: "TWD",
@@ -1553,7 +1757,7 @@
         split: "三人均分"
       },
       {
-        id: 4,
+        id: 8,
         desc: "桃園機場外圍出國停車（12/09–12/13 共 5 天 × $150）",
         amount: 750,
         currency: "TWD",
@@ -1562,7 +1766,7 @@
         split: "三人均分"
       },
       {
-        id: 5,
+        id: 9,
         desc: "TONE&ME 個人色彩診斷（西面店｜實際刷卡 ₩298,000）",
         amount: 7674,
         currency: "TWD",
@@ -1574,7 +1778,7 @@
         splitNote: "我 NT$3,464（男BASIC+翻譯）／妹 NT$2,549（女PREMIUM）＋妹夫 NT$1,661（男BASIC）＝ 妹＆妹夫 NT$4,210"
       },
       {
-        id: 6,
+        id: 10,
         desc: "海雲台天空膠囊列車（3 人車廂）",
         amount: 55000,
         currency: "KRW",
@@ -1583,7 +1787,7 @@
         split: "三人均分"
       },
       {
-        id: 7,
+        id: 11,
         desc: "豚笑 Tonshou 廣安店預付訂金（已點 4 份主餐）",
         amount: 59500,
         currency: "KRW",
@@ -1593,20 +1797,20 @@
       }
     ];
 
-    let expenses = JSON.parse(localStorage.getItem('busan2026_expenses_v2') || 'null');
+    let expenses = JSON.parse(localStorage.getItem('busan2026_expenses_v3') || 'null');
     if (!expenses) {
       expenses = JSON.parse(JSON.stringify(defaultExpenses));
-      localStorage.setItem('busan2026_expenses_v2', JSON.stringify(expenses));
+      localStorage.setItem('busan2026_expenses_v3', JSON.stringify(expenses));
     }
 
-    let exchangeRate = parseFloat(localStorage.getItem('busan2026_rate_v2') || '41.5');
+    let exchangeRate = parseFloat(localStorage.getItem('busan2026_rate_v3') || '41.5');
     document.getElementById('exchangeRateInput').value = exchangeRate;
 
     function updateRate() {
       const val = parseFloat(document.getElementById('exchangeRateInput').value);
       if (val && val > 0) {
         exchangeRate = val;
-        localStorage.setItem('busan2026_rate_v2', String(exchangeRate));
+        localStorage.setItem('busan2026_rate_v3', String(exchangeRate));
         renderExpenses();
       }
     }
@@ -1661,22 +1865,40 @@
         split
       });
 
-      localStorage.setItem('busan2026_expenses_v2', JSON.stringify(expenses));
+      localStorage.setItem('busan2026_expenses_v3', JSON.stringify(expenses));
       document.getElementById('expDesc').value = '';
       document.getElementById('expAmount').value = '';
       renderExpenses();
     }
 
+    function editExpense(id) {
+      const target = expenses.find(item => item.id === id);
+      if (!target) return;
+      const newDesc = prompt(`修改項目名稱：`, target.desc);
+      if (newDesc === null) return;
+      const newAmtStr = prompt(`修改「${newDesc.trim() || target.desc}」的金額（目前幣別：${target.currency}）：`, target.amount);
+      if (newAmtStr === null) return;
+      const newAmt = parseFloat(newAmtStr);
+      if (isNaN(newAmt) || newAmt < 0) {
+        alert('請輸入有效的數字金額！');
+        return;
+      }
+      target.desc = newDesc.trim() || target.desc;
+      target.amount = newAmt;
+      localStorage.setItem('busan2026_expenses_v3', JSON.stringify(expenses));
+      renderExpenses();
+    }
+
     function deleteExpense(id) {
       expenses = expenses.filter(item => item.id !== id);
-      localStorage.setItem('busan2026_expenses_v2', JSON.stringify(expenses));
+      localStorage.setItem('busan2026_expenses_v3', JSON.stringify(expenses));
       renderExpenses();
     }
 
     function resetDefaultExpenses() {
-      if (!confirm('確定要將記帳列表恢復為最新預設帳目嗎？（可清除錯誤的舊機票金額）')) return;
+      if (!confirm('確定要將記帳列表恢復為預設預訂帳目嗎？')) return;
       expenses = JSON.parse(JSON.stringify(defaultExpenses));
-      localStorage.setItem('busan2026_expenses_v2', JSON.stringify(expenses));
+      localStorage.setItem('busan2026_expenses_v3', JSON.stringify(expenses));
       renderExpenses();
     }
 
@@ -1688,7 +1910,7 @@
 
       let totalTWD = 0;
       let myShareTWD = 0;
-      let sisTotalShareTWD = 0; // 妹妹 + 妹夫兩人合計（皆由我先代付，故妹妹需匯給我）
+      let sisTotalShareTWD = 0; // 妹妹 + 妹夫兩人合計（100% 皆由我先代付）
       let lineLines = [];
 
       expenses.forEach(item => {
@@ -1720,6 +1942,7 @@
               ${item.currency === 'KRW' ? `<div class="exp-krw">₩${item.amount.toLocaleString()}（匯率 ${exchangeRate}）</div>` : `<div class="exp-krw">台幣直計</div>`}
               <div class="exp-krw" style="color:#2B6CB0; font-weight:700;">我 $${Math.round(shares.my).toLocaleString()} / 妹+夫 $${Math.round(shares.sis).toLocaleString()}</div>
             </div>
+            <button class="edit-btn" title="修改名稱或金額" onclick="editExpense(${item.id})">✎</button>
             <button class="del-btn" title="刪除此筆" onclick="deleteExpense(${item.id})">✕</button>
           </div>
         `;
@@ -1733,14 +1956,13 @@
 
       latestSettlementText = [
         `🇰🇷 2026 釜山行代墊請款明細（匯率 1:${exchangeRate}）`,
-        `目前所有費用皆由我先代付：`,
+        `目前所有費用 100% 皆由我先墊付：`,
         ...lineLines,
         `--------------------`,
         `🧾 三人總支出：NT$ ${Math.round(totalTWD).toLocaleString()}`,
         `🙋‍♂️ 我個人負擔：NT$ ${Math.round(myShareTWD).toLocaleString()}`,
         `💸 妹妹需匯給我（含妹夫）：NT$ ${Math.round(sisTotalShareTWD).toLocaleString()}`
-      ].join('
-');
+      ].join('\n');
 
       document.getElementById('summaryGrid').innerHTML = `
         <div class="sum-box">
@@ -1790,10 +2012,10 @@
       { id: 111, text: "Day 2 晚上清點戰利品並預約 Day 4 ZIM CARRY", done: false }
     ];
 
-    let checklist = JSON.parse(localStorage.getItem('busan2026_checklist_v2') || 'null');
+    let checklist = JSON.parse(localStorage.getItem('busan2026_checklist_v3') || 'null');
     if (!checklist) {
       checklist = [...defaultChecklist];
-      localStorage.setItem('busan2026_checklist_v2', JSON.stringify(checklist));
+      localStorage.setItem('busan2026_checklist_v3', JSON.stringify(checklist));
     }
 
     function renderChecklist() {
@@ -1824,7 +2046,7 @@
 
     function toggleChecklistItem(id) {
       checklist = checklist.map(item => item.id === id ? { ...item, done: !item.done } : item);
-      localStorage.setItem('busan2026_checklist_v2', JSON.stringify(checklist));
+      localStorage.setItem('busan2026_checklist_v3', JSON.stringify(checklist));
       renderChecklist();
     }
 
@@ -1833,25 +2055,26 @@
       const text = input.value.trim();
       if (!text) return;
       checklist.push({ id: Date.now(), text, done: false });
-      localStorage.setItem('busan2026_checklist_v2', JSON.stringify(checklist));
+      localStorage.setItem('busan2026_checklist_v3', JSON.stringify(checklist));
       input.value = '';
       renderChecklist();
     }
 
     function deleteChecklistItem(id) {
       checklist = checklist.filter(item => item.id !== id);
-      localStorage.setItem('busan2026_checklist_v2', JSON.stringify(checklist));
+      localStorage.setItem('busan2026_checklist_v3', JSON.stringify(checklist));
       renderChecklist();
     }
 
     function resetChecklist() {
       if (!confirm('確定要重置隨身行李與待辦清單嗎？')) return;
       checklist = [...defaultChecklist];
-      localStorage.setItem('busan2026_checklist_v2', JSON.stringify(checklist));
+      localStorage.setItem('busan2026_checklist_v3', JSON.stringify(checklist));
       renderChecklist();
     }
 
     // 初始化
+    checkAuth();
     renderItinerary();
     loadMemos();
     renderExpenses();

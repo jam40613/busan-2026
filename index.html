@@ -1,1783 +1,2172 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>2026 釜山四天三夜｜海港手繪旅遊手冊</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🇰🇷 2026 釜山四天三夜・兄妹三人行手札</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Patrick+Hand&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Patrick+Hand&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --paper-bg: #fbf8f1;
-      --paper-card: #fffdf8;
-      --ink: #2c353d;
-      --ink-soft: #5c6773;
-      --med-blue: #266799;
-      --med-blue-light: #e5f1f8;
-      --sunset-orange: #d96b43;
-      --sunset-light: #fcece5;
-      --pine-green: #4c7c66;
-      --pine-light: #e7f2ec;
-      --naver-bg: #e6f9ee;
-      --google-blue: #1a73e8;
-      --google-bg: #e8f0fe;
-      --sand-yellow: #f3c65f;
-      --sand-light: #fdf6e2;
-      --danger-red: #c94a4a;
-      --shadow-hard: 3px 3px 0px var(--ink);
-      --shadow-soft: 2px 2px 0px rgba(44, 53, 61, 0.22);
+      --bg-paper: #FFFDF7;
+      --bg-card: #FFFFFF;
+      --bg-warm: #FFF6E0;
+      --bg-mint: #E8F8F5;
+      --bg-peach: #FFEBE6;
+      --bg-lavender: #F3EEFF;
+      --ink: #2B2723;
+      --ink-soft: #5C554E;
+      --accent-orange: #FF7A59;
+      --accent-yellow: #FFD166;
+      --accent-teal: #38B2AC;
+      --accent-blue: #4A90E2;
+      --accent-pink: #F687B3;
+      --border-w: 2.5px;
+      --shadow-hard: 4px 4px 0px #2B2723;
+      --shadow-sm: 2.5px 2.5px 0px #2B2723;
     }
 
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
       padding: 0;
-      background-color: var(--paper-bg);
-      background-image:
-        radial-gradient(rgba(38, 103, 153, 0.12) 1px, transparent 1px),
-        radial-gradient(rgba(217, 107, 67, 0.08) 1px, transparent 1px);
-      background-size: 24px 24px;
-      background-position: 0 0, 12px 12px;
+      background-color: var(--bg-paper);
+      background-image: radial-gradient(#DFD7C8 1.2px, transparent 1.2px);
+      background-size: 20px 20px;
       color: var(--ink);
       font-family: 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
-      line-height: 1.55;
-      padding-bottom: 60px;
+      line-height: 1.6;
+      padding-bottom: 70px;
     }
 
-    /* 頂部橫幅 */
-    .hero-banner {
-      background: linear-gradient(180deg, #dff0fa 0%, #f5efe2 100%);
-      border-bottom: 2.5px solid var(--ink);
-      padding: 16px 14px 12px;
+    /* 通關密碼鎖定遮罩 */
+    #authGate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background-color: var(--bg-paper);
+      background-image: radial-gradient(#DFD7C8 1.2px, transparent 1.2px);
+      background-size: 20px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+      background: linear-gradient(135deg, #FFF8E7 0%, #FFEFE8 100%);
+      border: 3px solid var(--ink);
+      border-radius: 24px 18px 22px 20px / 18px 24px 20px 22px;
+      box-shadow: 6px 6px 0px var(--ink);
+      padding: 28px 22px;
       text-align: center;
+    }
+
+    .auth-icon {
+      font-size: 2.6rem;
+      margin-bottom: 6px;
+    }
+
+    .auth-title {
+      margin: 0 0 6px;
+      font-size: 1.4rem;
+      font-weight: 900;
+    }
+
+    .auth-desc {
+      margin: 0 0 18px;
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2.5px solid var(--ink);
+      border-radius: 12px;
+      font-family: 'Patrick Hand', 'Zen Maru Gothic', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      background: #FFF;
+    }
+
+    .auth-err {
+      color: #C53030;
+      font-size: 0.84rem;
+      font-weight: 700;
+      min-height: 20px;
+      margin-bottom: 8px;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* 手繪風不規則框線與卡片 */
+    .sketch-box {
+      background: var(--bg-card);
+      border: var(--border-w) solid var(--ink);
+      border-radius: 18px 22px 16px 20px / 20px 16px 22px 18px;
+      box-shadow: var(--shadow-hard);
+      padding: 20px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .sketch-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 2px solid var(--ink);
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      padding: 4px 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: var(--bg-warm);
+    }
+
+    /* 按鈕樣式 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 8px 14px;
+      border: 2px solid var(--ink);
+      border-radius: 12px 15px 11px 14px / 14px 11px 15px 12px;
+      background: #FFF;
+      color: var(--ink);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s;
+    }
+
+    .btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 0px 0px 0px var(--ink);
+    }
+
+    .btn-primary {
+      background: var(--accent-orange);
+      color: #FFF;
+    }
+
+    .btn-yellow {
+      background: var(--accent-yellow);
+      color: var(--ink);
+    }
+
+    .btn-teal {
+      background: var(--accent-teal);
+      color: #FFF;
+    }
+
+    .btn-blue {
+      background: var(--accent-blue);
+      color: #FFF;
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 0.82rem;
+    }
+
+    /* Header 區塊 */
+    .hero-card {
+      background: linear-gradient(135deg, #FFF8E7 0%, #FFEFE8 100%);
+      border: 3px solid var(--ink);
+      border-radius: 24px 18px 22px 20px / 18px 24px 20px 22px;
+      box-shadow: 6px 6px 0px var(--ink);
+      padding: 24px 20px;
+      margin-bottom: 18px;
+      position: relative;
+      overflow: hidden;
     }
 
     .hero-badge {
       display: inline-block;
-      background: var(--sunset-orange);
-      color: #fff;
-      font-size: 0.76rem;
-      font-weight: 700;
-      padding: 3px 12px;
+      background: var(--accent-yellow);
       border: 2px solid var(--ink);
+      padding: 4px 14px;
       border-radius: 999px;
+      font-weight: 900;
+      font-size: 0.85rem;
+      transform: rotate(-1.5deg);
+      margin-bottom: 10px;
       box-shadow: 2px 2px 0 var(--ink);
-      margin-bottom: 5px;
-      transform: rotate(-1deg);
     }
 
     .hero-title {
-      margin: 3px 0;
-      font-size: 1.45rem;
+      margin: 4px 0 8px;
+      font-size: clamp(1.65rem, 4.5vw, 2.35rem);
       font-weight: 900;
-      color: var(--med-blue);
-      text-shadow: 1.5px 1.5px 0 #fff;
+      line-height: 1.25;
+      color: var(--ink);
     }
 
-    .hero-sub {
-      font-size: 0.84rem;
+    .hero-subtitle {
+      margin: 0 0 16px;
+      color: var(--ink-soft);
+      font-size: 0.98rem;
+      font-weight: 500;
+    }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .tip-box {
+      background: #FFFFFF;
+      border: 2px dashed var(--ink);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 0.88rem;
+    }
+
+    .tip-box strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      color: var(--ink);
+    }
+
+    /* 快捷導覽列 */
+    .quick-nav {
+      position: sticky;
+      top: 8px;
+      z-index: 100;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 8px 10px;
+      margin-bottom: 18px;
+      background: rgba(255, 253, 247, 0.94);
+      backdrop-filter: blur(6px);
+      border: 2px solid var(--ink);
+      border-radius: 16px;
+      box-shadow: var(--shadow-sm);
+      scrollbar-width: none;
+    }
+    .quick-nav::-webkit-scrollbar { display: none; }
+
+    .quick-nav a {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* 懸浮回到頂部按鈕 */
+    .back-to-top {
+      position: fixed;
+      right: 16px;
+      bottom: 18px;
+      z-index: 90;
+      background: var(--accent-yellow);
+      color: var(--ink);
+      border: 2.5px solid var(--ink);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 900;
+      font-size: 0.85rem;
+      box-shadow: var(--shadow-hard);
+      text-decoration: none;
+    }
+
+    /* Section 標題 */
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2.5px dashed #D5CCC0;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* 篩選與展開控制列 */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      background: var(--bg-warm);
+      padding: 12px;
+      border: 2px solid var(--ink);
+      border-radius: 16px;
+    }
+
+    .day-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .day-tab {
+      padding: 6px 12px;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: #FFF;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .day-tab.active {
+      background: var(--ink);
+      color: #FFF;
+    }
+
+    /* 每日行程卡片與時間軸 */
+    .day-card {
+      background: #FFF;
+      border: 2.5px solid var(--ink);
+      border-radius: 20px;
+      box-shadow: var(--shadow-hard);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .day-card-header {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      border-bottom: 2px solid var(--ink);
+      user-select: none;
+    }
+
+    .day-card.collapsed .day-card-header {
+      border-bottom: none;
+    }
+
+    .day-card.collapsed .day-card-body {
+      display: none;
+    }
+
+    .day-1-bg { background: #FFE8D6; }
+    .day-2-bg { background: #D8F3DC; }
+    .day-3-bg { background: #FCE1E4; }
+    .day-4-bg { background: #DCEEFB; }
+
+    .day-title-wrap h3 {
+      margin: 0;
+      font-size: 1.12rem;
+      font-weight: 900;
+    }
+
+    .day-title-wrap p {
+      margin: 2px 0 0;
+      font-size: 0.82rem;
       color: var(--ink-soft);
       font-weight: 700;
+    }
+
+    .toggle-icon {
+      font-size: 1.1rem;
+      font-weight: 900;
+      width: 30px;
+      height: 30px;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      background: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .day-card-body {
+      padding: 18px 16px 10px 22px;
+    }
+
+    .timeline {
+      position: relative;
+      border-left: 3px dashed var(--ink);
+      padding-left: 20px;
+      margin-left: 8px;
+    }
+
+    .tl-item {
+      position: relative;
+      margin-bottom: 20px;
+      background: var(--bg-paper);
+      border: 2px solid var(--ink);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 3px 3px 0px rgba(43, 39, 35, 0.15);
+    }
+
+    .tl-item::before {
+      content: "";
+      position: absolute;
+      left: -30px;
+      top: 16px;
+      width: 14px;
+      height: 14px;
+      background: var(--accent-yellow);
+      border: 2.5px solid var(--ink);
+      border-radius: 50%;
+    }
+
+    .tl-item.urgent {
+      background: #FFF5F5;
+      border-color: #E53E3E;
+    }
+
+    .tl-item.urgent::before {
+      background: #FF6B6B;
+    }
+
+    .tl-item.special {
+      background: #FFFDF2;
+      border-color: #D69E2E;
+    }
+
+    .tl-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
       margin-bottom: 6px;
     }
 
-    .container {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 12px 14px 24px;
+    .tl-time {
+      font-family: 'Patrick Hand', 'Zen Maru Gothic', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 900;
+      background: var(--accent-yellow);
+      border: 1.8px solid var(--ink);
+      padding: 1px 10px;
+      border-radius: 8px;
     }
 
-    /* 置頂 5 大分頁導覽列 */
-    .nav-wrapper {
-      position: sticky;
-      top: 6px;
-      z-index: 60;
-      margin-bottom: 16px;
-      background: rgba(251, 248, 241, 0.95);
-      backdrop-filter: blur(6px);
-      padding: 6px;
-      border: 2.2px solid var(--ink);
-      border-radius: 16px;
-      box-shadow: var(--shadow-hard);
-    }
-
-    .main-tabs {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
+    .tl-tags {
+      display: flex;
+      flex-wrap: wrap;
       gap: 5px;
     }
 
-    @media (max-width: 640px) {
-      .main-tabs {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .main-tab-btn {
-      border: 1.8px solid transparent;
-      background: #fff;
-      color: var(--ink);
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 0.8rem;
-      padding: 7px 4px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      line-height: 1.25;
-    }
-
-    .main-tab-btn:hover {
-      background: var(--med-blue-light);
-    }
-
-    .main-tab-btn.active {
-      background: var(--med-blue);
-      color: #fff;
-      border-color: var(--ink);
-      box-shadow: 2px 2px 0 var(--ink);
-    }
-
-    .view-mode-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 6px;
-      padding-top: 5px;
-      border-top: 1px dashed rgba(44, 53, 61, 0.25);
-      font-size: 0.76rem;
-      color: var(--ink-soft);
-    }
-
-    .show-all-btn {
-      background: var(--sand-yellow);
-      border: 1.5px solid var(--ink);
-      border-radius: 999px;
-      padding: 2px 10px;
-      font-family: inherit;
+    .tag {
       font-size: 0.75rem;
       font-weight: 700;
-      cursor: pointer;
-      color: var(--ink);
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1.5px solid var(--ink);
+      background: #FFF;
     }
 
-    /* 區塊顯示控制 */
-    .section-panel {
-      display: none;
-      animation: fadeIn 0.2s ease;
-    }
-    .section-panel.visible {
-      display: block;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .tag-vbp { background: #C6F6D5; }
+    .tag-booked { background: #FED7E2; }
+    .tag-alert { background: #FEB2B2; color: #742A2A; }
 
-    /* 手繪卡片 */
-    .zine-card {
-      background: var(--paper-card);
-      border: 2.2px solid var(--ink);
-      border-radius: 18px 14px 20px 15px / 15px 20px 14px 18px;
-      box-shadow: var(--shadow-hard);
-      padding: 16px;
-      margin-bottom: 18px;
-      position: relative;
-    }
-
-    .washi-tape {
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%) rotate(-1.5deg);
-      width: 94px;
-      height: 18px;
-      background: rgba(243, 198, 95, 0.75);
-      border-left: 1.5px dashed rgba(44, 53, 61, 0.35);
-      border-right: 1.5px dashed rgba(44, 53, 61, 0.35);
-      pointer-events: none;
-    }
-    .washi-tape.blue { background: rgba(38, 103, 153, 0.26); transform: translateX(-50%) rotate(1.5deg); }
-    .washi-tape.orange { background: rgba(217, 107, 67, 0.3); transform: translateX(-50%) rotate(-2deg); }
-    .washi-tape.green { background: rgba(76, 124, 102, 0.28); transform: translateX(-50%) rotate(1.2deg); }
-
-    /* 天數篩選 */
-    .day-pills {
-      display: flex;
-      gap: 7px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-bottom: 12px;
-      scrollbar-width: none;
-    }
-    .day-pills::-webkit-scrollbar { display: none; }
-
-    .day-pill {
-      flex: 0 0 auto;
-      background: var(--paper-card);
-      border: 2px solid var(--ink);
-      border-radius: 999px;
-      padding: 5px 13px;
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 0.83rem;
-      color: var(--ink);
-      cursor: pointer;
-      box-shadow: 2px 2px 0 var(--ink);
-    }
-    .day-pill.active {
-      background: var(--sunset-orange);
-      color: #fff;
-    }
-
-    .day-header-banner {
-      background: var(--med-blue-light);
-      border: 2px solid var(--ink);
-      border-radius: 13px;
-      padding: 10px 13px;
-      margin-bottom: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .day-header-title {
-      font-size: 1.05rem;
+    .tl-spot {
+      margin: 4px 0 8px;
+      font-size: 1.08rem;
       font-weight: 900;
-      color: var(--med-blue);
-      margin: 0;
     }
 
-    .day-vbp-tag {
-      background: var(--sand-yellow);
-      border: 1.8px solid var(--ink);
-      border-radius: 8px;
-      padding: 2px 9px;
-      font-size: 0.76rem;
-      font-weight: 700;
-    }
-
-    /* 每日首欄：天氣・衣著・帶傘・注意事項 */
-    .weather-brief-box {
-      background: var(--sand-light);
-      border: 2px solid var(--ink);
-      border-radius: 13px;
-      padding: 11px 13px;
-      margin-bottom: 14px;
+    .tl-meta {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+      grid-template-columns: 1fr;
+      gap: 4px;
+      font-size: 0.85rem;
+      background: #FFF;
+      border: 1.5px solid #E2D9C8;
+      border-radius: 10px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+    }
+
+    .tl-desc {
+      margin: 0 0 8px;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    .tl-note {
+      margin: 0 0 10px;
       font-size: 0.83rem;
-    }
-    @media (max-width: 560px) {
-      .weather-brief-box { grid-template-columns: 1fr; }
-    }
-    .wb-item {
-      background: #fff;
-      border: 1.5px solid rgba(44, 53, 61, 0.25);
-      border-radius: 9px;
-      padding: 6px 9px;
-    }
-    .wb-label {
-      font-weight: 900;
-      color: var(--med-blue);
-      display: block;
-      font-size: 0.78rem;
-      margin-bottom: 2px;
-    }
-    .wb-item.warn-note {
-      grid-column: 1 / -1;
-      background: #fff6f4;
-      border-color: var(--sunset-orange);
-    }
-    .wb-item.warn-note .wb-label {
-      color: var(--sunset-orange);
+      color: #6B46C1;
+      background: #F5F0FF;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border-left: 3.5px solid #805AD5;
     }
 
-    /* 行程時間軸與右側代表性小圖 */
-    .timeline-item {
-      position: relative;
+    .tl-note ul {
+      margin: 4px 0 0;
       padding-left: 18px;
-      margin-bottom: 13px;
-      border-left: 2.5px dashed var(--med-blue);
-    }
-    .timeline-item:last-child { margin-bottom: 0; }
-
-    .timeline-dot {
-      position: absolute;
-      left: -8px;
-      top: 14px;
-      width: 13px;
-      height: 13px;
-      background: var(--sunset-orange);
-      border: 2px solid var(--ink);
-      border-radius: 50%;
-    }
-    .timeline-dot.warn {
-      background: var(--danger-red);
-      transform: scale(1.15);
     }
 
-    .spot-card {
-      background: #fff;
-      border: 1.8px solid var(--ink);
-      border-radius: 13px;
-      padding: 10px 12px;
-      box-shadow: var(--shadow-soft);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-    .spot-card.alert-card {
-      background: #fff5f5;
-      border-color: var(--danger-red);
-    }
-
-    .spot-main {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .spot-thumb {
-      width: 74px;
-      height: 74px;
-      flex-shrink: 0;
-      border-radius: 12px;
-      border: 1.8px solid var(--ink);
-      background: var(--paper-bg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      box-shadow: 2px 2px 0 rgba(44, 53, 61, 0.18);
-      padding: 4px;
-    }
-    .spot-thumb svg {
-      width: 48px;
-      height: 48px;
-    }
-    .spot-thumb span {
-      font-size: 0.64rem;
-      font-weight: 700;
-      color: var(--ink-soft);
-      margin-top: 2px;
-      white-space: nowrap;
-    }
-
-    .spot-top {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
+    .tl-note li {
       margin-bottom: 3px;
     }
 
-    .spot-time {
-      font-family: 'Patrick Hand', sans-serif;
-      font-size: 0.98rem;
-      font-weight: 700;
-      color: var(--med-blue);
-      background: var(--med-blue-light);
-      padding: 0 7px;
-      border-radius: 6px;
-      border: 1.5px solid var(--ink);
-    }
-
-    .spot-badge {
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 1px 7px;
-      border-radius: 6px;
-      border: 1.5px solid var(--ink);
-    }
-    .badge-vbp { background: var(--pine-light); color: var(--pine-green); }
-    .badge-booked { background: var(--sunset-light); color: var(--sunset-orange); }
-    .badge-warn { background: #ffe0e0; color: var(--danger-red); }
-
-    .spot-title {
-      font-size: 0.98rem;
-      font-weight: 900;
-      margin: 2px 0;
-    }
-
-    .spot-kr {
-      font-size: 0.77rem;
-      color: var(--ink-soft);
-      margin-bottom: 4px;
-    }
-
-    .spot-desc {
-      font-size: 0.84rem;
-      color: #3a444e;
-      margin: 0 0 7px 0;
-    }
-
-    .map-btn-row {
+    .tl-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      justify-content: flex-end;
+      gap: 8px;
     }
 
-    .map-btn {
-      display: inline-flex;
+    .btn-naver {
+      background: #03C75A;
+      color: #FFFFFF;
+    }
+
+    /* 雲端憑證橫幅 */
+    .drive-banner {
+      background: linear-gradient(135deg, #EBF8FF 0%, #E6FFFA 100%);
+      border: 2.5px solid var(--ink);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 4px;
-      text-decoration: none;
-      font-family: inherit;
-      font-size: 0.76rem;
-      font-weight: 700;
-      padding: 4px 9px;
-      border-radius: 8px;
-      border: 1.6px solid var(--ink);
-      box-shadow: 1.5px 1.5px 0 var(--ink);
-      cursor: pointer;
-    }
-    .map-btn:active {
-      transform: translate(1.5px, 1.5px);
-      box-shadow: none;
-    }
-    .map-btn.google { background: var(--google-bg); color: var(--google-blue); }
-    .map-btn.naver { background: var(--naver-bg); color: #029e47; }
-    .map-btn.voucher-img-btn {
-      background: var(--sand-yellow);
-      color: var(--ink);
+      justify-content: space-between;
+      gap: 12px;
     }
 
-    /* 憑證區 */
-    .voucher-grid {
+    /* 住宿與交通資訊網格 */
+    .info-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-    @media (max-width: 600px) {
-      .voucher-grid { grid-template-columns: 1fr; }
-    }
-    .voucher-box {
-      background: #fff;
-      border: 1.8px solid var(--ink);
-      border-radius: 13px;
-      padding: 11px;
-      box-shadow: var(--shadow-soft);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .voucher-cat { font-size: 0.74rem; font-weight: 700; color: var(--med-blue); }
-    .voucher-name { font-size: 0.95rem; font-weight: 900; margin: 2px 0; }
-    .voucher-meta { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 7px; }
-    .copy-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      background: var(--sand-light);
-      border: 1.5px dashed var(--ink);
-      border-radius: 8px;
-      padding: 4px 8px;
-      margin-bottom: 6px;
-    }
-    .copy-code { font-family: 'Patrick Hand', monospace; font-size: 0.92rem; font-weight: 700; }
-    .copy-btn {
-      background: var(--sand-yellow);
-      border: 1.5px solid var(--ink);
-      border-radius: 6px;
-      padding: 2px 8px;
-      font-family: inherit;
-      font-size: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .voucher-open-img-btn {
-      width: 100%;
-      background: var(--med-blue);
-      color: #fff;
-      border: 1.6px solid var(--ink);
-      border-radius: 8px;
-      padding: 6px 8px;
-      font-family: inherit;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 1.5px 1.5px 0 var(--ink);
-      text-align: center;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
     }
 
-    .memo-input-group { margin-top: 8px; }
-    .memo-input-group label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 3px; color: var(--med-blue); }
+    .info-card {
+      background: var(--bg-paper);
+      border: 2px solid var(--ink);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .info-card h4 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .flight-row {
+      border-bottom: 1.5px dashed #D6CEC2;
+      padding: 8px 0;
+      font-size: 0.86rem;
+    }
+    .flight-row:last-child { border-bottom: none; padding-bottom: 0; }
+
     .memo-input {
       width: 100%;
-      padding: 7px 10px;
-      border: 1.8px solid var(--ink);
-      border-radius: 9px;
+      margin-top: 6px;
+      padding: 8px 10px;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
       font-family: inherit;
-      font-size: 0.84rem;
-      background: #fff;
+      font-size: 0.86rem;
+      background: #FFF;
     }
 
-    /* 記帳區 */
-    .rate-bar {
+    /* 總覽地圖卡片 */
+    .overview-wrap {
+      text-align: center;
+      background: var(--bg-paper);
+      border: 2px dashed var(--ink);
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .overview-wrap img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 2px solid var(--ink);
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* 記帳與分帳區塊 */
+    .rate-box {
+      background: var(--bg-mint);
+      border: 2px solid var(--ink);
+      border-radius: 14px;
+      padding: 12px 14px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      background: var(--sand-light);
-      border: 2px solid var(--ink);
-      border-radius: 12px;
-      padding: 9px 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 16px;
     }
-    .rate-input {
-      width: 74px;
-      padding: 3px 6px;
-      border: 1.8px solid var(--ink);
-      border-radius: 7px;
+
+    .rate-input-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .rate-input-group input {
+      width: 85px;
+      padding: 5px 8px;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
       font-family: 'Patrick Hand', sans-serif;
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       text-align: center;
     }
-    .summary-cards {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 12px;
+
+    .booking-prompt {
+      background: #FFF9DB;
+      border: 2px dashed #D69E2E;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      font-size: 0.86rem;
     }
-    .sum-box {
-      border: 2px solid var(--ink);
-      border-radius: 12px;
-      padding: 10px 12px;
-      background: var(--med-blue-light);
-      box-shadow: var(--shadow-soft);
-    }
-    .sum-box.highlight { background: var(--sunset-light); grid-column: span 2; }
-    .sum-label { font-size: 0.77rem; font-weight: 700; color: var(--ink-soft); }
-    .sum-val { font-family: 'Patrick Hand', sans-serif; font-size: 1.32rem; font-weight: 700; }
 
     .expense-form {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-    .expense-form input, .expense-form select {
-      padding: 8px 10px;
-      border: 1.8px solid var(--ink);
-      border-radius: 9px;
-      font-family: inherit;
-      font-size: 0.85rem;
-      background: #fff;
-      width: 100%;
-    }
-    .expense-form .full-span { grid-column: span 2; }
-    .primary-btn {
-      background: var(--med-blue);
-      color: #fff;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      background: var(--bg-paper);
       border: 2px solid var(--ink);
-      border-radius: 10px;
-      padding: 8px 13px;
-      font-family: inherit;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
       font-weight: 700;
-      font-size: 0.88rem;
-      cursor: pointer;
-      box-shadow: 2px 2px 0 var(--ink);
-    }
-    .primary-btn.orange { background: var(--sunset-orange); }
-
-    .expense-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 6px;
-      border-bottom: 1.5px dashed rgba(44, 53, 61, 0.22);
-      font-size: 0.85rem;
-    }
-    .exp-actions button {
-      border: 1.5px solid var(--ink);
-      background: #fff;
-      border-radius: 6px;
-      padding: 2px 7px;
-      font-size: 0.74rem;
-      cursor: pointer;
-      margin-left: 4px;
-    }
-
-    /* 檢核表 */
-    .check-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 9px;
-      padding: 8px 6px;
-      border-bottom: 1.5px dashed rgba(44, 53, 61, 0.2);
-      cursor: pointer;
-      font-size: 0.88rem;
-    }
-    .check-item input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      margin-top: 2px;
-      accent-color: var(--pine-green);
-    }
-    .check-item.done span {
-      text-decoration: line-through;
       color: var(--ink-soft);
     }
 
-    /* 第五欄：本地圖片展示框 */
-    .overview-map-wrap {
-      width: 100%;
+    .form-control {
+      padding: 8px 10px;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      background: #FFF;
+      color: var(--ink);
+    }
+
+    .expense-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .exp-item {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #FFF;
       border: 2px solid var(--ink);
       border-radius: 14px;
-      background: #fffef9;
-      padding: 8px;
-      text-align: center;
-    }
-    .overview-map-wrap img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 10px;
-    }
-    .img-missing-tip {
-      display: none;
-      padding: 22px 14px;
-      background: var(--sand-light);
-      border: 2px dashed var(--sunset-orange);
-      border-radius: 12px;
-      color: var(--ink);
-      font-size: 0.86rem;
-      line-height: 1.6;
+      padding: 10px 14px;
     }
 
-    /* 憑證圖檔彈出檢視視窗 (Lightbox Modal) */
-    .voucher-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(20, 26, 32, 0.85);
-      z-index: 1000;
-      padding: 14px;
-      overflow-y: auto;
-      align-items: center;
-      justify-content: center;
-    }
-    .voucher-modal.open {
+    .exp-left {
       display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
-    .voucher-modal-box {
-      background: var(--paper-card);
-      border: 2.5px solid var(--ink);
-      border-radius: 16px;
-      max-width: 680px;
-      width: 100%;
-      padding: 14px;
-      box-shadow: 4px 4px 0 #000;
-      position: relative;
-    }
-    .voucher-modal-header {
+
+    .exp-title {
+      font-weight: 900;
+      font-size: 0.96rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      padding-bottom: 8px;
-      border-bottom: 1.5px dashed rgba(44, 53, 61, 0.3);
-      margin-bottom: 10px;
+      gap: 6px;
+      flex-wrap: wrap;
     }
-    .modal-close-btn {
-      background: var(--danger-red);
-      color: #fff;
+
+    .exp-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      font-size: 0.75rem;
+    }
+
+    .badge-cat { background: #EDF2F7; border: 1.5px solid var(--ink); padding: 1px 7px; border-radius: 6px; font-weight: 700; }
+    .badge-pay { background: #FEFCBF; border: 1.5px solid var(--ink); padding: 1px 7px; border-radius: 6px; font-weight: 700; }
+    .badge-split-me { background: #BEE3F8; border: 1.5px solid var(--ink); padding: 1px 7px; border-radius: 6px; font-weight: 700; }
+    .badge-split-sis { background: #FED7E2; border: 1.5px solid var(--ink); padding: 1px 7px; border-radius: 6px; font-weight: 700; }
+    .badge-split-all { background: #C6F6D5; border: 1.5px solid var(--ink); padding: 1px 7px; border-radius: 6px; font-weight: 700; }
+    .badge-split-custom { background: #E9D8FD; border: 1.5px solid var(--ink); padding: 1px 7px; border-radius: 6px; font-weight: 700; }
+
+    .exp-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+    }
+
+    .exp-amount {
+      text-align: right;
+    }
+
+    .exp-twd {
+      font-weight: 900;
+      font-size: 1.02rem;
+      color: var(--ink);
+    }
+
+    .exp-krw {
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+    }
+
+    .edit-btn {
+      background: #EBF8FF;
+      color: #2B6CB0;
       border: 1.8px solid var(--ink);
       border-radius: 8px;
-      padding: 4px 12px;
-      font-family: inherit;
-      font-weight: 700;
+      width: 28px;
+      height: 28px;
+      font-weight: 900;
       cursor: pointer;
     }
-    .voucher-modal-body {
-      text-align: center;
-      max-height: 75vh;
-      overflow: auto;
-    }
-    .voucher-modal-body img {
-      max-width: 100%;
-      height: auto;
+
+    .del-btn {
+      background: #FFF5F5;
+      color: #C53030;
+      border: 1.8px solid var(--ink);
       border-radius: 8px;
-      border: 1.5px solid var(--ink);
-    }
-    .voucher-modal-body iframe {
-      width: 100%;
-      height: 68vh;
-      border: 1.5px solid var(--ink);
-      border-radius: 8px;
+      width: 28px;
+      height: 28px;
+      font-weight: 900;
+      cursor: pointer;
     }
 
-    .toast {
-      position: fixed;
-      bottom: 22px;
-      left: 50%;
-      transform: translateX(-50%) translateY(80px);
-      background: var(--ink);
-      color: #fff;
-      padding: 8px 18px;
-      border-radius: 999px;
+    /* 總結算卡片 */
+    .summary-panel {
+      background: linear-gradient(135deg, #FFF5EB 0%, #FFFDF7 100%);
+      border: 2.5px solid var(--ink);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .sum-box {
+      background: #FFF;
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .sum-box.highlight {
+      background: var(--accent-yellow);
+    }
+
+    .sum-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--ink-soft);
+    }
+
+    .sum-box.highlight .sum-label {
+      color: var(--ink);
+    }
+
+    .sum-val {
+      font-family: 'Patrick Hand', 'Zen Maru Gothic', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+
+    .sum-sub {
+      font-size: 0.76rem;
+      color: var(--ink-soft);
+      margin-top: 2px;
+    }
+
+    /* Checklist 區塊 */
+    .checklist-add {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .checklist-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 8px;
+    }
+
+    .chk-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: var(--bg-paper);
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      padding: 9px 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .chk-item.done {
+      background: #EDF2F7;
+      opacity: 0.72;
+    }
+
+    .chk-item.done span {
+      text-decoration: line-through;
+    }
+
+    .chk-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .chk-box {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--ink);
+      border-radius: 6px;
+      background: #FFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-weight: 900;
+      font-size: 0.85rem;
+    }
+
+    .chk-item.done .chk-box {
+      background: var(--accent-teal);
+      color: #FFF;
+    }
+
+    .progress-wrap {
+      margin-bottom: 12px;
       font-size: 0.84rem;
       font-weight: 700;
-      opacity: 0;
-      transition: all 0.25s ease;
-      z-index: 1100;
     }
-    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 12px;
+      background: #EAE3D5;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent-teal);
+      width: 0%;
+      transition: width 0.25s ease;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 12px; }
+      .sketch-box { padding: 15px; }
+      .hero-card { padding: 18px 15px; }
+      .day-card-body { padding: 14px 12px 8px 16px; }
+      .timeline { padding-left: 16px; }
+      .tl-item::before { left: -26px; }
+    }
   </style>
 </head>
-<body>
+<body id="top">
 
-  <header class="hero-banner">
-    <div class="hero-badge">2026.12.09 (三) – 12.12 (六) · 三人同行</div>
-    <h1 class="hero-title">🌊 釜山海港手繪旅遊手冊</h1>
-    <div class="hero-sub">西面基地 · VBP BIG 5 · 雙地圖與憑證圖檔一鍵開啟 · 自動分帳</div>
-  </header>
-
-  <main class="container">
-    <!-- 置頂 5 大分頁導覽 -->
-    <div class="nav-wrapper">
-      <nav class="main-tabs">
-        <button class="main-tab-btn" data-tab="itinerary" onclick="selectSingleTab('itinerary', this)">🗓️ 每日行程時間軸</button>
-        <button class="main-tab-btn" data-tab="vouchers" onclick="selectSingleTab('vouchers', this)">🏨 住宿・航班・憑證</button>
-        <button class="main-tab-btn" data-tab="expense" onclick="selectSingleTab('expense', this)">💰 代墊記帳＆請款</button>
-        <button class="main-tab-btn" data-tab="checklist" onclick="selectSingleTab('checklist', this)">🎒 行李＆待辦清單</button>
-        <button class="main-tab-btn" data-tab="overview" onclick="selectSingleTab('overview', this)">🗺️ 行程地圖總覽</button>
-      </nav>
-      <div class="view-mode-bar">
-        <span id="view-status-text">目前顯示：首頁完整總覽（點擊上方按鈕可單獨檢視該項目）</span>
-        <button class="show-all-btn" onclick="showAllInitialSections()">📖 顯示全部區塊</button>
-      </div>
-    </div>
-
-    <!-- ==================== 1. 每日行程時間軸 ==================== -->
-    <section id="panel-itinerary" class="section-panel visible">
-      <div class="day-pills">
-        <button class="day-pill active" onclick="filterDay('all', this)">全部 4 天</button>
-        <button class="day-pill" onclick="filterDay('1', this)">Day 1 (12/09 松島影島)</button>
-        <button class="day-pill" onclick="filterDay('2', this)">Day 2 (12/10 機張膠囊)</button>
-        <button class="day-pill" onclick="filterDay('3', this)">Day 3 (12/11 生日色彩)</button>
-        <button class="day-pill" onclick="filterDay('4', this)">Day 4 (12/12 豚笑廣安)</button>
-      </div>
-      <div id="itinerary-container"></div>
-    </section>
-
-    <!-- ==================== 2. 住宿・航班・憑證 ==================== -->
-    <section id="panel-vouchers" class="section-panel visible">
-      <div class="zine-card">
-        <div class="washi-tape orange"></div>
-        <h2 style="margin:0 0 6px; font-size:1.08rem; color:var(--sunset-orange);">🔑 出發前待補密碼＆現場寄放備忘（自動儲存）</h2>
-        <div class="memo-input-group">
-          <label>🏠 Urbanstay Seomyeon 大門 / 房門 / 2F・14F 行李室密碼（2 間房）</label>
-          <input type="text" id="memo-hotel-pwd" class="memo-input" placeholder="出發前 1-2 天收到後填入，自動儲存於瀏覽器" oninput="saveMemos()">
-        </div>
-        <div class="memo-input-group">
-          <label>💄 Day 3 (12/11) 10:00 TONE&ME 個人色彩診斷地址＆備註</label>
-          <input type="text" id="memo-makeup-info" class="memo-input" value="西面站地下街(서면몰)7號出口10m｜中央大路707 文龍大樓13F（1F黃金交易所）｜素顏前往" oninput="saveMemos()">
-        </div>
-        <div class="memo-input-group">
-          <label>🧳 Day 4 (12/12) 광안이즈굿（Gwangan Is Good）行李寄放資訊</label>
-          <input type="text" id="memo-zim-code" class="memo-input" value="廣安站3號出口往海邊主路｜10:00-22:00｜24吋箱 ₩5,000（免預約，19:15看完秀領件後走水營路叫Uber）" oninput="saveMemos()">
-        </div>
-      </div>
-
-      <div class="zine-card">
-        <div class="washi-tape blue"></div>
-        <h2 style="margin:0 0 12px; font-size:1.08rem; color:var(--med-blue);">📋 住宿・航班・票券憑證（可複製編號或直接開啟圖檔）</h2>
-        <div class="voucher-grid" id="voucher-list"></div>
-      </div>
-    </section>
-
-    <!-- ==================== 3. 代墊記帳＆請款 ==================== -->
-    <section id="panel-expense" class="section-panel visible">
-      <div class="zine-card">
-        <div class="washi-tape green"></div>
-        <div class="rate-bar">
-          <div>
-            <strong style="font-size:0.88rem;">💱 自訂匯率：</strong>
-            <span style="font-size:0.84rem;">1 台幣 (TWD) = </span>
-            <input type="number" id="exchange-rate" class="rate-input" value="46.28" step="0.01" onchange="updateRate()">
-            <span style="font-size:0.84rem;"> 韓元 (KRW)</span>
-          </div>
-          <button class="copy-btn" onclick="resetDefaultExpenses()">↺ 恢復最新預設帳目</button>
-        </div>
-
-        <div class="summary-cards">
-          <div class="sum-box">
-            <div class="sum-label">全團總花費（換算台幣）</div>
-            <div class="sum-val" id="total-twd">NT$ 0</div>
-          </div>
-          <div class="sum-box">
-            <div class="sum-label">目前單人平均費用</div>
-            <div class="sum-val" id="per-person-twd">NT$ 0</div>
-          </div>
-          <div class="sum-box highlight">
-            <div class="sum-label">💸 請款結算：妹妹＋妹夫（2人份）共需匯給你</div>
-            <div class="sum-val" id="sister-owe-twd" style="color:var(--sunset-orange);">NT$ 0</div>
-            <div style="font-size:0.76rem; color:var(--ink-soft); margin-top:2px;">已含住宿、VBP、膠囊列車、TONE&ME 色彩診斷、豚笑訂金及去程加購 15kg 行李</div>
-          </div>
-        </div>
-
-        <form class="expense-form" onsubmit="addExpense(event)">
-          <input type="text" id="exp-title" class="full-span" placeholder="店家名或消費內容（例：機張帝王蟹、計程車）" required>
-          <input type="number" id="exp-amount" placeholder="金額" step="any" required>
-          <select id="exp-currency">
-            <option value="KRW">🇰🇷 韓元 (KRW)</option>
-            <option value="TWD">🇹🇼 台幣 (TWD)</option>
-          </select>
-          <select id="exp-payer">
-            <option value="me">付款人：我代付</option>
-            <option value="sister">付款人：妹妹先付</option>
-          </select>
-          <select id="exp-split">
-            <option value="3">分攤：三人均分（妹佔2份）</option>
-            <option value="me">分攤：我個人</option>
-            <option value="sister">分攤：妹妹＆妹夫（2人）</option>
-          </select>
-          <button type="submit" class="primary-btn full-span">➕ 新增一筆旅費</button>
-        </form>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <strong style="font-size:0.94rem;">🧾 消費明細清單</strong>
-          <button class="primary-btn orange" style="padding:5px 11px; font-size:0.78rem;" onclick="copyAccountingSummary()">📋 複製 LINE 請款單</button>
-        </div>
-        <div id="expense-list"></div>
-      </div>
-    </section>
-
-    <!-- ==================== 4. 行李＆待辦清單 ==================== -->
-    <section id="panel-checklist" class="section-panel visible">
-      <div class="zine-card">
-        <div class="washi-tape"></div>
-        <h2 style="margin:0 0 8px; font-size:1.08rem; color:var(--med-blue);">🎒 24 吋行李箱分配 ＆ 行前待辦檢核表</h2>
-        <div style="background:var(--med-blue-light); border:1.5px solid var(--ink); border-radius:10px; padding:9px 11px; font-size:0.82rem; margin-bottom:10px;">
-          <strong>🧳 行李黃金配置（去程＆回程皆有 1 件 15kg 託運）：</strong><br>
-          • <strong>24 吋行李箱（空箱 4.1kg，可裝淨重 10.9kg）</strong>：統一裝三人冬衣、液體保養品、彩妝工具與所有伴手禮戰利品。<br>
-          • <strong>每人 1 個後背包（手提上限 10kg）</strong>：分攤較重但不佔體積的行動電源、3C 充電器與隨身衣物。
-        </div>
-        <div id="checklist-container"></div>
-      </div>
-    </section>
-
-    <!-- ==================== 5. 行程地圖總覽（直接載入 image/overview-map.jpg） ==================== -->
-    <section id="panel-overview" class="section-panel">
-      <div class="zine-card">
-        <div class="washi-tape orange"></div>
-        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
-          <div>
-            <h2 style="margin:0; font-size:1.05rem; color:var(--med-blue);">🗺️ 2026 釜山四天三夜 Q 版攻略總覽圖</h2>
-            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ink-soft);">讀取 <code>image/overview-map.jpg</code>（點擊圖片可開啟原圖縮放）</p>
-          </div>
-          <button class="copy-btn" style="padding:5px 10px;" onclick="openVoucherModal('釜山四天三夜 Q 版攻略總覽圖', 'overview-map')">
-            🔍 放大檢視原圖
-          </button>
-        </div>
-
-        <div class="overview-map-wrap">
-          <img id="overview-map-img"
-               src="image/overview-map.jpg"
-               alt="2026 釜山四天三夜 Q 版旅遊攻略總覽圖"
-               style="cursor:zoom-in;"
-               onclick="openVoucherModal('釜山四天三夜 Q 版攻略總覽圖', 'overview-map')"
-               onerror="handleOverviewImgError(this)">
-          <div id="img-missing-tip" class="img-missing-tip">
-            ⚠️ 尚未讀取到總覽圖！請確認已在網站根目錄建立 <strong><code>image</code></strong> 資料夾，並將攻略圖命名為 <strong><code>overview-map.jpg</code></strong>（或 <code>.png</code>）放入該資料夾中。
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- 憑證圖檔 / 掃描檔彈出檢視視窗 -->
-  <div id="voucher-modal" class="voucher-modal" onclick="if(event.target===this) closeVoucherModal()">
-    <div class="voucher-modal-box">
-      <div class="voucher-modal-header">
-        <strong id="modal-title" style="font-size:0.98rem; color:var(--med-blue);">憑證檢視</strong>
-        <div style="display:flex; gap:6px; align-items:center;">
-          <a id="modal-raw-link" href="#" target="_blank" rel="noopener" class="copy-btn" style="text-decoration:none; padding:4px 9px;">↗ 新分頁開啟</a>
-          <button class="modal-close-btn" onclick="closeVoucherModal()">✕ 關閉</button>
-        </div>
-      </div>
-      <div id="modal-body" class="voucher-modal-body"></div>
+  <!-- 通關密碼驗證閘門（單機記憶，免重複登入） -->
+  <div id="authGate">
+    <div class="auth-card">
+      <div class="auth-icon">🔐</div>
+      <h2 class="auth-title">2026 釜山三人行手札</h2>
+      <p class="auth-desc">請輸入三人專屬通關密語進入行程手札<br><small>（同一支手機／瀏覽器只需輸入一次，之後免重登）</small></p>
+      <input type="password" id="passcodeInput" class="auth-input" placeholder="請輸入出發日期 (8碼)" inputmode="numeric" onkeydown="if(event.key==='Enter') verifyPasscode()">
+      <div class="auth-err" id="authErrorMsg"></div>
+      <button type="button" class="btn btn-primary" style="width:100%; padding:11px; font-size:1rem;" onclick="verifyPasscode()">🔓 解鎖進入手札</button>
     </div>
   </div>
 
-  <div id="toast" class="toast">已複製到剪貼簿！</div>
+  <a href="#top" class="back-to-top">⬆️ TOP</a>
+
+  <div class="container">
+
+    <!-- 1. 網頁頂部 Hero -->
+    <header class="hero-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:6px;">
+        <div class="hero-badge" style="margin-bottom:0;">✏️ 2026 WINTER BUSAN TRIP ・ 兄妹三人行</div>
+        <button type="button" class="btn btn-sm" onclick="lockPage()" title="重新鎖定畫面">🔒 鎖定手札</button>
+      </div>
+      <h1 class="hero-title">🇰🇷 釜山四天三夜・海風與美食手札</h1>
+      <p class="hero-subtitle">
+        📅 <strong>2026/12/09 (週三) ～ 12/12 (週六)</strong> ｜ 👥 <strong>旅伴：我、妹妹、妹夫（共 3 人）</strong><br>
+        ✨ 行程亮點：松島水晶纜車、影島光影展與白淺灘、機張帝王蟹、斜坡滑車＆樂天世界、夕陽天空膠囊列車、TONE&amp;ME 個人色彩診斷＆醬蟹、廣安里無人機秀！
+      </p>
+
+      <div class="tips-grid">
+        <div class="tip-box">
+          <strong>🧥 12 月釜山天氣與穿搭小貼士</strong>
+          氣溫約 <b>2°C ～ 10°C</b>，乾冷且海邊風大！建議「洋蔥式穿法」：發熱衣＋毛衣/大學T＋防風羽絨或大衣，並備好圍巾與暖暖包。<b>Day 3 早上要做 TONE&amp;ME 個人色彩診斷，務必「全素顏、戴透明隱眼」前往！</b>
+        </div>
+        <div class="tip-box">
+          <strong>🎟️ 票券與行李關鍵提醒</strong>
+          ① <b>VBP BIG 5 實體卡</b> 機場 10:00 才開門，務必改在<b>釜山站（09:00 開）</b>兌換（需開 APP 動態 QR＋護照）並於超商儲值交通金。<br>
+          ② 回程僅我的機票（ZE987）含 <b>15kg 託運</b>，伴手禮與液體集中裝箱，草莓水果務必在登機前吃完！
+        </div>
+      </div>
+    </header>
+
+    <!-- 快捷跳轉列 -->
+    <nav class="quick-nav">
+      <a href="#sec-itinerary" class="btn btn-sm btn-yellow">🗓️ 每日行程</a>
+      <a href="#sec-overview" class="btn btn-sm">🗺️ 導覽總覽圖</a>
+      <a href="#sec-stay" class="btn btn-sm btn-blue">☁️ 雲端憑證＆住宿</a>
+      <a href="#sec-expense" class="btn btn-sm btn-primary">💰 代墊記帳</a>
+      <a href="#sec-checklist" class="btn btn-sm btn-teal">🎒 行李清單</a>
+    </nav>
+
+    <!-- 2. 每日行程區塊 -->
+    <section id="sec-itinerary" class="sketch-box">
+      <div class="section-header">
+        <h2 class="section-title">🗓️ 每日行程時間軸</h2>
+        <button id="toggleAllBtn" class="btn btn-sm btn-yellow" onclick="toggleAllDays()">📂 一鍵收合所有行程</button>
+      </div>
+
+      <div class="filter-bar">
+        <div class="day-tabs" id="dayFilterTabs">
+          <button class="day-tab active" data-day="all" onclick="filterDay('all', this)">全部 4 天</button>
+          <button class="day-tab" data-day="1" onclick="filterDay('1', this)">Day 1 (12/09)</button>
+          <button class="day-tab" data-day="2" onclick="filterDay('2', this)">Day 2 (12/10)</button>
+          <button class="day-tab" data-day="3" onclick="filterDay('3', this)">Day 3 (12/11 生日)</button>
+          <button class="day-tab" data-day="4" onclick="filterDay('4', this)">Day 4 (12/12 返台)</button>
+        </div>
+        <span style="font-size:0.8rem; color:var(--ink-soft); font-weight:700;">📍 附 Google Maps ＋ 🧭 Naver Map 雙導航</span>
+      </div>
+
+      <div id="itineraryContainer"></div>
+    </section>
+
+    <!-- 2.5 行程地圖總覽（僅讀取 image/overview-map.jpg 或 .png） -->
+    <section id="sec-overview" class="sketch-box">
+      <div class="section-header">
+        <h2 class="section-title">🗺️ 釜山四天三夜導覽總覽圖</h2>
+        <a href="image/overview-map.jpg" id="overviewOpenLink" target="_blank" rel="noopener" class="btn btn-sm btn-yellow">🔍 點開大圖檢視</a>
+      </div>
+      <div class="overview-wrap">
+        <img id="overviewImg" src="image/overview-map.jpg" alt="釜山四天三夜導覽總覽圖"
+             onerror="if(!this.dataset.triedPng){this.dataset.triedPng='1';this.src='image/overview-map.png';document.getElementById('overviewOpenLink').href='image/overview-map.png';}else{this.style.display='none';document.getElementById('overviewFallback').style.display='block';}">
+        <div id="overviewFallback" style="display:none; padding:24px 12px; color:var(--ink-soft); font-size:0.9rem;">
+          📷 尚未偵測到總覽圖！請將圖片命名為 <code>overview-map.jpg</code>（或 <code>overview-map.png</code>）並放入根目錄的 <code>image/</code> 資料夾內。
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 住宿、航班與雲端憑證夾（無明文 QR Code 與訂位代號） -->
+    <section id="sec-stay" class="sketch-box">
+      <div class="section-header">
+        <h2 class="section-title">🏨 住宿、航班與雲端憑證夾</h2>
+        <span class="sketch-pill">🔒 零明文密碼・敏感資料存雲端</span>
+      </div>
+
+      <!-- 專屬 Google 雲端憑證資料夾入口 -->
+      <div class="drive-banner">
+        <div style="flex:1; min-width:220px;">
+          <strong style="font-size:1.02rem; display:block; margin-bottom:4px;">☁️ 訂位確認單、票券明細 ＆ 兌換 QR Code 雲端資料夾</strong>
+          <span style="font-size:0.84rem; color:var(--ink-soft);">
+            為避免公開網頁外洩個資與條碼，所有訂位代號與憑證截圖皆存放於專屬 Google 雲端硬碟（VBP 領卡現場請開啟 KKday / Pelago App 動態 QR）。
+          </span>
+        </div>
+        <a href="https://drive.google.com/drive/folders/1co__pETIzeBIakZWOe--Wx0GhsPoVkcd?usp=drive_link" target="_blank" rel="noopener" class="btn btn-blue" style="padding:10px 16px; font-size:0.95rem;">
+          📂 開啟 Google 雲端憑證夾
+        </a>
+      </div>
+
+      <div class="info-grid">
+        <!-- 住宿資訊 -->
+        <div class="info-card" style="background:#FFF9EE;">
+          <h4>🏠 住宿基地：Urbanstay Seomyeon（西面城市住宿酒店）</h4>
+          <div style="font-size:0.88rem;">
+            <p style="margin:4px 0;"><b>房型配置：</b>城市一室公寓 × 2 間（我 1 間、妹＆妹夫 1 間）</p>
+            <p style="margin:4px 0;"><b>入住／退房：</b>12/09 (三) 16:00 後入住 ～ 12/12 (六) 11:00 前退房</p>
+            <p style="margin:4px 0;"><b>行李寄放：</b>2F / 14F 自助行李室（入住當日 09:00 開放）</p>
+            <p style="margin:4px 0;"><b>訂單憑證：</b>請點擊上方「開啟 Google 雲端憑證夾」查看</p>
+            <p style="margin:4px 0 8px;"><b>地址：</b>釜山廣域市釜山鎮區中央大路 752 (부산 부산진구 중앙대로 752)</p>
+            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+              <a class="btn btn-sm btn-yellow" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Urbanstay+Seomyeon+Busan">📍 Google Maps</a>
+              <a class="btn btn-sm btn-naver" target="_blank" rel="noopener" href="https://map.naver.com/p/search/%EC%96%B4%EB%B0%98%EC%8A%A4%ED%85%8C%EC%9D%B4%20%EC%84%9C%EB%A9%B4">🧭 Naver Map</a>
+            </div>
+          </div>
+          <div style="margin-top:10px; padding-top:8px; border-top:1.5px dashed var(--ink);">
+            <label style="font-size:0.8rem; font-weight:900;">🔑 入住大門 / 房門 / 行李室密碼（僅存於各自手機本機）：</label>
+            <input type="text" id="memoHotelPass" class="memo-input" placeholder="出發前收到密碼後自行填入（不會上傳至公開網站）" oninput="saveMemos()">
+          </div>
+        </div>
+
+        <!-- 航班資訊（不含訂位代號 PNR） -->
+        <div class="info-card" style="background:#F0F8FF;">
+          <h4>✈️ 往返航班時刻表（易斯達航空 Eastar Jet）</h4>
+          <div class="flight-row">
+            <b>【去程・妹＆妹夫】</b> 12/09 (三) 02:10 TPE T1 → 06:05 PUS 航廈 I<br>
+            航班 <code>ZE984</code> ｜ <b>無託運</b>（手提 10kg）
+          </div>
+          <div class="flight-row">
+            <b>【去程・我】</b> 12/09 (三) 03:00 TPE T1 → 06:15 PUS 航廈 I<br>
+            航班 <code>ZE988</code> ｜ <b>無託運</b>（手提 10kg）
+          </div>
+          <div class="flight-row">
+            <b>【回程・妹＆妹夫】</b> 12/12 (六) 22:00 PUS 航廈 I → 00:15+1 TPE T1<br>
+            航班 <code>ZE983</code> ｜ <b>無託運</b>（手提 10kg）
+          </div>
+          <div class="flight-row">
+            <b>【回程・我】</b> 12/12 (六) 22:10 PUS 航廈 I → 00:25+1 TPE T1<br>
+            航班 <code>ZE987</code> ｜ <span style="background:#FFD166; padding:1px 6px; border-radius:4px; font-weight:900;">✅ 含 15kg 託運行李</span>
+          </div>
+        </div>
+
+        <!-- 票券與餐廳預約時段 -->
+        <div class="info-card" style="background:#F3FFF8;">
+          <h4>🎫 已確認票券＆體驗／餐廳時段</h4>
+          <div style="font-size:0.85rem; display:flex; flex-direction:column; gap:6px;">
+            <div>• <b>VBP BIG 5 實體卡 × 3：</b>釜山站 2F 9 號出口兌換（需帶護照＋APP 動態 QR）</div>
+            <div>• <b>天空膠囊列車（3 人車廂）：</b>12/10 16:30–17:00 青沙浦 → 尾浦</div>
+            <div>• <b>TONE&amp;ME 個人色彩診斷（西面店）：</b>12/11 10:00（文龍大樓 13F，已全額付清）</div>
+            <div>• <b>老公寓（고옥）：</b>12/11 18:00 3 人大廳桌（訂金到店用餐後退還）</div>
+            <div>• <b>豚笑（Tonshou）廣安店：</b>12/12 11:10 3 人（已預付訂金 ₩59,500 並預點 4 份主餐）</div>
+          </div>
+        </div>
+
+        <!-- 旅途中待補備忘 -->
+        <div class="info-card" style="background:#FDF4FF;">
+          <h4>📝 旅途隨手備忘（僅存於各自手機本機）</h4>
+          <div style="font-size:0.82rem; margin-bottom:6px;">
+            <label style="font-weight:700;">🧳 Day 4 ZIM CARRY 寄件件數／備忘：</label>
+            <input type="text" id="memoZim" class="memo-input" placeholder="Day 2 晚上確認戰利品後下單紀錄..." oninput="saveMemos()">
+          </div>
+          <div style="font-size:0.82rem;">
+            <label style="font-weight:700;">📌 其他臨時備忘 / 伴手禮清單：</label>
+            <input type="text" id="memoSalon" class="memo-input" placeholder="紀錄臨時新增的店家或注意事項..." oninput="saveMemos()">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 費用登入與分帳計算 -->
+    <section id="sec-expense" class="sketch-box">
+      <div class="section-header">
+        <h2 class="section-title">💰 旅費記帳與請款計算機</h2>
+        <button class="btn btn-sm" onclick="resetDefaultExpenses()">↺ 恢復預設預訂帳目</button>
+      </div>
+
+      <!-- 自訂匯率設定 -->
+      <div class="rate-box">
+        <div>
+          <strong>💱 出國當天自訂匯率設定</strong>
+          <div style="font-size:0.8rem; color:var(--ink-soft);">所有韓元現金／刷卡消費會依此匯率自動換算為台幣加總（目前預設 41.5，出國當天可隨時調整）</div>
+        </div>
+        <div class="rate-input-group">
+          <span>1 台幣 (TWD) =</span>
+          <input type="number" id="exchangeRateInput" step="0.1" min="1" value="41.5" oninput="updateRate()">
+          <span>韓元 (KRW)</span>
+        </div>
+      </div>
+
+      <!-- 預約單金額輸入提示 -->
+      <div class="booking-prompt">
+        <strong>📌 帳務說明（目前所有費用 100% 皆由「我」先代墊，完全沒有妹妹或妹夫先付的部分）：</strong>
+        已預填 <b>Urbanstay 兩間房</b>、<b>3 張 VBP</b>、<b>機場停車費（5天 $750）</b>、<b>TONE&amp;ME 個人色彩（NT$7,674 依實際比例分攤）</b>、<b>天空膠囊列車</b>、<b>豚笑訂金</b> 以及 <b>四張機票參考金額</b>。<br>
+        ✏️ <b>機票金額微調：</b>每筆帳目右側都有「<b>✎</b>」修改按鈕！你可隨時點擊修改成正確的機票刷卡台幣金額（或刪除重建）。
+        <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px;">
+          <button type="button" class="btn btn-sm btn-yellow" onclick="quickFill('易斯達機票（我 ZE988去＋ZE987回含15kg行李）', 'TWD', '交通', '刷卡', '我')">+ 快速帶入：我的來回機票</button>
+          <button type="button" class="btn btn-sm btn-yellow" onclick="quickFill('易斯達機票（妹妹＆妹夫 ZE984去＋ZE983回）', 'TWD', '交通', '刷卡', '妹妹')">+ 快速帶入：妹妹＆妹夫來回機票</button>
+          <button type="button" class="btn btn-sm" onclick="quickFill('ZIM CARRY 行李直送機場', 'TWD', '交通', '刷卡', '三人均分')">+ 快速帶入：ZIM CARRY</button>
+        </div>
+      </div>
+
+      <!-- 新增消費表單 -->
+      <form class="expense-form" onsubmit="addExpense(event)">
+        <div class="form-group full">
+          <label>店家名稱 / 消費內容說明</label>
+          <input type="text" id="expDesc" class="form-control" placeholder="例如：易斯達機票、松亭三代豬肉湯飯" required>
+        </div>
+
+        <div class="form-group">
+          <label>金額</label>
+          <input type="number" id="expAmount" class="form-control" step="any" min="0" placeholder="輸入數字" required>
+        </div>
+
+        <div class="form-group">
+          <label>幣別</label>
+          <select id="expCurrency" class="form-control">
+            <option value="KRW">韓元 (KRW ₩)</option>
+            <option value="TWD">台幣 (TWD $)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>分類</label>
+          <select id="expCategory" class="form-control">
+            <option value="食物">🍜 食物</option>
+            <option value="交通">🚕 交通</option>
+            <option value="活動">🎟️ 活動</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>付款方式（皆由我先墊付）</label>
+          <select id="expPayMethod" class="form-control">
+            <option value="現金">💵 現金（我先付）</option>
+            <option value="刷卡">💳 刷卡（我先付）</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>分帳方式（妹夫算在妹妹）</label>
+          <select id="expSplit" class="form-control">
+            <option value="三人均分">👥 三人均分（我1/3・妹2/3）</option>
+            <option value="妹妹">👧 妹妹（含妹夫專屬）</option>
+            <option value="我">🙋‍♂️ 我（個人專屬）</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <button type="submit" class="btn btn-primary" style="width:100%; padding:10px;">➕ 新增這筆花費（由我先墊付）</button>
+        </div>
+      </form>
+
+      <!-- 消費明細列表 -->
+      <div class="expense-list" id="expenseList"></div>
+
+      <!-- 尾段：總計與單人費用結算 -->
+      <div class="summary-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+          <strong style="font-size:1.05rem;">📊 目前總計與單人費用結算（100% 由我先墊付）</strong>
+          <button type="button" class="btn btn-sm btn-yellow" onclick="copySettlement()">📋 一鍵複製請款明細貼 LINE</button>
+        </div>
+        <div style="font-size:0.78rem; color:var(--ink-soft); margin-top:4px;">
+          ※ 所有支出皆由「我」先墊付，完全沒有妹妹或妹夫先付的部分。「三人均分」自動拆為：我 1 份、妹妹＋妹夫共 2 份；指定比例項目（如個人色彩診斷）依實際金額拆分。
+        </div>
+        <div class="summary-grid" id="summaryGrid"></div>
+      </div>
+    </section>
+
+    <!-- 5. 隨身行李 / 待辦清單 Checklist -->
+    <section id="sec-checklist" class="sketch-box">
+      <div class="section-header">
+        <h2 class="section-title">🎒 隨身行李與行前待辦清單</h2>
+        <button class="btn btn-sm" onclick="resetChecklist()">↺ 重置清單</button>
+      </div>
+
+      <div class="progress-wrap">
+        <div style="display:flex; justify-content:space-between;">
+          <span>準備完成度</span>
+          <span id="chkProgressText">0 / 0</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="chkProgressFill"></div>
+        </div>
+      </div>
+
+      <div class="checklist-add">
+        <input type="text" id="newChkInput" class="form-control" style="flex:1;" placeholder="新增自訂物品或待辦（例如：行動電源、常備腸胃藥）..." onkeydown="if(event.key==='Enter'){addChecklistItem();}">
+        <button type="button" class="btn btn-teal" onclick="addChecklistItem()">新增</button>
+      </div>
+
+      <div class="checklist-items" id="checklistContainer"></div>
+    </section>
+
+  </div>
 
   <script>
-    // ==================== 代表性手繪 SVG 小圖庫 ====================
-    const THUMB_ICONS = {
-      plane: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#e5f1f8"/><path d="M12 36 L28 32 L36 16 L41 17 L36 31 L50 28 L54 22 L57 23 L54 31 L57 38 L54 39 L50 34 L36 36 L41 49 L36 50 L28 36 L12 39 Z" fill="#266799" stroke="#2c353d" stroke-width="2" stroke-linejoin="round"/></svg>`,
-      soup: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fcece5"/><path d="M14 32 Q14 50 32 50 Q50 50 50 32 Z" fill="#d96b43" stroke="#2c353d" stroke-width="2.2"/><ellipse cx="32" cy="32" rx="18" ry="5" fill="#fef3c7" stroke="#2c353d" stroke-width="2"/><path d="M24 22 Q22 16 25 12 M32 20 Q30 14 33 10 M40 22 Q38 16 41 12" fill="none" stroke="#5c6773" stroke-width="2" stroke-linecap="round"/></svg>`,
-      hotel: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fdf6e2"/><rect x="18" y="14" width="28" height="38" rx="4" fill="#f3c65f" stroke="#2c353d" stroke-width="2.2"/><rect x="23" y="20" width="6" height="6" fill="#fff" stroke="#2c353d" stroke-width="1.5"/><rect x="35" y="20" width="6" height="6" fill="#fff" stroke="#2c353d" stroke-width="1.5"/><rect x="23" y="30" width="6" height="6" fill="#fff" stroke="#2c353d" stroke-width="1.5"/><rect x="35" y="30" width="6" height="6" fill="#fff" stroke="#2c353d" stroke-width="1.5"/><rect x="28" y="42" width="8" height="10" fill="#266799" stroke="#2c353d" stroke-width="1.5"/></svg>`,
-      pass: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#e7f2ec"/><rect x="12" y="20" width="40" height="26" rx="5" fill="#4c7c66" stroke="#2c353d" stroke-width="2.2"/><rect x="17" y="25" width="12" height="12" rx="2" fill="#fff" stroke="#2c353d" stroke-width="1.5"/><line x1="33" y1="28" x2="47" y2="28" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><line x1="33" y1="35" x2="43" y2="35" stroke="#f3c65f" stroke-width="2.5" stroke-linecap="round"/></svg>`,
-      cablecar: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#e5f1f8"/><line x1="8" y1="18" x2="56" y2="12" stroke="#2c353d" stroke-width="2.5"/><line x1="32" y1="15" x2="32" y2="24" stroke="#2c353d" stroke-width="2"/><rect x="18" y="24" width="28" height="22" rx="6" fill="#d96b43" stroke="#2c353d" stroke-width="2.2"/><rect x="22" y="28" width="8" height="9" rx="1.5" fill="#fff" stroke="#2c353d" stroke-width="1.5"/><rect x="34" y="28" width="8" height="9" rx="1.5" fill="#fff" stroke="#2c353d" stroke-width="1.5"/></svg>`,
-      chicken: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fdf6e2"/><ellipse cx="32" cy="38" rx="18" ry="11" fill="#2c353d"/><ellipse cx="32" cy="36" rx="15" ry="8" fill="#fef3c7" stroke="#2c353d" stroke-width="1.8"/><circle cx="30" cy="35" r="5" fill="#f3c65f" stroke="#2c353d" stroke-width="1.5"/><path d="M25 22 Q25 16 28 14 M35 22 Q35 16 38 14" fill="none" stroke="#d96b43" stroke-width="2" stroke-linecap="round"/></svg>`,
-      art: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#f3e8ff"/><rect x="15" y="16" width="34" height="32" rx="5" fill="#9333ea" stroke="#2c353d" stroke-width="2.2"/><circle cx="26" cy="28" r="5" fill="#f3c65f"/><path d="M18 44 L28 33 L36 40 L42 32 L47 44 Z" fill="#38bdf8" stroke="#2c353d" stroke-width="1.5"/></svg>`,
-      village: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#e5f1f8"/><rect x="14" y="26" width="16" height="16" fill="#fff" stroke="#2c353d" stroke-width="2"/><polygon points="12,26 22,17 32,26" fill="#266799" stroke="#2c353d" stroke-width="2"/><rect x="32" y="22" width="18" height="20" fill="#f3c65f" stroke="#2c353d" stroke-width="2"/><polygon points="30,22 41,13 52,22" fill="#d96b43" stroke="#2c353d" stroke-width="2"/><path d="M10 47 Q25 43 40 47 T55 47" fill="none" stroke="#266799" stroke-width="2.5"/></svg>`,
-      market: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fcece5"/><path d="M24 22 C16 22 15 36 24 46 C33 36 32 22 24 22 Z" fill="#e11d48" stroke="#2c353d" stroke-width="2"/><path d="M20 21 L24 17 L28 21" fill="none" stroke="#4c7c66" stroke-width="2.2"/><polygon points="43,16 34,36 52,36" fill="#4c7c66" stroke="#2c353d" stroke-width="2"/><rect x="41" y="36" width="4" height="8" fill="#92400e"/><circle cx="43" cy="14" r="3" fill="#f3c65f"/></svg>`,
-      crab: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fcece5"/><ellipse cx="32" cy="35" rx="14" ry="10" fill="#d96b43" stroke="#2c353d" stroke-width="2.2"/><path d="M18 32 L10 26 M18 37 L9 37 M46 32 L54 26 M46 37 L55 37" stroke="#d96b43" stroke-width="3" stroke-linecap="round"/><circle cx="20" cy="21" r="4" fill="#d96b43" stroke="#2c353d" stroke-width="1.8"/><circle cx="44" cy="21" r="4" fill="#d96b43" stroke="#2c353d" stroke-width="1.8"/></svg>`,
-      luge: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#e7f2ec"/><path d="M14 40 L46 40 L50 33 L22 33 Z" fill="#4c7c66" stroke="#2c353d" stroke-width="2.2"/><circle cx="22" cy="43" r="4" fill="#2c353d"/><circle cx="42" cy="43" r="4" fill="#2c353d"/><circle cx="32" cy="24" r="6" fill="#f3c65f" stroke="#2c353d" stroke-width="2"/></svg>`,
-      castle: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fdf6e2"/><rect x="18" y="28" width="28" height="20" fill="#fff" stroke="#2c353d" stroke-width="2"/><polygon points="16,28 22,16 28,28" fill="#d96b43" stroke="#2c353d" stroke-width="2"/><polygon points="27,26 32,12 37,26" fill="#266799" stroke="#2c353d" stroke-width="2"/><polygon points="36,28 42,16 48,28" fill="#d96b43" stroke="#2c353d" stroke-width="2"/></svg>`,
-      capsule: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#e5f1f8"/><line x1="10" y1="44" x2="54" y2="44" stroke="#2c353d" stroke-width="2.5"/><rect x="16" y="20" width="32" height="22" rx="7" fill="#f3c65f" stroke="#2c353d" stroke-width="2.2"/><rect x="21" y="25" width="9" height="9" rx="1.5" fill="#fff" stroke="#2c353d" stroke-width="1.5"/><rect x="34" y="25" width="9" height="9" rx="1.5" fill="#fff" stroke="#2c353d" stroke-width="1.5"/></svg>`,
-      galbi: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fcece5"/><ellipse cx="32" cy="36" rx="18" ry="11" fill="#92400e" stroke="#2c353d" stroke-width="2.2"/><rect x="22" y="30" width="20" height="10" rx="4" fill="#d96b43" stroke="#2c353d" stroke-width="1.8"/><circle cx="27" cy="27" r="2.5" fill="#4c7c66"/><circle cx="36" cy="27" r="2.5" fill="#f3c65f"/></svg>`,
-      color: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#f3e8ff"/><path d="M32 14 C20 14 14 23 14 33 C14 43 22 49 30 49 C33 49 35 47 35 44 C35 41 38 40 41 40 C47 40 50 36 50 30 C50 20 42 14 32 14 Z" fill="#fff" stroke="#2c353d" stroke-width="2.2"/><circle cx="23" cy="27" r="3.5" fill="#f43f5e"/><circle cx="32" cy="22" r="3.5" fill="#f59e0b"/><circle cx="41" cy="27" r="3.5" fill="#38bdf8"/><circle cx="24" cy="37" r="3.5" fill="#a855f7"/></svg>`,
-      photobooth: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fcece5"/><rect x="17" y="12" width="14" height="40" rx="2" fill="#fff" stroke="#2c353d" stroke-width="2"/><rect x="20" y="16" width="8" height="8" fill="#f9a8d4"/><rect x="20" y="28" width="8" height="8" fill="#93c5fd"/><rect x="33" y="14" width="14" height="38" rx="2" fill="#fef3c7" stroke="#2c353d" stroke-width="2"/><rect x="36" y="18" width="8" height="8" fill="#86efac"/><rect x="36" y="30" width="8" height="8" fill="#fca5a5"/></svg>`,
-      rm: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#e5f1f8"/><circle cx="32" cy="32" r="18" fill="#266799" stroke="#2c353d" stroke-width="2.2"/><text x="32" y="39" text-anchor="middle" font-size="20" font-weight="900" fill="#f3c65f">R</text></svg>`,
-      bbq: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fcece5"/><circle cx="32" cy="34" r="17" fill="#475569" stroke="#2c353d" stroke-width="2.2"/><line x1="18" y1="30" x2="46" y2="30" stroke="#cbd5e1" stroke-width="1.8"/><line x1="18" y1="38" x2="46" y2="38" stroke="#cbd5e1" stroke-width="1.8"/><rect x="22" y="26" width="10" height="7" rx="3" fill="#d96b43" stroke="#2c353d" stroke-width="1.5"/><rect x="33" y="33" width="10" height="7" rx="3" fill="#f43f5e" stroke="#2c353d" stroke-width="1.5"/></svg>`,
-      night: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#1e293b"/><path d="M12 46 L26 24 L38 38 L46 28 L54 46 Z" fill="#334155" stroke="#94a3b8" stroke-width="1.5"/><circle cx="22" cy="18" r="2" fill="#f3c65f"/><circle cx="44" cy="16" r="2.5" fill="#f3c65f"/><circle cx="34" cy="20" r="1.5" fill="#fff"/></svg>`,
-      luggage: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#e7f2ec"/><path d="M26 20 L26 13 L38 13 L38 20" fill="none" stroke="#2c353d" stroke-width="2.2"/><rect x="20" y="20" width="24" height="28" rx="5" fill="#266799" stroke="#2c353d" stroke-width="2.2"/><line x1="27" y1="20" x2="27" y2="48" stroke="#f3c65f" stroke-width="2"/><line x1="37" y1="20" x2="37" y2="48" stroke="#f3c65f" stroke-width="2"/></svg>`,
-      tonkatsu: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fdf6e2"/><ellipse cx="32" cy="35" rx="19" ry="12" fill="#fff" stroke="#2c353d" stroke-width="2"/><ellipse cx="32" cy="34" rx="13" ry="8" fill="#d97706" stroke="#2c353d" stroke-width="2"/><line x1="26" y1="28" x2="26" y2="40" stroke="#78350f" stroke-width="1.8"/><line x1="32" y1="27" x2="32" y2="41" stroke="#78350f" stroke-width="1.8"/><line x1="38" y1="28" x2="38" y2="40" stroke="#78350f" stroke-width="1.8"/></svg>`,
-      cafe: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#e5f1f8"/><path d="M20 26 L40 26 L37 46 L23 46 Z" fill="#fff" stroke="#2c353d" stroke-width="2.2"/><path d="M40 30 Q47 30 47 36 Q47 41 39 41" fill="none" stroke="#2c353d" stroke-width="2.2"/><path d="M26 19 Q25 14 28 12 M34 19 Q33 14 36 12" fill="none" stroke="#d96b43" stroke-width="2" stroke-linecap="round"/></svg>`,
-      drone: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#1e3a8a"/><circle cx="32" cy="26" r="3" fill="#f3c65f"/><circle cx="22" cy="22" r="2.5" fill="#38bdf8"/><circle cx="42" cy="22" r="2.5" fill="#38bdf8"/><circle cx="26" cy="32" r="2.5" fill="#f43f5e"/><circle cx="38" cy="32" r="2.5" fill="#f43f5e"/><path d="M14 46 L50 46 M22 46 L22 38 M42 46 L42 38" stroke="#93c5fd" stroke-width="2"/></svg>`
-    };
+    // ================= 0. 通關密碼閘門（單機記憶，免重複登入） =================
+    const PASSCODE = "20261209";
+    const AUTH_KEY = "busan2026_unlocked_v4";
 
-    // ==================== 1. 完整行程資料庫（已知預訂行程皆已綁定對應憑證圖檔） ====================
-    const ITINERARY_DATA = [
-      {
-        day: '1',
-        dateTitle: 'DAY 1｜12/09 (週三) 紅眼落地・松島纜車與影島全覽 → 南浦聖誕街',
-        vbpNote: 'VBP BIG 5：使用 B 組 #1、#2',
-        weatherInfo: {
-          weather: '晴時多雲｜氣溫約 3°C～10°C（松島與白淺灘海風強，體感約 1°C～4°C）',
-          outfit: '洋蔥式穿法：發熱衣＋厚毛衣＋防風長版羽絨外套／毛呢大衣＋圍巾與毛帽',
-          umbrella: '不需要帶傘（12 月釜山為乾冷旱季，降雨機率低於 10%，帶支輕便摺疊傘備用即可）',
-          notice: '① 紅眼班機落地先吃豬肉湯飯，09:00 準時將 24 吋行李箱鎖入 Urbanstay 行李室；② 釜山站領 VBP 卡務必開 App「動態 QR Code＋護照」（不可截圖）；③ 市場買的草莓嚴禁帶回台灣，前三天吃完！'
-        },
-        stops: [
-          {
-            time: '06:05 / 06:15',
-            title: '抵達金海國際機場（航廈 I）會合',
-            krName: '김해국제공항 국제선터미널',
-            mapQuery: '김해국제공항 국제선터미널',
-            googleQuery: 'Gimhae International Airport International Terminal',
-            badge: '含15kg託運',
-            badgeType: 'booked',
-            icon: 'plane',
-            iconLabel: '抵達釜山',
-            voucherLinks: [
-              { label: '🎫 我的機票 (ZE988)', file: 'flight-ze988' },
-              { label: '🎫 妹機票 (ZE984)', file: 'flight-ze984' }
-            ],
-            desc: '妹妹/妹夫 ZE984（06:05 抵）、我 ZE988（06:15 抵，領 24 吋託運行李箱）。會合後搭輕軌轉地鐵 2 號線至西面。'
-          },
-          {
-            time: '08:00',
-            title: '早餐：松亭三代豬肉湯飯（西面站）',
-            krName: '송정3대국밥 서면본점',
-            mapQuery: '송정3대국밥',
-            googleQuery: 'Songjeong 3dae Gukbap Seomyeon Busan',
-            badge: '24小時營業',
-            badgeType: '',
-            icon: 'soup',
-            iconLabel: '豬肉湯飯',
-            desc: '西面站 1 號出口步行約 200m。等 09:00 飯店開放寄放行李前，先吃熱騰騰豬肉湯飯暖胃。'
-          },
-          {
-            time: '09:00',
-            title: 'Urbanstay Seomyeon 寄放 24 吋行李箱',
-            krName: '어반스테이 서면 (부산 부산진구 중앙대로 752)',
-            mapQuery: '어반스테이 서면',
-            googleQuery: 'Urbanstay Seomyeon Busan',
-            badge: '09:00 開放寄放',
-            badgeType: 'booked',
-            icon: 'hotel',
-            iconLabel: '飯店寄放',
-            voucherLinks: [
-              { label: '🎫 住宿訂房確認單', file: 'hotel-urbanstay' }
-            ],
-            desc: '將共用的 24 吋行李箱鎖進 2F 或 14F 自助行李室，三人背輕便隨身包出發跑行程。'
-          },
-          {
-            time: '09:30',
-            title: '釜山站 2F 兌換 VBP BIG 5 實體卡 × 3 張',
-            krName: '부산역 관광안내소 (2층 9번출구 방면)',
-            mapQuery: '부산역',
-            googleQuery: 'Busan Station',
-            badge: '動態QR+護照',
-            badgeType: 'warn',
-            icon: 'pass',
-            iconLabel: '兌換VBP',
-            voucherLinks: [
-              { label: '🎫 VBP憑證#1', file: 'vbp-1' },
-              { label: '🎫 VBP憑證#2', file: 'vbp-2' },
-              { label: '🎫 VBP憑證#3', file: 'vbp-3' }
-            ],
-            desc: '地鐵 1 號線至釜山站 2F 9 號出口旁旅遊諮詢中心（09:00 開門）。領卡後順便去超商儲值交通金。'
-          },
-          {
-            time: '10:30',
-            title: '松島海上纜車（水晶透明車廂來回）',
-            krName: '송도해상케이블카 송도베이스테이션',
-            mapQuery: '송도해상케이블카 송도베이스테이션',
-            googleQuery: 'Songdo Marine Cable Car Busan',
-            badge: 'VBP B 組 #1',
-            badgeType: 'vbp',
-            icon: 'cablecar',
-            iconLabel: '海上纜車',
-            desc: '從釜山站搭計程車前往松島灣站，刷 VBP 實體卡兌換水晶車廂來回票。'
-          },
-          {
-            time: '12:00',
-            title: '午餐：影島 明星一隻雞',
-            krName: '영도 명성이인닭',
-            mapQuery: '영도 명성일인닭',
-            googleQuery: '영도 명성일인닭 부산',
-            badge: '影島美食',
-            badgeType: '',
-            icon: 'chicken',
-            iconLabel: '明星一隻雞',
-            desc: '搭計程車過南港大橋直達影島用餐，清甜雞湯配蒜泥辣醬與刀削麵。'
-          },
-          {
-            time: '13:45',
-            title: '影島 Arte Museum Busan',
-            krName: '아르떼뮤지엄 부산',
-            mapQuery: '아르떼뮤지엄 부산',
-            googleQuery: 'Arte Museum Busan Yeongdo',
-            badge: 'VBP B 組 #2',
-            badgeType: 'vbp',
-            icon: 'art',
-            iconLabel: '光影藝術展',
-            desc: '刷 VBP 實體卡免費入場！大型沉浸式光影藝術展，室內溫暖好拍。'
-          },
-          {
-            time: '15:30',
-            title: '白淺灘文化村（影島海邊步道）',
-            krName: '흰여울문화마을',
-            mapQuery: '흰여울문화마을',
-            googleQuery: 'Huinnyeoul Culture Village Busan',
-            badge: '海景散步',
-            badgeType: '',
-            icon: 'village',
-            iconLabel: '白淺灘村',
-            desc: '沿絕影海岸散步路看大海、拍彩色階梯與海岸隧道。'
-          },
-          {
-            time: '17:00',
-            title: '南浦洞光復路 ＆ 富平罐頭市場',
-            krName: '부평깡통시장 / 남포동 광복로',
-            mapQuery: '부평깡통시장',
-            googleQuery: 'Bupyeong Kkangtong Market Busan',
-            badge: '聖誕樹＋草莓',
-            badgeType: '',
-            icon: 'market',
-            iconLabel: '南浦聖誕街',
-            desc: '賞光復路聖誕樹燈海，在市場採買韓國草莓、橘子與麝香葡萄。'
-          },
-          {
-            time: '19:00',
-            title: '返回 Urbanstay Seomyeon 入住休息',
-            krName: '어반스테이 서면',
-            mapQuery: '어반스테이 서면',
-            googleQuery: 'Urbanstay Seomyeon Busan',
-            badge: '紅眼補眠',
-            badgeType: '',
-            icon: 'hotel',
-            iconLabel: '進房休息',
-            voucherLinks: [
-              { label: '🎫 住宿訂房確認單', file: 'hotel-urbanstay' }
-            ],
-            desc: '領行李輸入密碼進房（2 間房），吃草莓休息，晚餐視體力於西面吃小吃或叫炸雞外送。'
-          }
-        ]
-      },
-      {
-        day: '2',
-        dateTitle: 'DAY 2｜12/10 (週四) 機張帝王蟹・滑車與樂天樂園・夕陽膠囊列車',
-        vbpNote: 'VBP BIG 5：使用 A 組 #1、#2 ＋ 獨立膠囊票',
-        weatherInfo: {
-          weather: '晴朗微涼｜氣溫約 4°C～11°C（下午海雲台海邊夕陽時段降溫較快）',
-          outfit: '方便活動的長褲與運動鞋（玩斜坡滑車需戴安全帽、避免穿長裙與易飛走的帽子）',
-          umbrella: '不需要帶傘（全天晴朗乾燥，海邊風大建議隨身帶護手霜與護唇膏）',
-          notice: '① 機張市場挑蟹務必先確認秤重總價是否含蒸煮費與蟹膏炒飯；② 15:55 務必準時離開樂天樂園叫計程車往青沙浦，才能趕上 16:30 膠囊列車！'
-        },
-        stops: [
-          {
-            time: '10:30',
-            title: '睡到自然醒 → 搭東海線前往機張',
-            krName: '기장역 (동해선)',
-            mapQuery: '기장역',
-            googleQuery: 'Gijang Station Busan',
-            badge: '慢活早午餐',
-            badgeType: '',
-            icon: 'hotel',
-            iconLabel: '自然醒出發',
-            desc: '房內先享用草莓水果餐，約 10:30 出發轉乘東海線電鐵前往機張站。'
-          },
-          {
-            time: '12:00',
-            title: '午餐：機張市場帝王蟹大餐',
-            krName: '기장시장 대게거리',
-            mapQuery: '기장시장',
-            googleQuery: 'Gijang Market Busan',
-            badge: '現挑現蒸',
-            badgeType: '',
-            icon: 'crab',
-            iconLabel: '機張帝王蟹',
-            desc: '機張站 1 號出口步行即達，現挑帝王蟹搭配蟹膏炒飯。'
-          },
-          {
-            time: '14:00',
-            title: 'Skyline Luge 釜山斜坡滑車（2 趟）',
-            krName: '스카이라인루지 부산',
-            mapQuery: '스카이라인루지 부산',
-            googleQuery: 'Skyline Luge Busan',
-            badge: 'VBP A 組 #1',
-            badgeType: 'vbp',
-            icon: 'luge',
-            iconLabel: '斜坡滑車',
-            desc: '刷 VBP 實體卡免費玩 2 趟滑車＋吊椅。'
-          },
-          {
-            time: '14:45',
-            title: '釜山樂天世界冒險樂園',
-            krName: '롯데월드 어드벤처 부산',
-            mapQuery: '롯데월드 어드벤처 부산',
-            googleQuery: 'Lotte World Adventure Busan',
-            badge: 'VBP A 組 #2',
-            badgeType: 'vbp',
-            icon: 'castle',
-            iconLabel: '樂天世界',
-            desc: '就在斜坡滑車對面！主攻城堡拍照與楓之谷周邊商品區。'
-          },
-          {
-            time: '15:55',
-            title: '⚠️ 準時撤退搭計程車往青沙浦站',
-            krName: '해운대블루라인파크 청사포정거장',
-            mapQuery: '해운대블루라인파크 청사포정거장',
-            googleQuery: 'Haeundae Blueline Park Cheongsapo Station',
-            badge: '關鍵時間點',
-            badgeType: 'warn',
-            isAlert: true,
-            icon: 'capsule',
-            iconLabel: '準時轉場',
-            desc: '務必於 15:55 前離開樂天樂園叫計程車（車程約 15–20 分鐘），準時趕上 16:30 膠囊列車！'
-          },
-          {
-            time: '16:30',
-            title: '天空膠囊列車（青沙浦 → 尾浦）',
-            krName: '해운대블루라인파크 미포정거장',
-            mapQuery: '해운대블루라인파크 청사포정거장',
-            googleQuery: 'Haeundae Blueline Park Sky Capsule Cheongsapo',
-            badge: '已預約 16:30-17:00',
-            badgeType: 'booked',
-            icon: 'capsule',
-            iconLabel: '天空膠囊',
-            voucherLinks: [
-              { label: '🎫 出示膠囊列車電子票', file: 'sky-capsule' }
-            ],
-            desc: '第 17 場次（3 人車廂），沿海岸高空欣賞海雲台夕陽。'
-          },
-          {
-            time: '18:30',
-            title: '海雲台星光燈飾 ＆ 晚餐：巨松燉排骨',
-            krName: '거송갈비찜 해운대점 / 해운대해수욕장',
-            mapQuery: '거송갈비찜 해운대',
-            googleQuery: 'Geosong Galbijjim Haeundae Busan',
-            badge: '海雲台名店',
-            badgeType: '',
-            icon: 'galbi',
-            iconLabel: '巨松燉排骨',
-            desc: '尾浦漫步至海雲台沙灘賞冬季星光燈飾，晚餐享用招牌巨松燉排骨（可調辣度＋自助鍋巴飯），餐後搭 2 號線回西面。'
-          }
-        ]
-      },
-      {
-        day: '3',
-        dateTitle: 'DAY 3｜12/11 (週五) 🎂 妹妹生日特輯・色彩診斷・醬蟹・RM 與夜景',
-        vbpNote: 'VBP BIG 5：使用 B 組 #3（5 項額度全數用畢）',
-        weatherInfo: {
-          weather: '多雲時晴｜氣溫約 3°C～9°C（晚上荒嶺山觀景台海拔較高，氣溫約 0°C～2°C）',
-          outfit: '白天可穿美美拍照上衣（建議米白/淺色系方便做色彩診斷），晚上上荒嶺山務必帶齊羽絨外套與圍巾',
-          umbrella: '不需要帶傘（乾冷晴朗，荒嶺山夜晚無遮蔽物需防風保暖）',
-          notice: '① 10:00 TONE&ME 個人色彩診斷須「素顏」前往（西面地下街7號出口10公尺內文龍大樓13F，非地鐵7號出口），遲到20分鐘視同取消；② 18:00 老公寓烤肉已付訂金。'
-        },
-        stops: [
-          {
-            time: '09:00',
-            title: '西面輕食咖啡補給',
-            krName: '서면역 카페거리',
-            mapQuery: '서면역',
-            googleQuery: 'Seomyeon Station Busan',
-            badge: '留胃吃醬蟹',
-            badgeType: '',
-            icon: 'cafe',
-            iconLabel: '早安咖啡',
-            desc: '簡單喝咖啡吃吐司墊胃，保留戰力給中午李夏亭醬蟹。'
-          },
-          {
-            time: '10:00',
-            title: '妹妹生日體驗：TONE&ME 個人色彩診斷',
-            krName: '톤앤미 퍼스널컬러 (부산진구 중앙대로 707 13층)',
-            mapQuery: '부산진구 중앙대로 707',
-            googleQuery: '707 Jungang-daero Busanjin-gu Busan',
-            badge: '已預約 10:00｜素顏',
-            badgeType: 'booked',
-            icon: 'color',
-            iconLabel: '色彩診斷',
-            voucherLinks: [
-              { label: '🎫 出示預約單＆大樓定位圖', file: 'toneme' }
-            ],
-            desc: '西面地下街（서면몰）7 號出口 10 公尺內、1 樓黃金交易所大樓 13 樓！妹妹記得帶常用彩妝品健檢。'
-          },
-          {
-            time: '12:30',
-            title: '午餐：李夏亭醬蟹（水營站）',
-            krName: '이하정간장게장',
-            mapQuery: '이하정간장게장',
-            googleQuery: 'Lee Ha Jung Ganjang Gejang Busan',
-            badge: '無油煙美食',
-            badgeType: '',
-            icon: 'crab',
-            iconLabel: '李夏亭醬蟹',
-            desc: '地鐵 2 號線水營站 8 號出口，招牌醬油螃蟹配海苔拌飯。'
-          },
-          {
-            time: '14:30',
-            title: '田浦咖啡街 ＆ 人生四格拍貼',
-            krName: '전포카페거리',
-            mapQuery: '전포카페거리',
-            googleQuery: 'Jeonpo Cafe Street Busan',
-            badge: '生日拍貼紀念',
-            badgeType: '',
-            icon: 'photobooth',
-            iconLabel: '人生四格',
-            desc: '回田浦站拍 Life4Cuts / Photoism 生日紀念照，逛文創選物與咖啡廳。'
-          },
-          {
-            time: '16:00',
-            title: 'Running Man 體驗館（西面三井塔 10F）',
-            krName: '런닝맨 부산점 (삼정타워 10층)',
-            mapQuery: '런닝맨 부산점',
-            googleQuery: 'Running Man Thematic Experience Center Busan',
-            badge: 'VBP B 組 #3',
-            badgeType: 'vbp',
-            icon: 'rm',
-            iconLabel: 'Running Man',
-            desc: '刷 VBP 最後 1 項額度！60 分鐘體能闖關集 R 幣，玩完回飯店稍作整理即可赴宴。'
-          },
-          {
-            time: '18:00',
-            title: '生日晚宴：老公寓（고옥）西面田浦店',
-            krName: '고옥 서면전포점',
-            mapQuery: '고옥 서면',
-            googleQuery: '고옥 서면전포점 부산',
-            badge: '已預約 18:00｜3人',
-            badgeType: 'booked',
-            icon: 'bbq',
-            iconLabel: '生日烤肉宴',
-            voucherLinks: [
-              { label: '🎫 出示老公寓預約確認單', file: 'old-mansion' }
-            ],
-            desc: '預約編號 1404790795，專人代烤熟成豬肉輕鬆慶生。'
-          },
-          {
-            time: '20:00',
-            title: '荒嶺山觀景台（百萬廣安大橋夜景）',
-            krName: '황령산 봉수대 전망대',
-            mapQuery: '황령산 봉수대',
-            googleQuery: 'Hwangnyeongsan Beacon Fire Station Busan',
-            badge: '計程車直達',
-            badgeType: '',
-            icon: 'night',
-            iconLabel: '荒嶺山夜景',
-            desc: '直接叫計程車開上烽火台停車場，俯瞰廣安大橋 360 度無敵夜景。'
-          }
-        ]
-      },
-      {
-        day: '4',
-        dateTitle: 'DAY 4｜12/12 (週六) 豚笑定時饗宴・廣安里看海・無人機秀與返台',
-        vbpNote: '無 VBP 行程｜注意 10:25 出發、광안이즈굿領行李與 21:10 託運關櫃',
-        weatherInfo: {
-          weather: '晴朗偏冷｜氣溫約 3°C～10°C（19:00 廣安里沙灘等無人機秀海風冷，務必保暖）',
-          outfit: '直接穿好回程搭機的舒適保暖衣著（機上冷氣涼，厚外套隨身帶著）',
-          umbrella: '不需要帶傘（天氣穩定，方便空手逛廣安里與拿行李赴機場）',
-          notice: '① 10:25 準時從西面帶 24 吋箱出發，先放廣安里「광안이즈굿」再去吃豚笑；② 19:15 無人機秀一結束立刻領行李，往後方水營路大馬路叫 Uber 直奔金海機場（避開海邊塞車）！'
-        },
-        stops: [
-          {
-            time: '10:25',
-            title: '🚨 西面退房出發 → 廣安里광안이즈굿寄放行李',
-            krName: '광안이즈굿 (廣安站3號出口往海邊主路)',
-            mapQuery: '광안역',
-            googleQuery: 'Gwangan Station Busan',
-            badge: '10:25準時出發',
-            badgeType: 'warn',
-            isAlert: true,
-            icon: 'luggage',
-            iconLabel: '寄放行李箱',
-            desc: '10:00 退房後搭 2 號線至廣安站 3 號出口，約 10:50 抵達「광안이즈굿」寄放 24 吋行李箱（一般 ₩5,000／特級 ₩6,000，營業 10:00–22:00 免預約）。'
-          },
-          {
-            time: '11:10',
-            title: '午餐：豚笑（Tonshou）廣安店',
-            krName: '톤쇼우 광안점 (수영구 광안해변로279번길 13)',
-            mapQuery: '톤쇼우 광안점',
-            googleQuery: 'Tonshou Gwangan Busan',
-            badge: '已預約 11:10｜3人',
-            badgeType: 'booked',
-            icon: 'tonkatsu',
-            iconLabel: '豚笑炸豬排',
-            voucherLinks: [
-              { label: '🎫 出示豚笑預約確認單', file: 'tonshou' }
-            ],
-            desc: '建議 11:00 前報到！已預付訂金 ₩59,500 並預點 4 份主餐，現場結帳直接折抵。'
-          },
-          {
-            time: '13:00',
-            title: '廣安里海景咖啡廳 ＆ 海岸選物店',
-            krName: '광안리해수욕장 카페거리',
-            mapQuery: '광안리해수욕장',
-            googleQuery: 'Gwangalli Beach Busan',
-            badge: '直面廣安大橋',
-            badgeType: '',
-            icon: 'cafe',
-            iconLabel: '海景咖啡廳',
-            desc: '正對廣安大橋放空看海、逛海岸周邊伴手禮店做最後補貨。'
-          },
-          {
-            time: '19:00',
-            title: '廣安里 M 無人機燈光秀（冬季首場）',
-            krName: '광안리해수욕장 백사장 중앙',
-            mapQuery: '광안리해수욕장',
-            googleQuery: 'Gwangalli M Drone Light Show Beach',
-            badge: '19:00–19:15',
-            badgeType: '',
-            icon: 'drone',
-            iconLabel: '無人機燈光秀',
-            desc: '18:00 先吃輕食墊胃並於沙灘中央卡位，19:00 觀賞 15 分鐘海上無人機秀。'
-          },
-          {
-            time: '19:15',
-            title: '🚨 領行李 → 走水營路大馬路叫計程車赴機場',
-            krName: '김해국제공항 국제선터미널',
-            mapQuery: '김해국제공항 국제선터미널',
-            googleQuery: 'Gimhae International Airport International Terminal',
-            badge: '21:10 託運截止',
-            badgeType: 'warn',
-            isAlert: true,
-            icon: 'plane',
-            iconLabel: '赴機場返台',
-            voucherLinks: [
-              { label: '🎫 我的回程機票 (ZE987)', file: 'flight-ze987' },
-              { label: '🎫 妹回程機票 (ZE983)', file: 'flight-ze983' }
-            ],
-            desc: '19:15 秀一結束往內陸走回「광안이즈굿」領 24 吋箱 → 續走至後方大馬路水營路（Suyeong-ro）叫 Uber 直奔金海機場（避開海邊車陣）。20:30 抵機場完成 15kg 託運，搭乘 22:00 (ZE983) / 22:10 (ZE987) 返台！'
-          }
-        ]
-      }
-    ];
-
-    // ==================== 2. 憑證資料庫（全部綁定 image/ 對應檔名） ====================
-    const VOUCHERS = [
-      { cat: '✈️ 去程機票（妹＆妹夫）', name: '易斯達航空 ZE984', meta: '12/09 02:10 TPE T1 → 06:05 PUS｜無託運', code: 'T8PD4G', file: 'flight-ze984' },
-      { cat: '✈️ 去程機票（我）', name: '易斯達航空 ZE988', meta: '12/09 03:00 TPE T1 → 06:15 PUS｜已加購 15kg 託運', code: 'XBHVFA', file: 'flight-ze988' },
-      { cat: '✈️ 回程機票（妹＆妹夫）', name: '易斯達航空 ZE983', meta: '12/12 22:00 PUS → 00:15+1 TPE｜無託運', code: 'P4FIJF', file: 'flight-ze983' },
-      { cat: '✈️ 回程機票（我）', name: '易斯達航空 ZE987', meta: '12/12 22:10 PUS → 00:25+1 TPE｜含 15kg 託運', code: 'U1GTMB', file: 'flight-ze987' },
-      { cat: '🏨 住宿預訂（3晚 × 2間）', name: 'Urbanstay Seomyeon', meta: '12/09 16:00 入住 ～ 12/12 11:00 退房｜城市一室公寓', code: 'ORD0031261978', file: 'hotel-urbanstay' },
-      { cat: '🏨 住宿備用代號', name: 'Urbanstay 訂房代號', meta: '2F / 14F 行李室當日 09:00 起開放', code: '19XH88R', file: 'hotel-urbanstay' },
-      { cat: '🎟️ VBP BIG 5 實體卡 #1', name: 'Visit Busan Pass', meta: '釜山站 2F 兌換（需動態 QR + 護照）', code: '26KK226624911', file: 'vbp-1' },
-      { cat: '🎟️ VBP BIG 5 實體卡 #2', name: 'Visit Busan Pass', meta: '釜山站 2F 兌換（需動態 QR + 護照）', code: '26KK223624261', file: 'vbp-2' },
-      { cat: '🎟️ VBP BIG 5 實體卡 #3', name: 'Visit Busan Pass（妹帳號）', meta: 'Pelago 編號 PG26118TRNEH', code: '26KK226524832', file: 'vbp-3' },
-      { cat: '🚃 天空膠囊列車（3人）', name: '青沙浦 → 尾浦 第17場次', meta: '12/10 (四) 16:30–17:00 入場｜票號 26021198210-1', code: 'RS26020584414', file: 'sky-capsule' },
-      { cat: '🎨 色彩診斷預約', name: 'TONE&ME 個人色彩診斷', meta: '12/11 (五) 10:00｜西面地下街7號出口10m 文龍大樓13F', code: 'TONEME-1000', file: 'toneme' },
-      { cat: '🥩 餐廳預約 #1', name: '老公寓（고옥）西面田浦店', meta: '12/11 (五) 18:00｜3 人大廳桌（已付訂金到店退）', code: '1404790795', file: 'old-mansion' },
-      { cat: '🐷 餐廳預約 #2', name: '豚笑（Tonshou）廣安店', meta: '12/12 (六) 11:10｜3 人（已預付 ₩59,500 含4份餐）', code: 'TONSHOU-1110', file: 'tonshou' }
-    ];
-
-    // ==================== 3. 最新預設預訂帳目 ====================
-    const DEFAULT_EXPENSES = [
-      { id: 1, title: '去程機票 ZE988（我）', amount: 1679, currency: 'TWD', payer: 'me', split: 'me' },
-      { id: 2, title: '去程機票加購 15kg 託運行李（共用24吋箱）', amount: 860, currency: 'TWD', payer: 'me', split: '3' },
-      { id: 3, title: '回程機票 ZE987 含15kg行李（我）', amount: 2980, currency: 'TWD', payer: 'me', split: 'me' },
-      { id: 4, title: '去程機票 ZE984（妹＆妹夫 2人）', amount: 3458, currency: 'TWD', payer: 'sister', split: 'sister' },
-      { id: 5, title: '回程機票 ZE983（妹＆妹夫 2人）', amount: 3893, currency: 'TWD', payer: 'sister', split: 'sister' },
-      { id: 6, title: 'Urbanstay Seomyeon 3晚住宿（我1間）', amount: 2400, currency: 'TWD', payer: 'me', split: 'me' },
-      { id: 7, title: 'Urbanstay Seomyeon 3晚住宿（妹＆妹夫1間）', amount: 2400, currency: 'TWD', payer: 'me', split: 'sister' },
-      { id: 8, title: 'Visit Busan Pass BIG 5 × 3 張', amount: 3405, currency: 'TWD', payer: 'me', split: '3' },
-      { id: 9, title: '天空膠囊列車（青沙浦→尾浦 3人）', amount: 55000, currency: 'KRW', payer: 'me', split: '3' },
-      { id: 10, title: 'TONE&ME 個人色彩診斷（我：男BASIC+翻譯）', amount: 3464, currency: 'TWD', payer: 'me', split: 'me' },
-      { id: 11, title: 'TONE&ME 個人色彩診斷（妹＆妹夫 2人）', amount: 4210, currency: 'TWD', payer: 'me', split: 'sister' },
-      { id: 12, title: '豚笑 Tonshou 預付訂金＆4份主餐', amount: 59500, currency: 'KRW', payer: 'me', split: '3' }
-    ];
-
-    // ==================== 4. 行前檢核清單 ====================
-    const DEFAULT_CHECKLIST = [
-      { id: 'c1', text: '填寫韓國電子入境卡（e-Arrival Card，抵達前 72 小時內線上填報）', done: false },
-      { id: 'c2', text: '確認 3 人各自開通獨立網路（eSIM / SIM 卡），方便落地與分開行動聯繫', done: false },
-      { id: 'c3', text: '出發前 1–2 天確認收到 Urbanstay Seomyeon 2 間房大門、房門與行李室密碼', done: false },
-      { id: 'c4', text: '準備 24 吋行李箱（空箱 4.1kg）：統一裝三人厚冬衣、液體保養品與彩妝工具', done: false },
-      { id: 'c5', text: '手機下載 KKday / Pelago App 確認 VBP BIG 5 動態 QR Code（不可只存截圖）', done: false },
-      { id: 'c6', text: 'Day 3 早上妹妹素顏前往 TONE&ME 色彩診斷，並帶平時常用化妝品健檢', done: false },
-      { id: 'c7', text: 'Day 4 10:25 準時帶 24 吋箱搭車往廣安站，先寄放「광안이즈굿」再去吃豚笑', done: false },
-      { id: 'c8', text: '所有韓國買的草莓、橘子、麝香葡萄須於 12/12 登機前吃完（嚴禁帶入境台灣）', done: false }
-    ];
-
-    // ==================== 互動與智慧憑證檢視器 ====================
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2000);
-    }
-
-    function copyText(text) {
-      navigator.clipboard.writeText(text).then(() => showToast('已複製：' + text));
-    }
-
-    // 智慧憑證開啟器：自動嘗試 image/<name>.jpg -> .png -> .pdf
-    function openVoucherModal(title, baseFileName) {
-      const modal = document.getElementById('voucher-modal');
-      const modalTitle = document.getElementById('modal-title');
-      const modalBody = document.getElementById('modal-body');
-      const rawLink = document.getElementById('modal-raw-link');
-
-      modalTitle.textContent = title;
-      const jpgPath = `image/${baseFileName}.jpg`;
-      const pngPath = `image/${baseFileName}.png`;
-      const pdfPath = `image/${baseFileName}.pdf`;
-
-      rawLink.href = jpgPath;
-      modalBody.innerHTML = '';
-
-      const img = document.createElement('img');
-      img.alt = title;
-      img.src = jpgPath;
-
-      let step = 0;
-      img.onerror = function() {
-        step++;
-        if (step === 1) {
-          rawLink.href = pngPath;
-          img.src = pngPath;
-        } else if (step === 2) {
-          // 改試 PDF 內嵌預覽
-          rawLink.href = pdfPath;
-          modalBody.innerHTML = `
-            <iframe src="${pdfPath}" title="${title}"></iframe>
-            <p style="font-size:0.78rem; color:var(--ink-soft); margin-top:8px;">
-              若上方未顯示畫面，請確認已將檔案命名為 <code>image/${baseFileName}.jpg</code>（或 <code>.png</code> / <code>.pdf</code>）放入 <code>image</code> 資料夾。
-            </p>
-          `;
-        }
-      };
-
-      modalBody.appendChild(img);
-      modal.classList.add('open');
-    }
-
-    function closeVoucherModal() {
-      document.getElementById('voucher-modal').classList.remove('open');
-      document.getElementById('modal-body').innerHTML = '';
-    }
-
-    // 第 5 分頁總覽圖容錯
-    let overviewFallbackTried = false;
-    function handleOverviewImgError(img) {
-      if (!overviewFallbackTried) {
-        overviewFallbackTried = true;
-        img.src = 'image/overview-map.png';
+    function checkAuth() {
+      const gate = document.getElementById("authGate");
+      if (localStorage.getItem(AUTH_KEY) === "true") {
+        gate.style.display = "none";
       } else {
-        img.style.display = 'none';
-        document.getElementById('img-missing-tip').style.display = 'block';
+        gate.style.display = "flex";
       }
     }
 
-    // 點擊任一分頁按鈕：只出現該項目，隱藏其他項目
-    function selectSingleTab(tabName, btn) {
-      document.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('visible'));
-      const target = document.getElementById('panel-' + tabName);
-      if (target) target.classList.add('visible');
-
-      document.getElementById('view-status-text').textContent = '目前單獨檢視：' + btn.textContent.trim();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    function verifyPasscode() {
+      const input = document.getElementById("passcodeInput");
+      const errEl = document.getElementById("authErrorMsg");
+      if (input.value.trim() === PASSCODE) {
+        localStorage.setItem(AUTH_KEY, "true");
+        document.getElementById("authGate").style.display = "none";
+        errEl.textContent = "";
+      } else {
+        errEl.textContent = "❌ 密碼不正確喔！請確認後再試一次";
+        input.value = "";
+        input.focus();
+      }
     }
 
-    // 恢復首頁全部展示模式
-    function showAllInitialSections() {
-      document.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
-      ['itinerary', 'vouchers', 'expense', 'checklist'].forEach(id => {
-        document.getElementById('panel-' + id).classList.add('visible');
-      });
-      document.getElementById('panel-overview').classList.remove('visible');
-      document.getElementById('view-status-text').textContent = '目前顯示：首頁完整總覽（點擊上方按鈕可單獨檢視該項目）';
+    function lockPage() {
+      localStorage.removeItem(AUTH_KEY);
+      document.getElementById("passcodeInput").value = "";
+      document.getElementById("authErrorMsg").textContent = "";
+      document.getElementById("authGate").style.display = "flex";
     }
 
-    function renderItinerary(filter = 'all') {
-      const container = document.getElementById('itinerary-container');
+    // ================= 1. 每日行程資料（含 Google Maps + Naver Map 雙導航，無任何敏感單號） =================
+    const itineraryData = [
+      {
+        day: 1,
+        dateLabel: "DAY 1｜12/09 (週三)",
+        theme: "紅眼落地・松島纜車與影島全覽 → 南浦聖誕街",
+        headerClass: "day-1-bg",
+        vbpBadge: "VBP BIG 5：使用 B 組 #1、#2",
+        items: [
+          {
+            time: "06:05 / 06:15",
+            spot: "金海國際機場（航廈 I）會合 → 前往西面",
+            transport: "機場輕軌轉地鐵 2 號線（約 35–40 分；若搭計程車約 25–30 分，₩18,000–₩22,000）",
+            duration: "約 1 小時 30 分（含入境）",
+            desc: "妹妹與妹夫 ZE984（06:05 抵）、我 ZE988（06:15 抵），入境會合後一起搭車前往西面市區。",
+            note: "機場 VBP 櫃檯 10:00 才開門，不需在機場停留領卡。",
+            mapQuery: "Gimhae International Airport International Terminal",
+            naverQuery: "김해국제공항 국제선터미널"
+          },
+          {
+            time: "08:00",
+            spot: "早餐：松亭三代豬肉湯飯（송정3대국밥）",
+            transport: "西面站 1 號出口步行約 3 分鐘",
+            duration: "停留約 55 分鐘",
+            desc: "24 小時營業的西面老字號豬肉湯飯，紅眼班機落地後先吃熱騰騰湯飯暖胃。",
+            note: "Urbanstay 行李室 09:00 才開放，先拉行李來吃早餐時間剛剛好！",
+            mapQuery: "송정3대국밥 부산 서면",
+            naverQuery: "송정3대국밥"
+          },
+          {
+            time: "09:00",
+            spot: "Urbanstay Seomyeon 寄放行李",
+            transport: "步行約 5 分鐘",
+            duration: "停留約 15 分鐘",
+            desc: "前往飯店 2F 或 14F 自助行李寄放室，鎖入大件行李後輕裝出發。",
+            note: "入住時間為 16:00 後，密碼將於出發前 1–2 天提供。",
+            mapQuery: "Urbanstay Seomyeon Busan",
+            naverQuery: "어반스테이 서면"
+          },
+          {
+            time: "09:30",
+            spot: "釜山站旅遊諮詢中心兌換 VBP BIG 5 實體卡",
+            transport: "地鐵 1 號線（西面站→釜山站，約 15 分）；或計程車約 15 分（約 ₩8,000）",
+            duration: "停留約 30 分鐘",
+            desc: "至釜山站 2 樓 9 號出口旁櫃檯兌換 3 張 BIG 5 實體卡，並順道至超商儲值交通金。",
+            note: "務必出示 KKday / Pelago APP 內「動態 QR Code（不可截圖）」＋ 3 本護照正本。",
+            mapQuery: "Busan Station Tourist Information Center",
+            naverQuery: "부산역"
+          },
+          {
+            time: "10:30",
+            spot: "松島海上纜車（松島灣站 ↔ 松島天空公園）",
+            transport: "釜山站搭計程車前往松島灣站（車程約 15–20 分，約 ₩9,000–₩11,000）",
+            duration: "停留約 1 小時 15 分",
+            tags: ["VBP B組 #1"],
+            desc: "使用 VBP 免費兌換「水晶透明車廂來回票」，俯瞰松島海水浴場與岩南公園海岸線。",
+            note: "去回程皆搭乘纜車返回松島灣站，方便直接叫車過橋去影島。",
+            mapQuery: "Songdo Marine Cable Car Busan",
+            naverQuery: "송도해상케이블카 송도베이스테이션"
+          },
+          {
+            time: "12:00",
+            spot: "午餐：影島 明星一隻雞（명성이인닭）",
+            transport: "松島搭計程車過南港大橋直達影島（車程約 12–15 分，約 ₩8,000）",
+            duration: "停留約 1 小時 20 分",
+            desc: "位於影島的在地人氣一隻雞名店，湯頭清甜濃郁，搭配年糕與刀削麵超滿足。",
+            note: "三人共點一份大份或一隻半再加點麵條最剛好。",
+            mapQuery: "명성이인닭 부산 영도",
+            naverQuery: "영도 명성일인닭"
+          },
+          {
+            time: "13:45",
+            spot: "影島 Arte Museum Busan",
+            transport: "計程車前往（車程約 8–10 分，約 ₩5,500–₩6,500）",
+            duration: "停留約 1 小時 30 分",
+            tags: ["VBP B組 #2"],
+            desc: "韓國最大規模沉浸式數位光影藝術美術館，結合聲光與香氛打造超好拍的奇幻空間。",
+            note: "館內光影較暗，穿淺色衣服拍照效果更亮眼！",
+            mapQuery: "Arte Museum Busan Yeongdo",
+            naverQuery: "아르떼뮤지엄 부산"
+          },
+          {
+            time: "15:30",
+            spot: "白淺灘文化村（흰여울문화마을）",
+            transport: "計程車前往（車程約 10 分，約 ₩6,000–₩7,000）",
+            duration: "停留約 1 小時 15 分",
+            desc: "沿著影島懸崖海岸線延伸的純白藝術村，海景咖啡廳林立，還能走下彩虹階梯與海岸隧道拍照。",
+            note: "海邊風大，記得戴好帽子與圍巾。",
+            mapQuery: "Huinnyeoul Culture Village Busan",
+            naverQuery: "흰여울문화마을"
+          },
+          {
+            time: "17:00",
+            spot: "南浦洞光復路聖誕街 ＆ 富平罐頭市場",
+            transport: "計程車過影島大橋往南浦洞（車程約 10–12 分，約 ₩6,500）",
+            duration: "停留約 1 小時 45 分",
+            desc: "欣賞 12 月限定的南浦洞華麗聖誕樹燈海，並到富平罐頭市場採買當季韓國草莓、橘子與麝香葡萄。",
+            note: "生鮮水果嚴禁帶回台灣，這幾天在飯店盡情吃光光！",
+            mapQuery: "Bupyeong Kkangtong Market Busan",
+            naverQuery: "부평깡통시장"
+          },
+          {
+            time: "19:00",
+            spot: "返回 Urbanstay Seomyeon 入住 ＆ 自由休息",
+            transport: "計程車回西面（車程約 20 分，約 ₩10,000）或地鐵 1 號線",
+            duration: "自由休息",
+            desc: "各自進房休息補眠、享用草莓大餐；晚餐視體力於西面周邊覓食或叫韓式炸雞。",
+            note: "紅眼班機第一晚早點休息，養足精神迎接明天帝王蟹與樂園！",
+            mapQuery: "Urbanstay Seomyeon Busan",
+            naverQuery: "어반스테이 서면"
+          }
+        ]
+      },
+      {
+        day: 2,
+        dateLabel: "DAY 2｜12/10 (週四)",
+        theme: "機張帝王蟹・滑車與樂天樂園・夕陽天空膠囊列車",
+        headerClass: "day-2-bg",
+        vbpBadge: "VBP BIG 5：使用 A 組 #1、#2",
+        items: [
+          {
+            time: "10:45",
+            spot: "自然醒出發前往機張市場",
+            transport: "地鐵轉東海線至機張站（約 55 分）；或計程車直達（約 40–45 分，約 ₩28,000–₩32,000）",
+            duration: "移動時間",
+            desc: "早上在房內悠閒吃前晚買的草莓與優格，約 10:45 出發前往機張。",
+            note: "東海線班距約 20–30 分鐘一班，建議先查好時刻表。",
+            mapQuery: "Gijang Market Busan",
+            naverQuery: "기장시장"
+          },
+          {
+            time: "12:00",
+            spot: "午餐：機張市場帝王蟹大餐",
+            transport: "機張站 1 號出口步行約 5 分鐘",
+            duration: "停留約 1 小時 30 分",
+            desc: "現場挑選現撈帝王蟹／松葉蟹，搭配免費贈送的鮑魚、蝦子、生魚片小菜與必點蟹膏炒飯！",
+            note: "詢價時務必確認報價是否已包含「人頭小菜費＋蒸煮費＋炒飯費」。",
+            mapQuery: "Gijang Market Crab Street Busan",
+            naverQuery: "기장시장 대게거리"
+          },
+          {
+            time: "14:00",
+            spot: "Skyline Luge 釜山斜坡滑車",
+            transport: "計程車前往奧西利亞（車程約 10–12 分，約 ₩7,500–₩9,000）",
+            duration: "停留約 45 分鐘",
+            tags: ["VBP A組 #1"],
+            desc: "刷 VBP 卡免費搭乘空中吊椅上山，體驗 2 趟超刺激重力斜坡滑車賽道！",
+            note: "排隊與滑行速度約 40 分鐘可完成，玩完直接走去正對面的樂天世界。",
+            mapQuery: "Skyline Luge Busan",
+            naverQuery: "스카이라인루지 부산"
+          },
+          {
+            time: "14:45",
+            spot: "釜山樂天世界冒險樂園",
+            transport: "斜坡滑車正對面，步行約 3 分鐘",
+            duration: "停留約 1 小時 10 分",
+            tags: ["VBP A組 #2"],
+            desc: "使用 VBP A 組第 2 項免費入園！主攻歐風城堡拍照與楓之谷周邊商品店採買。",
+            note: "注意控管時間，若買太多娃娃戰利品，晚上可決定 Day 4 ZIM CARRY 要寄幾件！",
+            mapQuery: "Lotte World Adventure Busan",
+            naverQuery: "롯데월드 어드벤처 부산"
+          },
+          {
+            time: "15:55",
+            spot: "⚠️ 準時撤退！前往青沙浦膠囊列車站",
+            transport: "務必搭計程車前往青沙浦（車程約 15–20 分，約 ₩10,000–₩12,000）",
+            duration: "移動緩衝 35 分鐘",
+            urgent: true,
+            tags: ["準時撤退"],
+            desc: "15:55 前一定要離開樂天世界叫車，確保在 16:30 入場時段開始前抵達青沙浦站。",
+            note: "若遇下班車流略塞，計程車是最保險直達車站的方式。",
+            mapQuery: "Haeundae Blueline Park Cheongsapo Station",
+            naverQuery: "해운대블루라인파크 청사포정거장"
+          },
+          {
+            time: "16:30",
+            spot: "天空膠囊列車（青沙浦 → 尾浦）",
+            transport: "海雲台藍線公園高空軌道",
+            duration: "搭乘約 30 分鐘",
+            tags: ["已預約 16:30–17:00"],
+            desc: "已預訂第 17 場次（16:30–17:00 入場，3 人獨立車廂），沿著絕美海岸線欣賞夕陽與海雲台建築群。",
+            note: "憑證條碼已存於上方「Google 雲端憑證夾」，現場開啟刷碼進站即可。",
+            mapQuery: "Haeundae Blueline Park Mipo Station",
+            naverQuery: "해운대블루라인파크 미포정거장"
+          },
+          {
+            time: "17:30",
+            spot: "尾浦散步至海雲台沙灘＆冬季光之慶典",
+            transport: "沿海濱步道步行約 10–15 分鐘",
+            duration: "停留約 1 小時",
+            desc: "從尾浦站一路漫步至海雲台海水浴場，欣賞冬季星光燈飾與海邊夜景。",
+            note: "海邊入夜後氣溫驟降，注意保暖。",
+            mapQuery: "Haeundae Beach Busan",
+            naverQuery: "해운대해수욕장"
+          },
+          {
+            time: "18:30",
+            spot: "晚餐：海雲台傳統市場小吃 / 巨松燉排骨",
+            transport: "海雲台沙灘步行約 5 分鐘（餐後搭地鐵 2 號線回西面，或計程車約 ₩16,000）",
+            duration: "停留約 1 小時 30 分",
+            desc: "品嚐海雲台傳統市場盲鰻、海鮮煎餅、辣炒年糕與糖餅，或至巨松燉排骨海雲台店享用暖胃排骨。",
+            note: "回飯店後清點戰利品重量，決定是否加購回程行李與預約 ZIM CARRY。",
+            mapQuery: "Haeundae Traditional Market Busan",
+            naverQuery: "해운대전통시장"
+          }
+        ]
+      },
+      {
+        day: 3,
+        dateLabel: "DAY 3｜12/11 (週五) 🎂妹妹生日特輯",
+        theme: "TONE&ME 個人色彩診斷・醬蟹・人生四格・Running Man 與荒嶺山夜景",
+        headerClass: "day-3-bg",
+        vbpBadge: "VBP BIG 5：使用 B 組 #3（5 項全數用畢）",
+        items: [
+          {
+            time: "08:50",
+            spot: "早餐：西面咖啡廳輕食補給（全素顏準備）",
+            transport: "西面站周邊步行",
+            duration: "停留約 50 分鐘",
+            desc: "簡單喝杯咖啡、吃吐司墊胃，保留食慾給中午的醬蟹大餐，並確認 3 人皆為全素顏＋透明隱眼狀態。",
+            note: "店內禁止飲食，飲料請在 09:50 進店前飲用完畢！",
+            mapQuery: "Seomyeon Cafe Street Busan",
+            naverQuery: "서면 카페거리"
+          },
+          {
+            time: "10:00",
+            spot: "🎨 TONE&ME 個人色彩診斷（톤앤미 퍼스널컬러 西面店）",
+            transport: "地址：釜山鎮區 中央大路 707 文龍大樓 13 樓（부산진구 중앙대로 707 문용빌딩 13층）",
+            duration: "10:00–12:00（約 2 小時）",
+            special: true,
+            tags: ["已預約 10:00｜已付清", "⚠️防走錯出口"],
+            desc: "方案：男 BASIC × 2（我、妹夫）＋ 女 PREMIUM × 1（妹妹）＋ 全額中文翻譯（總計 NT$7,674 / ₩298,000 已刷卡付清）。<br><b>📍 地標與防走錯提醒：</b>1 樓為「<b>黃金交易所（금거래소）</b>」，位於<b>西面地下街（서면몰）7 號出口 10 公尺內</b>（⚠️ 非地鐵西面站 7 號出口，建議直接導航地址走地面前往）。",
+            noteHtml: `
+              <b>⚠️ 當天重要注意事項：</b>
+              <ul>
+                <li><b>全素顏前往：</b>不可擦潤色防曬、隔離霜、底妝或有色護唇膏（若帶妝需提早 10 分鐘到店卸妝）。</li>
+                <li><b>眼鏡／隱眼：</b>3 人皆配戴<b>透明隱形眼鏡</b>（勿戴變色片），高度近視者可把平時常戴的眼鏡帶在身上給老師評估鏡框配色，測完即可換回。</li>
+                <li><b>攜帶物品：</b>妹妹攜帶平時常用的彩妝品（粉底、眼影、腮紅、口紅）進行化妝包健檢。</li>
+                <li><b>準時與拍攝：</b>遲到 20 分鐘以上視同 No-show 取消不退費；店內禁止飲食及未經許可錄影（可拍照）。</li>
+              </ul>
+            `,
+            mapQuery: "부산진구 중앙대로 707",
+            naverQuery: "부산진구 중앙대로 707"
+          },
+          {
+            time: "12:30",
+            spot: "午餐：李夏亭醬蟹（이하정간장게장）",
+            transport: "計程車前往水營（車程約 18–22 分，約 ₩10,000–₩12,000）或地鐵 2 號線水營站 8 號出口",
+            duration: "停留約 1 小時 15 分",
+            desc: "釜山超知名生醃醬油螃蟹名店，蟹膏飽滿鮮甜不死鹹，測完個人色彩美美去吃白飯小偷！",
+            note: "把白飯拌進蟹殼裡的醬汁與蟹膏中，搭配海苔超下飯。",
+            mapQuery: "이하정간장게장 부산 수영",
+            naverQuery: "이하정간장게장"
+          },
+          {
+            time: "14:30",
+            spot: "田浦咖啡街 ＆ 人生四格韓式拍貼",
+            transport: "計程車回田浦（車程約 18–20 分，約 ₩10,000）或地鐵 2 號線田浦站",
+            duration: "停留約 1 小時 20 分",
+            desc: "趁測完個人色彩、畫上最適合自己的命定色系妝容後，衝 Life4Cuts / Photoism 拍生日紀念拍貼，再逛田浦文創選物店！",
+            note: "拍貼機通常提供多款可愛頭套道具，三人合照超有紀念價值。",
+            mapQuery: "Jeonpo Cafe Street Busan",
+            naverQuery: "전포카페거리"
+          },
+          {
+            time: "16:00",
+            spot: "Running Man 體驗館（西面三井塔 10F）",
+            transport: "田浦咖啡街步行約 6–8 分鐘",
+            duration: "停留約 1 小時 15 分",
+            tags: ["VBP B組 #3"],
+            desc: "刷 VBP 最後一張額度入場！60 分鐘限時體能闖關集 R 幣，玩完回飯店稍作整理即可步行赴晚宴。",
+            note: "離晚上餐廳「老公寓」步行僅約 5 分鐘，動線超順！",
+            mapQuery: "Running Man Thematic Experience Center Busan",
+            naverQuery: "런닝맨 부산점"
+          },
+          {
+            time: "18:00",
+            spot: "🎂 生日晚餐：老公寓（올드맨션 / Old Mansion）",
+            transport: "西面田浦步行約 5–8 分鐘",
+            duration: "停留約 1 小時 45 分",
+            tags: ["已預約 18:00｜3人"],
+            desc: "復古洋房氛圍的熟成烤肉名店，全程專人桌邊代烤，輕鬆享受肉汁爆發的生日大餐。",
+            note: "已預約 3 人大廳桌（訂金到店用餐後退還，預約畫面已存雲端憑證夾）。",
+            mapQuery: "올드맨션 서면 부산",
+            naverQuery: "고옥 서면"
+          },
+          {
+            time: "20:00",
+            spot: "荒嶺山觀景台（황령산 봉수대）百萬夜景",
+            transport: "務必搭計程車直接開上烽火台停車場（車程約 15–20 分，約 ₩9,000–₩11,000）",
+            duration: "停留約 45 分鐘",
+            desc: "釜山在地人私藏第一名夜景聖地，360 度俯瞰廣安大橋與整座釜山市區璀璨燈火。",
+            note: "山頂氣溫比市區低 3–5 度且風強，請務必穿最保暖的外套並請司機在停車場稍候或用 APP 叫車下山。",
+            mapQuery: "Hwangnyeongsan Beacon Fire Station Busan",
+            naverQuery: "황령산 봉수대"
+          }
+        ]
+      },
+      {
+        day: 4,
+        dateLabel: "DAY 4｜12/12 (週六)",
+        theme: "豚笑定時饗宴・廣安里看海・無人機秀與返台",
+        headerClass: "day-4-bg",
+        vbpBadge: "無 VBP 行程｜專攻美食與海景",
+        items: [
+          {
+            time: "10:00",
+            spot: "退房 ＆ ZIM CARRY 行李直送機場",
+            transport: "飯店 2F / 14F 自助行李室",
+            duration: "停留約 20 分鐘",
+            desc: "11:00 前完成退房；依 ZIM CARRY 約定時間前將行李鎖入自助行李室並通知客服。",
+            note: "重要隨身物品、護照與行動電源記得帶在身上！",
+            mapQuery: "Urbanstay Seomyeon Busan",
+            naverQuery: "어반스테이 서면"
+          },
+          {
+            time: "10:25",
+            spot: "⚠️ 準時從西面出發前往廣安里",
+            transport: "地鐵 2 號線（西面站→廣安站/金蓮山站，約 20 分）；或計程車約 25 分（約 ₩13,000）",
+            duration: "移動緩衝 35 分鐘",
+            urgent: true,
+            tags: ["最晚 10:25 出發"],
+            desc: "豚笑預約時間為 11:10，最晚 10:25 必須離開西面站，預留出站步行時間於 11:00 前報到。",
+            note: "若搭計程車請直接定位「톤쇼우 광안점」，可省去地鐵站步行 10 分鐘。",
+            mapQuery: "톤쇼우 광안점 부산",
+            naverQuery: "톤쇼우 광안점"
+          },
+          {
+            time: "11:10",
+            spot: "午餐：豚笑（Tonshou / 톤쇼우）廣安店",
+            transport: "金蓮山站 1 號出口步行約 8 分鐘",
+            duration: "停留約 1 小時 20 分",
+            tags: ["已預約 11:10｜3人"],
+            desc: "釜山最難搶的炭火低溫熟成炸豬排神店！已預付訂金 ₩59,500 並預點 4 份主餐，免現場排隊直接入座。",
+            note: "建議 11:00 前抵達店門口向店員出示雲端預約資訊報到。",
+            mapQuery: "톤쇼우 광안점 부산",
+            naverQuery: "톤쇼우 광안점"
+          },
+          {
+            time: "13:00",
+            spot: "廣安里海景咖啡廳 ＆ 海岸選物店巡禮",
+            transport: "廣安里海水浴場周邊步行",
+            duration: "停留約 4 小時 30 分",
+            desc: "找一間正對廣安大橋的落地窗咖啡廳放空看海，下午順道逛廣安里巷弄文創店做最後伴手禮補貨。",
+            note: "液體類、果醬或大型伴手禮記得保留空間，晚上到機場要集中塞進我的 15kg 託運行李箱。",
+            mapQuery: "Gwangalli Beach Busan",
+            naverQuery: "광안리해수욕장"
+          },
+          {
+            time: "18:00",
+            spot: "海灘周邊輕食墊胃 ＆ 沙灘卡位",
+            transport: "廣安里沙灘步行",
+            duration: "停留約 1 小時",
+            desc: "買飯捲、炸雞或超商小點墊胃，18:30 前走到沙灘中央面向廣安大橋找好觀賞位置。",
+            note: "切勿進餐廳吃正餐，避免上菜慢影響 19:15 準時撤退。",
+            mapQuery: "Gwangalli Beach Busan",
+            naverQuery: "광안리해수욕장"
+          },
+          {
+            time: "19:00",
+            spot: "廣安里 M 無人機燈光秀",
+            transport: "廣安里海水浴場沙灘",
+            duration: "演出約 15 分鐘",
+            desc: "週六冬季第一場無人機大秀 19:00 準時開演，數百台無人機在廣安大橋夜空中排列出動態圖案。",
+            note: "表演一結束（約 19:15）立刻往大馬路移動叫計程車！",
+            mapQuery: "Gwangalli Beach Busan",
+            naverQuery: "광안리해수욕장"
+          },
+          {
+            time: "19:15",
+            spot: "🚨 立刻搭計程車赴金海國際機場",
+            transport: "計程車直達金海機場國際線（車程約 40–50 分，約 ₩23,000–₩28,000）",
+            duration: "移動時間",
+            urgent: true,
+            tags: ["務必搭計程車"],
+            desc: "週六晚間廣安里散場人潮多，建議走出沙灘一條街再用 Uber / Kakao T 叫車直奔機場。",
+            note: "目標 20:15–20:30 前抵達金海機場國際線 3 樓。",
+            mapQuery: "Gimhae International Airport International Terminal",
+            naverQuery: "김해국제공항 국제선터미널"
+          },
+          {
+            time: "20:30",
+            spot: "機場領取 ZIM CARRY → 15kg 行李託運 → 登機返台",
+            transport: "金海機場國際線 3 樓出境大廳",
+            duration: "登機前準備",
+            desc: "① 先至國際線 3F 領取 ZIM CARRY 行李（營業至 21:30）。② 我（ZE987）至易斯達櫃檯辦理 15kg 託運（21:10 前務必完成）。③ 三人一起過安檢登機（ZE983 22:00 / ZE987 22:10 起飛）。",
+            note: "檢查隨身包包是否還有未吃完的草莓水果，務必在進海關前吃完或丟棄！",
+            mapQuery: "Gimhae International Airport International Terminal",
+            naverQuery: "김해국제공항 국제선터미널"
+          }
+        ]
+      }
+    ];
+
+    // ================= 2. 渲染行程與篩選功能 =================
+    let currentFilter = 'all';
+    let allExpanded = true;
+
+    function renderItinerary() {
+      const container = document.getElementById('itineraryContainer');
       container.innerHTML = '';
 
-      ITINERARY_DATA.filter(d => filter === 'all' || d.day === filter).forEach(dayObj => {
+      itineraryData.forEach(dayObj => {
+        if (currentFilter !== 'all' && String(dayObj.day) !== currentFilter) return;
+
         const card = document.createElement('div');
-        card.className = 'zine-card';
-        const tapeClass = dayObj.day === '1' ? 'blue' : dayObj.day === '2' ? 'orange' : dayObj.day === '3' ? 'green' : '';
+        card.className = `day-card ${allExpanded ? '' : 'collapsed'}`;
+        card.dataset.day = dayObj.day;
 
-        const stopsHtml = dayObj.stops.map(s => {
-          const naverUrl = `https://map.naver.com/p/search/${encodeURIComponent(s.mapQuery)}`;
-          const googleUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.googleQuery)}`;
-          const badgeClass = s.badgeType === 'vbp' ? 'badge-vbp' : s.badgeType === 'booked' ? 'badge-booked' : s.badgeType === 'warn' ? 'badge-warn' : '';
-          const svgThumb = THUMB_ICONS[s.icon] || THUMB_ICONS.plane;
+        const itemsHtml = dayObj.items.map(item => {
+          const tagsHtml = (item.tags || []).map(t => {
+            let cls = 'tag';
+            if (t.includes('VBP')) cls += ' tag-vbp';
+            else if (t.includes('已預約')) cls += ' tag-booked';
+            else if (t.includes('撤退') || t.includes('出發') || t.includes('計程車') || t.includes('防走錯')) cls += ' tag-alert';
+            return `<span class="${cls}">${t}</span>`;
+          }).join('');
 
-          const voucherBtnsHtml = (s.voucherLinks || []).map(v => `
-            <button type="button" class="map-btn voucher-img-btn" onclick="openVoucherModal('${v.label}', '${v.file}')">
-              ${v.label}
-            </button>
-          `).join('');
+          const googleMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
+          const naverMapUrl = `https://map.naver.com/p/search/${encodeURIComponent(item.naverQuery || item.mapQuery)}`;
+
+          let noteBlock = '';
+          if (item.noteHtml) {
+            noteBlock = `<div class="tl-note">${item.noteHtml}</div>`;
+          } else if (item.note) {
+            noteBlock = `<div class="tl-note">💡 <b>備註：</b>${item.note}</div>`;
+          }
 
           return `
-            <div class="timeline-item">
-              <div class="timeline-dot ${s.isAlert ? 'warn' : ''}"></div>
-              <div class="spot-card ${s.isAlert ? 'alert-card' : ''}">
-                <div class="spot-main">
-                  <div class="spot-top">
-                    <span class="spot-time">${s.time}</span>
-                    ${s.badge ? `<span class="spot-badge ${badgeClass}">${s.badge}</span>` : ''}
-                  </div>
-                  <div class="spot-title">${s.title}</div>
-                  <div class="spot-kr">🇰🇷 ${s.krName}</div>
-                  <p class="spot-desc">${s.desc}</p>
-                  <div class="map-btn-row">
-                    <a href="${googleUrl}" target="_blank" rel="noopener" class="map-btn google">📍 Google Maps</a>
-                    <a href="${naverUrl}" target="_blank" rel="noopener" class="map-btn naver">🧭 Naver Map</a>
-                    ${voucherBtnsHtml}
-                  </div>
-                </div>
-                <div class="spot-thumb" title="${s.title}">
-                  ${svgThumb}
-                  <span>${s.iconLabel || ''}</span>
-                </div>
+            <div class="tl-item ${item.urgent ? 'urgent' : ''} ${item.special ? 'special' : ''}">
+              <div class="tl-top">
+                <span class="tl-time">⏰ ${item.time}</span>
+                <div class="tl-tags">${tagsHtml}</div>
+              </div>
+              <h4 class="tl-spot">${item.spot}</h4>
+              <div class="tl-meta">
+                <div><b>🚕 交通／地點：</b>${item.transport}</div>
+                <div><b>⏳ 時間長度：</b>${item.duration}</div>
+              </div>
+              <p class="tl-desc">${item.desc}</p>
+              ${noteBlock}
+              <div class="tl-actions">
+                <a href="${googleMapUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-yellow">📍 Google Maps</a>
+                <a href="${naverMapUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-naver">🧭 Naver Map</a>
               </div>
             </div>
           `;
         }).join('');
 
         card.innerHTML = `
-          <div class="washi-tape ${tapeClass}"></div>
-          <div class="day-header-banner">
-            <h3 class="day-header-title">${dayObj.dateTitle}</h3>
-            <span class="day-vbp-tag">${dayObj.vbpNote}</span>
+          <div class="day-card-header ${dayObj.headerClass}" onclick="toggleSingleDay(this)">
+            <div class="day-title-wrap">
+              <h3>${dayObj.dateLabel}｜${dayObj.theme}</h3>
+              <p>🎟️ ${dayObj.vbpBadge}</p>
+            </div>
+            <div class="toggle-icon">${allExpanded ? '−' : '+'}</div>
           </div>
-          <div class="weather-brief-box">
-            <div class="wb-item">
-              <span class="wb-label">🌤️ 當天預估天氣</span>
-              ${dayObj.weatherInfo.weather}
-            </div>
-            <div class="wb-item">
-              <span class="wb-label">🧥 建議衣著穿搭</span>
-              ${dayObj.weatherInfo.outfit}
-            </div>
-            <div class="wb-item" style="grid-column: 1 / -1;">
-              <span class="wb-label">☂️ 需不需要帶傘</span>
-              ${dayObj.weatherInfo.umbrella}
-            </div>
-            <div class="wb-item warn-note">
-              <span class="wb-label">📌 當日關鍵注意事項</span>
-              ${dayObj.weatherInfo.notice}
-            </div>
+          <div class="day-card-body">
+            <div class="timeline">${itemsHtml}</div>
           </div>
-          <div>${stopsHtml}</div>
         `;
         container.appendChild(card);
       });
     }
 
-    function filterDay(day, btn) {
-      document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      renderItinerary(day);
+    function toggleSingleDay(headerEl) {
+      const card = headerEl.parentElement;
+      card.classList.toggle('collapsed');
+      const icon = headerEl.querySelector('.toggle-icon');
+      icon.textContent = card.classList.contains('collapsed') ? '+' : '−';
     }
 
-    function renderVouchers() {
-      const list = document.getElementById('voucher-list');
-      list.innerHTML = VOUCHERS.map(v => `
-        <div class="voucher-box">
-          <div>
-            <div class="voucher-cat">${v.cat}</div>
-            <div class="voucher-name">${v.name}</div>
-            <div class="voucher-meta">${v.meta}</div>
-          </div>
-          <div>
-            <div class="copy-row">
-              <span class="copy-code">${v.code}</span>
-              <button class="copy-btn" onclick="copyText('${v.code}')">複製編號</button>
-            </div>
-            <button type="button" class="voucher-open-img-btn" onclick="openVoucherModal('${v.name}', '${v.file}')">
-              🎫 出示憑證 / 定位圖檔 (${v.file})
-            </button>
-          </div>
-        </div>
-      `).join('');
+    function toggleAllDays() {
+      allExpanded = !allExpanded;
+      const btn = document.getElementById('toggleAllBtn');
+      btn.textContent = allExpanded ? '📂 一鍵收合所有行程' : '📂 一鍵展開所有行程';
+      renderItinerary();
     }
 
+    function filterDay(dayVal, tabEl) {
+      currentFilter = dayVal;
+      document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+      tabEl.classList.add('active');
+      allExpanded = true;
+      document.getElementById('toggleAllBtn').textContent = '📂 一鍵收合所有行程';
+      renderItinerary();
+    }
+
+    // ================= 3. 密碼與備忘儲存（僅存本機瀏覽器） =================
     function loadMemos() {
-      document.getElementById('memo-hotel-pwd').value = localStorage.getItem('busan_memo_hotel') || '';
-      if (localStorage.getItem('busan_memo_zim')) {
-        document.getElementById('memo-zim-code').value = localStorage.getItem('busan_memo_zim');
-      }
-      if (localStorage.getItem('busan_memo_makeup')) {
-        document.getElementById('memo-makeup-info').value = localStorage.getItem('busan_memo_makeup');
-      }
-    }
-    function saveMemos() {
-      localStorage.setItem('busan_memo_hotel', document.getElementById('memo-hotel-pwd').value);
-      localStorage.setItem('busan_memo_zim', document.getElementById('memo-zim-code').value);
-      localStorage.setItem('busan_memo_makeup', document.getElementById('memo-makeup-info').value);
+      const saved = JSON.parse(localStorage.getItem('busan2026_memos_v4') || '{}');
+      if (saved.hotelPass) document.getElementById('memoHotelPass').value = saved.hotelPass;
+      if (saved.salon) document.getElementById('memoSalon').value = saved.salon;
+      if (saved.zim) document.getElementById('memoZim').value = saved.zim;
     }
 
-    // ==================== 記帳分帳邏輯 ====================
-    let expenses = JSON.parse(localStorage.getItem('busan_expenses_v6')) || DEFAULT_EXPENSES;
-    let exchangeRate = parseFloat(localStorage.getItem('busan_rate_v6')) || 46.28;
+    function saveMemos() {
+      const data = {
+        hotelPass: document.getElementById('memoHotelPass').value,
+        salon: document.getElementById('memoSalon').value,
+        zim: document.getElementById('memoZim').value
+      };
+      localStorage.setItem('busan2026_memos_v4', JSON.stringify(data));
+    }
+
+    // ================= 4. 記帳與分帳系統（100% 全部由「我」先墊付） =================
+    const defaultExpenses = [
+      {
+        id: 1,
+        desc: "去程機票 ZE988（我）",
+        amount: 77700,
+        currency: "KRW",
+        category: "交通",
+        payMethod: "刷卡（我先付）",
+        split: "我"
+      },
+      {
+        id: 2,
+        desc: "回程機票 ZE987（我＋15kg託運行李）",
+        amount: 2980,
+        currency: "TWD",
+        category: "交通",
+        payMethod: "刷卡（我先付）",
+        split: "我"
+      },
+      {
+        id: 3,
+        desc: "去程機票 ZE984（妹妹＆妹夫 2人）",
+        amount: 3458,
+        currency: "TWD",
+        category: "交通",
+        payMethod: "刷卡（我先付）",
+        split: "妹妹"
+      },
+      {
+        id: 4,
+        desc: "回程機票 ZE983（妹妹＆妹夫 2人）",
+        amount: 3893,
+        currency: "TWD",
+        category: "交通",
+        payMethod: "刷卡（我先付）",
+        split: "妹妹"
+      },
+      {
+        id: 5,
+        desc: "Urbanstay 住宿三晚（我的雙人房）",
+        amount: 2400,
+        currency: "TWD",
+        category: "活動",
+        payMethod: "刷卡（我先付）",
+        split: "我"
+      },
+      {
+        id: 6,
+        desc: "Urbanstay 住宿三晚（妹妹＆妹夫雙人房）",
+        amount: 2400,
+        currency: "TWD",
+        category: "活動",
+        payMethod: "刷卡（我先付）",
+        split: "妹妹"
+      },
+      {
+        id: 7,
+        desc: "Visit Busan Pass BIG 5 實體卡 × 3 張（$1,135/張）",
+        amount: 3405,
+        currency: "TWD",
+        category: "活動",
+        payMethod: "刷卡（我先付）",
+        split: "三人均分"
+      },
+      {
+        id: 8,
+        desc: "桃園機場外圍出國停車（12/09–12/13 共 5 天 × $150）",
+        amount: 750,
+        currency: "TWD",
+        category: "交通",
+        payMethod: "刷卡（我先付）",
+        split: "三人均分"
+      },
+      {
+        id: 9,
+        desc: "TONE&ME 個人色彩診斷（西面店｜實際刷卡 ₩298,000）",
+        amount: 7674,
+        currency: "TWD",
+        category: "活動",
+        payMethod: "刷卡（我先付）",
+        split: "指定分攤",
+        myTwd: 3464,
+        sisTwd: 4210,
+        splitNote: "我 NT$3,464（男BASIC+翻譯）／妹 NT$2,549（女PREMIUM）＋妹夫 NT$1,661（男BASIC）＝ 妹＆妹夫 NT$4,210"
+      },
+      {
+        id: 10,
+        desc: "海雲台天空膠囊列車（3 人車廂）",
+        amount: 55000,
+        currency: "KRW",
+        category: "交通",
+        payMethod: "刷卡（我先付）",
+        split: "三人均分"
+      },
+      {
+        id: 11,
+        desc: "豚笑 Tonshou 廣安店預付訂金（已點 4 份主餐）",
+        amount: 59500,
+        currency: "KRW",
+        category: "食物",
+        payMethod: "刷卡（我先付）",
+        split: "三人均分"
+      }
+    ];
+
+    let expenses = JSON.parse(localStorage.getItem('busan2026_expenses_v4') || 'null');
+    if (!expenses) {
+      expenses = JSON.parse(JSON.stringify(defaultExpenses));
+      localStorage.setItem('busan2026_expenses_v4', JSON.stringify(expenses));
+    }
+
+    let exchangeRate = parseFloat(localStorage.getItem('busan2026_rate_v4') || '41.5');
+    document.getElementById('exchangeRateInput').value = exchangeRate;
 
     function updateRate() {
-      const val = parseFloat(document.getElementById('exchange-rate').value);
+      const val = parseFloat(document.getElementById('exchangeRateInput').value);
       if (val && val > 0) {
         exchangeRate = val;
-        localStorage.setItem('busan_rate_v6', exchangeRate);
+        localStorage.setItem('busan2026_rate_v4', String(exchangeRate));
         renderExpenses();
       }
     }
 
-    function resetDefaultExpenses() {
-      expenses = JSON.parse(JSON.stringify(DEFAULT_EXPENSES));
-      localStorage.setItem('busan_expenses_v6', JSON.stringify(expenses));
-      renderExpenses();
-      showToast('已更新為最新預設帳本');
+    function toTWD(item) {
+      if (item.currency === 'TWD') return item.amount;
+      return item.amount / exchangeRate;
+    }
+
+    function getItemShares(item) {
+      const twd = toTWD(item);
+      if (item.split === '指定分攤' && typeof item.myTwd === 'number' && typeof item.sisTwd === 'number') {
+        return { total: twd, my: item.myTwd, sis: item.sisTwd };
+      }
+      if (item.split === '我') {
+        return { total: twd, my: twd, sis: 0 };
+      }
+      if (item.split === '妹妹') {
+        return { total: twd, my: 0, sis: twd };
+      }
+      return { total: twd, my: twd / 3, sis: (twd * 2) / 3 };
+    }
+
+    function quickFill(desc, currency, category, payMethod, split) {
+      document.getElementById('expDesc').value = desc;
+      document.getElementById('expCurrency').value = currency;
+      document.getElementById('expCategory').value = category;
+      document.getElementById('expPayMethod').value = payMethod;
+      document.getElementById('expSplit').value = split;
+      document.getElementById('expAmount').focus();
     }
 
     function addExpense(e) {
       e.preventDefault();
-      const title = document.getElementById('exp-title').value.trim();
-      const amount = parseFloat(document.getElementById('exp-amount').value);
-      const currency = document.getElementById('exp-currency').value;
-      const payer = document.getElementById('exp-payer').value;
-      const split = document.getElementById('exp-split').value;
-      if (!title || isNaN(amount)) return;
+      const desc = document.getElementById('expDesc').value.trim();
+      const amount = parseFloat(document.getElementById('expAmount').value);
+      const currency = document.getElementById('expCurrency').value;
+      const category = document.getElementById('expCategory').value;
+      const payMethod = document.getElementById('expPayMethod').value;
+      const split = document.getElementById('expSplit').value;
 
-      expenses.push({ id: Date.now(), title, amount, currency, payer, split });
-      localStorage.setItem('busan_expenses_v6', JSON.stringify(expenses));
-      document.getElementById('exp-title').value = '';
-      document.getElementById('exp-amount').value = '';
+      if (!desc || isNaN(amount) || amount <= 0) return;
+
+      expenses.push({
+        id: Date.now(),
+        desc,
+        amount,
+        currency,
+        category,
+        payMethod: payMethod.includes('先付') ? payMethod : `${payMethod}（我先付）`,
+        split
+      });
+
+      localStorage.setItem('busan2026_expenses_v4', JSON.stringify(expenses));
+      document.getElementById('expDesc').value = '';
+      document.getElementById('expAmount').value = '';
       renderExpenses();
-      showToast('已新增旅費紀錄');
     }
 
-    function editExpenseAmount(id) {
-      const item = expenses.find(x => x.id === id);
-      if (!item) return;
-      const nextVal = prompt(`修改「${item.title}」的金額 (${item.currency})：`, item.amount);
-      if (nextVal !== null && !isNaN(parseFloat(nextVal))) {
-        item.amount = parseFloat(nextVal);
-        localStorage.setItem('busan_expenses_v6', JSON.stringify(expenses));
-        renderExpenses();
+    function editExpense(id) {
+      const target = expenses.find(item => item.id === id);
+      if (!target) return;
+      const newDesc = prompt(`修改項目名稱：`, target.desc);
+      if (newDesc === null) return;
+      const newAmtStr = prompt(`修改「${newDesc.trim() || target.desc}」的金額（目前幣別：${target.currency}）：`, target.amount);
+      if (newAmtStr === null) return;
+      const newAmt = parseFloat(newAmtStr);
+      if (isNaN(newAmt) || newAmt < 0) {
+        alert('請輸入有效的數字金額！');
+        return;
       }
+      target.desc = newDesc.trim() || target.desc;
+      target.amount = newAmt;
+      localStorage.setItem('busan2026_expenses_v4', JSON.stringify(expenses));
+      renderExpenses();
     }
 
     function deleteExpense(id) {
-      expenses = expenses.filter(x => x.id !== id);
-      localStorage.setItem('busan_expenses_v6', JSON.stringify(expenses));
+      expenses = expenses.filter(item => item.id !== id);
+      localStorage.setItem('busan2026_expenses_v4', JSON.stringify(expenses));
       renderExpenses();
     }
 
-    function toTwd(amount, currency) {
-      return currency === 'TWD' ? amount : amount / exchangeRate;
+    function resetDefaultExpenses() {
+      if (!confirm('確定要將記帳列表恢復為預設預訂帳目嗎？')) return;
+      expenses = JSON.parse(JSON.stringify(defaultExpenses));
+      localStorage.setItem('busan2026_expenses_v4', JSON.stringify(expenses));
+      renderExpenses();
     }
+
+    let latestSettlementText = '';
 
     function renderExpenses() {
-      document.getElementById('exchange-rate').value = exchangeRate;
-      const listEl = document.getElementById('expense-list');
-      let totalTwd = 0;
-      let sisterShouldPay = 0;
-      let sisterAlreadyPaid = 0;
+      const listEl = document.getElementById('expenseList');
+      listEl.innerHTML = '';
 
-      listEl.innerHTML = expenses.map(item => {
-        const twd = toTwd(item.amount, item.currency);
-        totalTwd += twd;
-        if (item.payer === 'sister') sisterAlreadyPaid += twd;
-        if (item.split === '3') sisterShouldPay += (twd * 2 / 3);
-        else if (item.split === 'sister') sisterShouldPay += twd;
+      let totalTWD = 0;
+      let myShareTWD = 0;
+      let sisTotalShareTWD = 0;
+      let lineLines = [];
 
-        const splitLabel = item.split === '3' ? '三人均分(妹×2)' : item.split === 'me' ? '我個人' : '妹＆妹夫';
-        const payerLabel = item.payer === 'me' ? '我代付' : '妹先付';
+      expenses.forEach(item => {
+        const shares = getItemShares(item);
+        totalTWD += shares.total;
+        myShareTWD += shares.my;
+        sisTotalShareTWD += shares.sis;
 
-        return `
-          <div class="expense-item">
-            <div>
-              <div style="font-weight:700;">${item.title}</div>
-              <div style="font-size:0.75rem; color:var(--ink-soft);">
-                ${payerLabel} · ${splitLabel} · <strong>${item.currency === 'KRW' ? '₩' + item.amount.toLocaleString() : 'NT$' + item.amount.toLocaleString()}</strong> (≈ NT$${Math.round(twd).toLocaleString()})
-              </div>
+        let splitBadgeClass = 'badge-split-all';
+        if (item.split === '我') splitBadgeClass = 'badge-split-me';
+        else if (item.split === '妹妹') splitBadgeClass = 'badge-split-sis';
+        else if (item.split === '指定分攤') splitBadgeClass = 'badge-split-custom';
+
+        const div = document.createElement('div');
+        div.className = 'exp-item';
+        div.innerHTML = `
+          <div class="exp-left">
+            <div class="exp-title">${item.desc}</div>
+            <div class="exp-badges">
+              <span class="badge-cat">${item.category}</span>
+              <span class="badge-pay">${item.payMethod}</span>
+              <span class="${splitBadgeClass}">${item.split}</span>
             </div>
-            <div class="exp-actions">
-              <button onclick="editExpenseAmount(${item.id})">✎</button>
-              <button onclick="deleteExpense(${item.id})">✕</button>
+            ${item.splitNote ? `<div style="font-size:0.76rem; color:#553C9A; margin-top:2px;">📌 ${item.splitNote}</div>` : ''}
+          </div>
+          <div class="exp-right">
+            <div class="exp-amount">
+              <div class="exp-twd">NT$ ${Math.round(shares.total).toLocaleString()}</div>
+              ${item.currency === 'KRW' ? `<div class="exp-krw">₩${item.amount.toLocaleString()}（匯率 ${exchangeRate}）</div>` : `<div class="exp-krw">台幣直計</div>`}
+              <div class="exp-krw" style="color:#2B6CB0; font-weight:700;">我 $${Math.round(shares.my).toLocaleString()} / 妹+夫 $${Math.round(shares.sis).toLocaleString()}</div>
             </div>
+            <button class="edit-btn" title="修改名稱或金額" onclick="editExpense(${item.id})">✎</button>
+            <button class="del-btn" title="刪除此筆" onclick="deleteExpense(${item.id})">✕</button>
           </div>
         `;
-      }).join('');
+        listEl.appendChild(div);
 
-      const netSisterOwesMe = Math.round(sisterShouldPay - sisterAlreadyPaid);
-      document.getElementById('total-twd').textContent = 'NT$ ' + Math.round(totalTwd).toLocaleString();
-      document.getElementById('per-person-twd').textContent = 'NT$ ' + Math.round(totalTwd / 3).toLocaleString();
-
-      const oweEl = document.getElementById('sister-owe-twd');
-      if (netSisterOwesMe >= 0) {
-        oweEl.textContent = `妹妹需匯給你 NT$ ${netSisterOwesMe.toLocaleString()}`;
-      } else {
-        oweEl.textContent = `你需匯給妹妹 NT$ ${Math.abs(netSisterOwesMe).toLocaleString()}`;
-      }
-    }
-
-    function copyAccountingSummary() {
-      let lines = ['🇰🇷 2026 釜山四天三夜分帳請款單（匯率 1:' + exchangeRate + '）'];
-      expenses.forEach(item => {
-        const twd = Math.round(toTwd(item.amount, item.currency));
-        lines.push(`• ${item.title}：${item.currency} ${item.amount.toLocaleString()} (≈ NT$${twd.toLocaleString()})`);
+        lineLines.push(`• ${item.desc}：總 NT$${Math.round(shares.total).toLocaleString()}（妹+夫應付 NT$${Math.round(shares.sis).toLocaleString()}）`);
       });
-      lines.push('--------------------');
-      lines.push('全團總計：' + document.getElementById('total-twd').textContent);
-      lines.push('單人平均：' + document.getElementById('per-person-twd').textContent);
-      lines.push('結算結果：' + document.getElementById('sister-owe-twd').textContent);
-      copyText(lines.join('\n'));
+
+      const avgPerPersonTWD = totalTWD / 3;
+      const sisEachPersonAvg = sisTotalShareTWD / 2;
+
+      latestSettlementText = [
+        `🇰🇷 2026 釜山行代墊請款明細（匯率 1:${exchangeRate}）`,
+        `目前所有費用 100% 皆由我先墊付：`,
+        ...lineLines,
+        `--------------------`,
+        `🧾 三人總支出：NT$ ${Math.round(totalTWD).toLocaleString()}`,
+        `🙋‍♂️ 我個人負擔：NT$ ${Math.round(myShareTWD).toLocaleString()}`,
+        `💸 妹妹需匯給我（含妹夫）：NT$ ${Math.round(sisTotalShareTWD).toLocaleString()}`
+      ].join('\n');
+
+      document.getElementById('summaryGrid').innerHTML = `
+        <div class="sum-box">
+          <div class="sum-label">🧾 三人總支出合計</div>
+          <div class="sum-val">NT$ ${Math.round(totalTWD).toLocaleString()}</div>
+          <div class="sum-sub">100% 由我先代為墊付</div>
+        </div>
+        <div class="sum-box">
+          <div class="sum-label">🙋‍♂️ 我的個人實際花費</div>
+          <div class="sum-val">NT$ ${Math.round(myShareTWD).toLocaleString()}</div>
+          <div class="sum-sub">專屬 ＋ 應分攤部分</div>
+        </div>
+        <div class="sum-box">
+          <div class="sum-label">👤 目前單人平均參考</div>
+          <div class="sum-val">NT$ ${Math.round(avgPerPersonTWD).toLocaleString()}</div>
+          <div class="sum-sub">總支出 ÷ 3 人（基準參考）</div>
+        </div>
+        <div class="sum-box highlight">
+          <div class="sum-label">💸 妹妹需匯給我（含妹夫）</div>
+          <div class="sum-val">NT$ ${Math.round(sisTotalShareTWD).toLocaleString()}</div>
+          <div class="sum-sub">妹妹＆妹夫平均每人約 NT$ ${Math.round(sisEachPersonAvg).toLocaleString()}</div>
+        </div>
+      `;
     }
 
-    // ==================== 檢核表 ====================
-    let checklist = JSON.parse(localStorage.getItem('busan_checklist_v6')) || DEFAULT_CHECKLIST;
+    function copySettlement() {
+      if (!latestSettlementText) return;
+      navigator.clipboard.writeText(latestSettlementText).then(() => {
+        alert('✅ 已複製最新請款明細！可直接貼到 LINE 群組對帳。');
+      }).catch(() => {
+        alert('請手動選取下方金額紀錄，或確認瀏覽器剪貼簿權限。');
+      });
+    }
+
+    // ================= 5. 隨身行李 / 待辦清單 =================
+    const defaultChecklist = [
+      { id: 101, text: "護照正本（確認效期 6 個月以上）", done: false },
+      { id: 102, text: "韓國電子入境卡 e-Arrival Card（出發前 72 小時填寫）", done: false },
+      { id: 103, text: "VBP BIG 5 憑證（安裝 KKday / Pelago APP 登入動態 QR）", done: false },
+      { id: 104, text: "易斯達航空電子機票（去程無託運 / 回程僅我 15kg）", done: false },
+      { id: 105, text: "個人獨立上網 eSIM / SIM 卡（三人分開搭機必備）", done: false },
+      { id: 106, text: "韓元現金 ＆ 海外回饋信用卡（超商儲值交通卡用）", done: false },
+      { id: 107, text: "韓國雙圓孔轉接頭 ＆ 行動電源（務必放隨身手提）", done: false },
+      { id: 108, text: "防風羽絨大衣、圍巾、暖暖包（荒嶺山＆海邊極冷）", done: false },
+      { id: 109, text: "Day 3 TONE&ME 準備：全素顏、戴透明隱形眼鏡、妹妹帶常用彩妝包", done: false },
+      { id: 110, text: "確認 Urbanstay 兩間房密碼（出發前 1–2 天收信）", done: false },
+      { id: 111, text: "Day 2 晚上清點戰利品並預約 Day 4 ZIM CARRY", done: false }
+    ];
+
+    let checklist = JSON.parse(localStorage.getItem('busan2026_checklist_v4') || 'null');
+    if (!checklist) {
+      checklist = [...defaultChecklist];
+      localStorage.setItem('busan2026_checklist_v4', JSON.stringify(checklist));
+    }
 
     function renderChecklist() {
-      const container = document.getElementById('checklist-container');
-      container.innerHTML = checklist.map((c, idx) => `
-        <label class="check-item ${c.done ? 'done' : ''}">
-          <input type="checkbox" ${c.done ? 'checked' : ''} onchange="toggleCheck(${idx})">
-          <span>${c.text}</span>
-        </label>
-      `).join('');
+      const container = document.getElementById('checklistContainer');
+      container.innerHTML = '';
+
+      let doneCount = 0;
+      checklist.forEach(item => {
+        if (item.done) doneCount++;
+        const el = document.createElement('div');
+        el.className = `chk-item ${item.done ? 'done' : ''}`;
+        el.onclick = () => toggleChecklistItem(item.id);
+        el.innerHTML = `
+          <div class="chk-left">
+            <span class="chk-box">${item.done ? '✓' : ''}</span>
+            <span>${item.text}</span>
+          </div>
+          <button class="del-btn" style="width:24px;height:24px;font-size:0.75rem;" onclick="event.stopPropagation(); deleteChecklistItem(${item.id})">✕</button>
+        `;
+        container.appendChild(el);
+      });
+
+      const total = checklist.length;
+      const pct = total === 0 ? 0 : Math.round((doneCount / total) * 100);
+      document.getElementById('chkProgressText').textContent = `${doneCount} / ${total} (${pct}%)`;
+      document.getElementById('chkProgressFill').style.width = `${pct}%`;
     }
 
-    function toggleCheck(idx) {
-      checklist[idx].done = !checklist[idx].done;
-      localStorage.setItem('busan_checklist_v6', JSON.stringify(checklist));
+    function toggleChecklistItem(id) {
+      checklist = checklist.map(item => item.id === id ? { ...item, done: !item.done } : item);
+      localStorage.setItem('busan2026_checklist_v4', JSON.stringify(checklist));
+      renderChecklist();
+    }
+
+    function addChecklistItem() {
+      const input = document.getElementById('newChkInput');
+      const text = input.value.trim();
+      if (!text) return;
+      checklist.push({ id: Date.now(), text, done: false });
+      localStorage.setItem('busan2026_checklist_v4', JSON.stringify(checklist));
+      input.value = '';
+      renderChecklist();
+    }
+
+    function deleteChecklistItem(id) {
+      checklist = checklist.filter(item => item.id !== id);
+      localStorage.setItem('busan2026_checklist_v4', JSON.stringify(checklist));
+      renderChecklist();
+    }
+
+    function resetChecklist() {
+      if (!confirm('確定要重置隨身行李與待辦清單嗎？')) return;
+      checklist = [...defaultChecklist];
+      localStorage.setItem('busan2026_checklist_v4', JSON.stringify(checklist));
       renderChecklist();
     }
 
     // 初始化
-    renderItinerary('all');
-    renderVouchers();
+    checkAuth();
+    renderItinerary();
     loadMemos();
     renderExpenses();
     renderChecklist();

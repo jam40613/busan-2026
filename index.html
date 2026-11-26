@@ -127,6 +127,12 @@
       padding: 20px;
       margin-bottom: 24px;
       position: relative;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .sketch-pill {
@@ -191,14 +197,14 @@
       font-size: 0.82rem;
     }
 
-    /* Header 區塊 */
+    /* Header 區塊（僅保留紅框內核心標題與日期旅伴） */
     .hero-card {
       background: linear-gradient(135deg, #FFF8E7 0%, #FFEFE8 100%);
       border: 3px solid var(--ink);
       border-radius: 24px 18px 22px 20px / 18px 24px 20px 22px;
       box-shadow: 6px 6px 0px var(--ink);
-      padding: 24px 20px;
-      margin-bottom: 18px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
       position: relative;
       overflow: hidden;
     }
@@ -212,69 +218,68 @@
       font-weight: 900;
       font-size: 0.85rem;
       transform: rotate(-1.5deg);
-      margin-bottom: 10px;
       box-shadow: 2px 2px 0 var(--ink);
     }
 
     .hero-title {
-      margin: 4px 0 8px;
-      font-size: clamp(1.65rem, 4.5vw, 2.35rem);
+      margin: 6px 0 6px;
+      font-size: clamp(1.55rem, 4.5vw, 2.25rem);
       font-weight: 900;
       line-height: 1.25;
       color: var(--ink);
     }
 
     .hero-subtitle {
-      margin: 0 0 16px;
+      margin: 0;
       color: var(--ink-soft);
-      font-size: 0.98rem;
-      font-weight: 500;
+      font-size: 0.96rem;
+      font-weight: 700;
     }
 
-    .tips-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .tip-box {
-      background: #FFFFFF;
-      border: 2px dashed var(--ink);
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-size: 0.88rem;
-    }
-
-    .tip-box strong {
-      display: block;
-      font-size: 0.95rem;
-      margin-bottom: 4px;
-      color: var(--ink);
-    }
-
-    /* 快捷導覽列 */
-    .quick-nav {
+    /* 快捷分頁導覽列 */
+    .nav-box {
       position: sticky;
       top: 8px;
       z-index: 100;
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
       padding: 8px 10px;
       margin-bottom: 18px;
-      background: rgba(255, 253, 247, 0.94);
+      background: rgba(255, 253, 247, 0.95);
       backdrop-filter: blur(6px);
       border: 2px solid var(--ink);
       border-radius: 16px;
       box-shadow: var(--shadow-sm);
+    }
+
+    .quick-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
       scrollbar-width: none;
     }
     .quick-nav::-webkit-scrollbar { display: none; }
 
-    .quick-nav a {
+    .nav-tab-btn {
       white-space: nowrap;
       flex-shrink: 0;
+      opacity: 0.78;
+    }
+
+    .nav-tab-btn.active {
+      opacity: 1;
+      outline: 2.5px solid var(--ink);
+      transform: translateY(-1px);
+    }
+
+    .nav-status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 7px;
+      padding-top: 6px;
+      border-top: 1.5px dashed #D5CCC0;
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      font-weight: 700;
     }
 
     /* 懸浮回到頂部按鈕 */
@@ -380,8 +385,8 @@
     }
 
     .day-1-bg { background: #FFE8D6; }
-    .day-2-bg { background: #D8F3DC; }
-    .day-3-bg { background: #FCE1E4; }
+    .day-2-bg { background: #FCE1E4; }
+    .day-3-bg { background: #D8F3DC; }
     .day-4-bg { background: #DCEEFB; }
 
     .day-title-wrap h3 {
@@ -413,6 +418,39 @@
 
     .day-card-body {
       padding: 18px 16px 10px 22px;
+    }
+
+    /* 每日天氣・穿搭・帶傘・注意事項首欄 */
+    .weather-brief {
+      background: var(--bg-warm);
+      border: 2px solid var(--ink);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+
+    .wb-cell {
+      background: #FFF;
+      border: 1.5px solid #D5CCC0;
+      border-radius: 10px;
+      padding: 7px 10px;
+    }
+
+    .wb-cell.full-row {
+      grid-column: 1 / -1;
+      background: #FFF5F5;
+      border-color: #FEB2B2;
+    }
+
+    .wb-cell strong {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--ink);
+      margin-bottom: 2px;
     }
 
     .timeline {
@@ -933,7 +971,7 @@
     @media (max-width: 600px) {
       .container { padding: 12px; }
       .sketch-box { padding: 15px; }
-      .hero-card { padding: 18px 15px; }
+      .hero-card { padding: 15px; }
       .day-card-body { padding: 14px 12px 8px 16px; }
       .timeline { padding-left: 16px; }
       .tl-item::before { left: -26px; }
@@ -958,42 +996,35 @@
 
   <div class="container">
 
-    <!-- 1. 網頁頂部 Hero -->
+    <!-- 1. 網頁頂部 Hero（僅保留標題、日期與旅伴） -->
     <header class="hero-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:6px;">
-        <div class="hero-badge" style="margin-bottom:0;">✏️ 2026 WINTER BUSAN TRIP ・ 兄妹三人行</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <div class="hero-badge">✏️ 2026 WINTER BUSAN TRIP ・ 兄妹三人行</div>
         <button type="button" class="btn btn-sm" onclick="lockPage()" title="重新鎖定畫面">🔒 鎖定手札</button>
       </div>
       <h1 class="hero-title">🇰🇷 釜山四天三夜・海風與美食手札</h1>
       <p class="hero-subtitle">
-        📅 <strong>2026/12/09 (週三) ～ 12/12 (週六)</strong> ｜ 👥 <strong>旅伴：我、妹妹、妹夫（共 3 人）</strong><br>
-        ✨ 行程亮點：松島水晶纜車、影島光影展與白淺灘、機張帝王蟹、斜坡滑車＆樂天世界、夕陽天空膠囊列車、TONE&amp;ME 個人色彩診斷＆醬蟹、廣安里無人機秀！
+        📅 <strong>2026/12/09 (週三) ～ 12/12 (週六)</strong> ｜ 👥 <strong>旅伴：我、妹妹、妹夫（共 3 人）</strong>
       </p>
-
-      <div class="tips-grid">
-        <div class="tip-box">
-          <strong>🧥 12 月釜山天氣與穿搭小貼士</strong>
-          氣溫約 <b>2°C ～ 10°C</b>，乾冷且海邊風大！建議「洋蔥式穿法」：發熱衣＋毛衣/大學T＋防風羽絨或大衣，並備好圍巾與暖暖包。<b>Day 3 早上要做 TONE&amp;ME 個人色彩診斷，務必「全素顏、戴透明隱眼」前往！</b>
-        </div>
-        <div class="tip-box">
-          <strong>🎟️ 票券與行李關鍵提醒</strong>
-          ① <b>VBP BIG 5 實體卡</b> 機場 10:00 才開門，務必改在<b>釜山站（09:00 開）</b>兌換（需開 APP 動態 QR＋護照）並於超商儲值交通金。<br>
-          ② 回程僅我的機票（ZE987）含 <b>15kg 託運</b>，伴手禮與液體集中裝箱，草莓水果務必在登機前吃完！
-        </div>
-      </div>
     </header>
 
-    <!-- 快捷跳轉列 -->
-    <nav class="quick-nav">
-      <a href="#sec-itinerary" class="btn btn-sm btn-yellow">🗓️ 每日行程</a>
-      <a href="#sec-overview" class="btn btn-sm">🗺️ 導覽總覽圖</a>
-      <a href="#sec-stay" class="btn btn-sm btn-blue">☁️ 雲端憑證＆住宿</a>
-      <a href="#sec-expense" class="btn btn-sm btn-primary">💰 代墊記帳</a>
-      <a href="#sec-checklist" class="btn btn-sm btn-teal">🎒 行李清單</a>
-    </nav>
+    <!-- 快捷分頁切換列（點選哪一項就只顯示該分類） -->
+    <div class="nav-box">
+      <nav class="quick-nav">
+        <button type="button" class="btn btn-sm btn-yellow nav-tab-btn active" data-sec="sec-itinerary" onclick="switchSection('sec-itinerary', this)">🗓️ 每日行程</button>
+        <button type="button" class="btn btn-sm nav-tab-btn" data-sec="sec-overview" onclick="switchSection('sec-overview', this)">🗺️ 導覽總覽圖</button>
+        <button type="button" class="btn btn-sm btn-blue nav-tab-btn" data-sec="sec-stay" onclick="switchSection('sec-stay', this)">☁️ 雲端憑證＆住宿</button>
+        <button type="button" class="btn btn-sm btn-primary nav-tab-btn" data-sec="sec-expense" onclick="switchSection('sec-expense', this)">💰 代墊記帳</button>
+        <button type="button" class="btn btn-sm btn-teal nav-tab-btn" data-sec="sec-checklist" onclick="switchSection('sec-checklist', this)">🎒 行李清單</button>
+      </nav>
+      <div class="nav-status-row">
+        <span id="sectionStatusLabel">目前檢視：🗓️ 每日行程（只顯示單一分類）</span>
+        <button type="button" class="btn btn-sm" style="padding:2px 9px; font-size:0.75rem;" onclick="showAllSections()">📖 顯示全部</button>
+      </div>
+    </div>
 
     <!-- 2. 每日行程區塊 -->
-    <section id="sec-itinerary" class="sketch-box">
+    <section id="sec-itinerary" class="sketch-box app-section">
       <div class="section-header">
         <h2 class="section-title">🗓️ 每日行程時間軸</h2>
         <button id="toggleAllBtn" class="btn btn-sm btn-yellow" onclick="toggleAllDays()">📂 一鍵收合所有行程</button>
@@ -1003,8 +1034,8 @@
         <div class="day-tabs" id="dayFilterTabs">
           <button class="day-tab active" data-day="all" onclick="filterDay('all', this)">全部 4 天</button>
           <button class="day-tab" data-day="1" onclick="filterDay('1', this)">Day 1 (12/09)</button>
-          <button class="day-tab" data-day="2" onclick="filterDay('2', this)">Day 2 (12/10)</button>
-          <button class="day-tab" data-day="3" onclick="filterDay('3', this)">Day 3 (12/11 生日)</button>
+          <button class="day-tab" data-day="2" onclick="filterDay('2', this)">Day 2 (12/10 🎂生日)</button>
+          <button class="day-tab" data-day="3" onclick="filterDay('3', this)">Day 3 (12/11)</button>
           <button class="day-tab" data-day="4" onclick="filterDay('4', this)">Day 4 (12/12 返台)</button>
         </div>
         <span style="font-size:0.8rem; color:var(--ink-soft); font-weight:700;">📍 附 Google Maps ＋ 🧭 Naver Map 雙導航</span>
@@ -1014,7 +1045,7 @@
     </section>
 
     <!-- 2.5 行程地圖總覽（僅讀取 image/overview-map.jpg 或 .png） -->
-    <section id="sec-overview" class="sketch-box">
+    <section id="sec-overview" class="sketch-box app-section" style="display:none;">
       <div class="section-header">
         <h2 class="section-title">🗺️ 釜山四天三夜導覽總覽圖</h2>
         <a href="image/overview-map.jpg" id="overviewOpenLink" target="_blank" rel="noopener" class="btn btn-sm btn-yellow">🔍 點開大圖檢視</a>
@@ -1029,7 +1060,7 @@
     </section>
 
     <!-- 3. 住宿、航班與雲端憑證夾（無明文 QR Code 與訂位代號） -->
-    <section id="sec-stay" class="sketch-box">
+    <section id="sec-stay" class="sketch-box app-section" style="display:none;">
       <div class="section-header">
         <h2 class="section-title">🏨 住宿、航班與雲端憑證夾</h2>
         <span class="sketch-pill">🔒 零明文密碼・敏感資料存雲端</span>
@@ -1118,7 +1149,7 @@
     </section>
 
     <!-- 4. 費用登入與分帳計算 -->
-    <section id="sec-expense" class="sketch-box">
+    <section id="sec-expense" class="sketch-box app-section" style="display:none;">
       <div class="section-header">
         <h2 class="section-title">💰 旅費記帳與請款計算機</h2>
         <button class="btn btn-sm" onclick="resetDefaultExpenses()">↺ 恢復預設預訂帳目</button>
@@ -1217,7 +1248,7 @@
     </section>
 
     <!-- 5. 隨身行李 / 待辦清單 Checklist -->
-    <section id="sec-checklist" class="sketch-box">
+    <section id="sec-checklist" class="sketch-box app-section" style="display:none;">
       <div class="section-header">
         <h2 class="section-title">🎒 隨身行李與行前待辦清單</h2>
         <button class="btn btn-sm" onclick="resetChecklist()">↺ 重置清單</button>
@@ -1246,7 +1277,7 @@
   <script>
     // ================= 0. 通關密碼閘門（單機記憶，免重複登入） =================
     const PASSCODE = "20261209";
-    const AUTH_KEY = "busan2026_unlocked_v4";
+    const AUTH_KEY = "busan2026_unlocked_v5";
 
     function checkAuth() {
       const gate = document.getElementById("authGate");
@@ -1278,7 +1309,26 @@
       document.getElementById("authGate").style.display = "flex";
     }
 
-    // ================= 1. 每日行程資料（含 Google Maps + Naver Map 雙導航，無任何敏感單號） =================
+    // ================= 0.5 單一分類顯示切換 =================
+    function switchSection(sectionId, btnEl) {
+      document.querySelectorAll('.app-section').forEach(sec => {
+        sec.style.display = (sec.id === sectionId) ? 'block' : 'none';
+      });
+      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      document.getElementById('sectionStatusLabel').textContent = '目前檢視：' + (btnEl ? btnEl.textContent.trim() : '') + '（只顯示單一分類）';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showAllSections() {
+      document.querySelectorAll('.app-section').forEach(sec => {
+        sec.style.display = 'block';
+      });
+      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('sectionStatusLabel').textContent = '目前檢視：全部區塊總覽';
+    }
+
+    // ================= 1. 每日行程資料（12/10 更正為妹妹生日特輯，含每日首欄天氣/穿搭/帶傘提醒） =================
     const itineraryData = [
       {
         day: 1,
@@ -1286,6 +1336,12 @@
         theme: "紅眼落地・松島纜車與影島全覽 → 南浦聖誕街",
         headerClass: "day-1-bg",
         vbpBadge: "VBP BIG 5：使用 B 組 #1、#2",
+        weatherBrief: {
+          weather: "晴時多雲｜約 3°C ～ 10°C（松島與白淺灘海風強，體感約 1°C～4°C）",
+          outfit: "發熱衣＋厚毛衣＋防風羽絨外套／大衣＋圍巾與毛帽",
+          umbrella: "不需要帶傘（12 月乾冷旱季，降雨機率極低）",
+          notice: "① 09:00 才開放飯店寄放行李；② 釜山站領 VBP 卡務必開 APP 動態 QR＋護照（不可截圖）；③ 市場買的草莓嚴禁帶回台灣，前三天吃完！"
+        },
         items: [
           {
             time: "06:05 / 06:15",
@@ -1385,7 +1441,7 @@
             transport: "計程車回西面（車程約 20 分，約 ₩10,000）或地鐵 1 號線",
             duration: "自由休息",
             desc: "各自進房休息補眠、享用草莓大餐；晚餐視體力於西面周邊覓食或叫韓式炸雞。",
-            note: "紅眼班機第一晚早點休息，養足精神迎接明天帝王蟹與樂園！",
+            note: "紅眼班機第一晚早點休息，養足精神迎接明天妹妹生日帝王蟹與樂園！",
             mapQuery: "Urbanstay Seomyeon Busan",
             naverQuery: "어반스테이 서면"
           }
@@ -1393,10 +1449,16 @@
       },
       {
         day: 2,
-        dateLabel: "DAY 2｜12/10 (週四)",
-        theme: "機張帝王蟹・滑車與樂天樂園・夕陽天空膠囊列車",
+        dateLabel: "DAY 2｜12/10 (週四) 🎂妹妹生日特輯",
+        theme: "生日帝王蟹饗宴・斜坡滑車與樂天樂園・夕陽天空膠囊列車",
         headerClass: "day-2-bg",
         vbpBadge: "VBP BIG 5：使用 A 組 #1、#2",
+        weatherBrief: {
+          weather: "晴朗微涼｜約 4°C ～ 11°C（下午海雲台海邊夕陽時段降溫較快）",
+          outfit: "方便活動的長褲與運動鞋（玩斜坡滑車需戴安全帽、避免穿長裙）",
+          umbrella: "不需要帶傘（全天晴朗乾燥，海邊風大建議隨身帶護手霜與暖暖包）",
+          notice: "① 🎂今天是妹妹生日！中午機張市場吃帝王蟹慶生；② 15:55 務必準時離開樂天世界叫計程車往青沙浦，才能趕上 16:30 膠囊列車！"
+        },
         items: [
           {
             time: "10:45",
@@ -1410,10 +1472,11 @@
           },
           {
             time: "12:00",
-            spot: "午餐：機張市場帝王蟹大餐",
+            spot: "🎂 生日午餐：機張市場帝王蟹大餐",
             transport: "機張站 1 號出口步行約 5 分鐘",
             duration: "停留約 1 小時 30 分",
-            desc: "現場挑選現撈帝王蟹／松葉蟹，搭配免費贈送的鮑魚、蝦子、生魚片小菜與必點蟹膏炒飯！",
+            tags: ["🎂 生日大餐"],
+            desc: "現場挑選現撈帝王蟹／松葉蟹替妹妹慶生，搭配免費贈送的鮑魚、蝦子、生魚片小菜與必點蟹膏炒飯！",
             note: "詢價時務必確認報價是否已包含「人頭小菜費＋蒸煮費＋炒飯費」。",
             mapQuery: "Gijang Market Crab Street Busan",
             naverQuery: "기장시장 대게거리"
@@ -1458,8 +1521,8 @@
             transport: "海雲台藍線公園高空軌道",
             duration: "搭乘約 30 分鐘",
             tags: ["已預約 16:30–17:00"],
-            desc: "已預訂第 17 場次（16:30–17:00 入場，3 人獨立車廂），沿著絕美海岸線欣賞夕陽與海雲台建築群。",
-            note: "憑證條碼已存於上方「Google 雲端憑證夾」，現場開啟刷碼進站即可。",
+            desc: "已預訂第 17 場次（16:30–17:00 入場，3 人獨立車廂），沿著絕美海岸線欣賞生日夕陽與海雲台建築群。",
+            note: "憑證條碼已存於「☁️ 雲端憑證＆住宿」內的 Google 雲端資料夾。",
             mapQuery: "Haeundae Blueline Park Mipo Station",
             naverQuery: "해운대블루라인파크 미포정거장"
           },
@@ -1487,10 +1550,16 @@
       },
       {
         day: 3,
-        dateLabel: "DAY 3｜12/11 (週五) 🎂妹妹生日特輯",
+        dateLabel: "DAY 3｜12/11 (週五)",
         theme: "TONE&ME 個人色彩診斷・醬蟹・人生四格・Running Man 與荒嶺山夜景",
         headerClass: "day-3-bg",
         vbpBadge: "VBP BIG 5：使用 B 組 #3（5 項全數用畢）",
+        weatherBrief: {
+          weather: "多雲時晴｜約 3°C ～ 9°C（晚上荒嶺山觀景台海拔較高，氣溫約 0°C～2°C）",
+          outfit: "白天穿淺色／米白系上衣方便色彩診斷，晚上上荒嶺山務必帶齊羽絨外套與圍巾",
+          umbrella: "不需要帶傘（乾冷晴朗，荒嶺山夜晚無遮蔽物需防風保暖）",
+          notice: "① 10:00 TONE&ME 個人色彩診斷務必「全素顏、戴透明隱眼」前往（禁帶飲料進店）；② 18:00 老公寓烤肉已付訂金，到店退還。"
+        },
         items: [
           {
             time: "08:50",
@@ -1537,7 +1606,7 @@
             spot: "田浦咖啡街 ＆ 人生四格韓式拍貼",
             transport: "計程車回田浦（車程約 18–20 分，約 ₩10,000）或地鐵 2 號線田浦站",
             duration: "停留約 1 小時 20 分",
-            desc: "趁測完個人色彩、畫上最適合自己的命定色系妝容後，衝 Life4Cuts / Photoism 拍生日紀念拍貼，再逛田浦文創選物店！",
+            desc: "趁測完個人色彩、畫上最適合自己的命定色系妝容後，衝 Life4Cuts / Photoism 拍三人紀念拍貼，再逛田浦文創選物店！",
             note: "拍貼機通常提供多款可愛頭套道具，三人合照超有紀念價值。",
             mapQuery: "Jeonpo Cafe Street Busan",
             naverQuery: "전포카페거리"
@@ -1555,11 +1624,11 @@
           },
           {
             time: "18:00",
-            spot: "🎂 生日晚餐：老公寓（올드맨션 / Old Mansion）",
+            spot: "晚餐：老公寓（올드맨션 / Old Mansion）",
             transport: "西面田浦步行約 5–8 分鐘",
             duration: "停留約 1 小時 45 分",
             tags: ["已預約 18:00｜3人"],
-            desc: "復古洋房氛圍的熟成烤肉名店，全程專人桌邊代烤，輕鬆享受肉汁爆發的生日大餐。",
+            desc: "復古洋房氛圍的熟成烤肉名店，全程專人桌邊代烤，輕鬆享受肉汁爆發的美味晚餐。",
             note: "已預約 3 人大廳桌（訂金到店用餐後退還，預約畫面已存雲端憑證夾）。",
             mapQuery: "올드맨션 서면 부산",
             naverQuery: "고옥 서면"
@@ -1582,6 +1651,12 @@
         theme: "豚笑定時饗宴・廣安里看海・無人機秀與返台",
         headerClass: "day-4-bg",
         vbpBadge: "無 VBP 行程｜專攻美食與海景",
+        weatherBrief: {
+          weather: "晴朗偏冷｜約 3°C ～ 10°C（19:00 廣安里沙灘等無人機秀海風冷，務必保暖）",
+          outfit: "直接穿好回程搭機的舒適保暖衣著（機上冷氣涼，厚外套隨身帶著）",
+          umbrella: "不需要帶傘（天氣穩定，方便空手逛廣安里與拿行李赴機場）",
+          notice: "① 最晚 10:25 從西面出發前往豚笑；② 19:15 無人機秀結束立刻叫計程車赴機場；③ 回程僅我的機票（ZE987）含 15kg 託運，草莓務必在進海關前吃完！"
+        },
         items: [
           {
             time: "10:00",
@@ -1687,11 +1762,32 @@
         card.className = `day-card ${allExpanded ? '' : 'collapsed'}`;
         card.dataset.day = dayObj.day;
 
+        const weatherHtml = dayObj.weatherBrief ? `
+          <div class="weather-brief">
+            <div class="wb-cell">
+              <strong>🌤️ 當天預估天氣</strong>
+              ${dayObj.weatherBrief.weather}
+            </div>
+            <div class="wb-cell">
+              <strong>🧥 建議衣著穿搭</strong>
+              ${dayObj.weatherBrief.outfit}
+            </div>
+            <div class="wb-cell">
+              <strong>☂️ 需不需要帶傘</strong>
+              ${dayObj.weatherBrief.umbrella}
+            </div>
+            <div class="wb-cell full-row">
+              <strong>📌 當日關鍵注意事項</strong>
+              ${dayObj.weatherBrief.notice}
+            </div>
+          </div>
+        ` : '';
+
         const itemsHtml = dayObj.items.map(item => {
           const tagsHtml = (item.tags || []).map(t => {
             let cls = 'tag';
             if (t.includes('VBP')) cls += ' tag-vbp';
-            else if (t.includes('已預約')) cls += ' tag-booked';
+            else if (t.includes('已預約') || t.includes('生日')) cls += ' tag-booked';
             else if (t.includes('撤退') || t.includes('出發') || t.includes('計程車') || t.includes('防走錯')) cls += ' tag-alert';
             return `<span class="${cls}">${t}</span>`;
           }).join('');
@@ -1736,6 +1832,7 @@
             <div class="toggle-icon">${allExpanded ? '−' : '+'}</div>
           </div>
           <div class="day-card-body">
+            ${weatherHtml}
             <div class="timeline">${itemsHtml}</div>
           </div>
         `;
@@ -1768,7 +1865,7 @@
 
     // ================= 3. 密碼與備忘儲存（僅存本機瀏覽器） =================
     function loadMemos() {
-      const saved = JSON.parse(localStorage.getItem('busan2026_memos_v4') || '{}');
+      const saved = JSON.parse(localStorage.getItem('busan2026_memos_v5') || '{}');
       if (saved.hotelPass) document.getElementById('memoHotelPass').value = saved.hotelPass;
       if (saved.salon) document.getElementById('memoSalon').value = saved.salon;
       if (saved.zim) document.getElementById('memoZim').value = saved.zim;
@@ -1780,7 +1877,7 @@
         salon: document.getElementById('memoSalon').value,
         zim: document.getElementById('memoZim').value
       };
-      localStorage.setItem('busan2026_memos_v4', JSON.stringify(data));
+      localStorage.setItem('busan2026_memos_v5', JSON.stringify(data));
     }
 
     // ================= 4. 記帳與分帳系統（100% 全部由「我」先墊付） =================
@@ -1889,20 +1986,20 @@
       }
     ];
 
-    let expenses = JSON.parse(localStorage.getItem('busan2026_expenses_v4') || 'null');
+    let expenses = JSON.parse(localStorage.getItem('busan2026_expenses_v5') || 'null');
     if (!expenses) {
       expenses = JSON.parse(JSON.stringify(defaultExpenses));
-      localStorage.setItem('busan2026_expenses_v4', JSON.stringify(expenses));
+      localStorage.setItem('busan2026_expenses_v5', JSON.stringify(expenses));
     }
 
-    let exchangeRate = parseFloat(localStorage.getItem('busan2026_rate_v4') || '41.5');
+    let exchangeRate = parseFloat(localStorage.getItem('busan2026_rate_v5') || '41.5');
     document.getElementById('exchangeRateInput').value = exchangeRate;
 
     function updateRate() {
       const val = parseFloat(document.getElementById('exchangeRateInput').value);
       if (val && val > 0) {
         exchangeRate = val;
-        localStorage.setItem('busan2026_rate_v4', String(exchangeRate));
+        localStorage.setItem('busan2026_rate_v5', String(exchangeRate));
         renderExpenses();
       }
     }
@@ -1956,7 +2053,7 @@
         split
       });
 
-      localStorage.setItem('busan2026_expenses_v4', JSON.stringify(expenses));
+      localStorage.setItem('busan2026_expenses_v5', JSON.stringify(expenses));
       document.getElementById('expDesc').value = '';
       document.getElementById('expAmount').value = '';
       renderExpenses();
@@ -1976,20 +2073,20 @@
       }
       target.desc = newDesc.trim() || target.desc;
       target.amount = newAmt;
-      localStorage.setItem('busan2026_expenses_v4', JSON.stringify(expenses));
+      localStorage.setItem('busan2026_expenses_v5', JSON.stringify(expenses));
       renderExpenses();
     }
 
     function deleteExpense(id) {
       expenses = expenses.filter(item => item.id !== id);
-      localStorage.setItem('busan2026_expenses_v4', JSON.stringify(expenses));
+      localStorage.setItem('busan2026_expenses_v5', JSON.stringify(expenses));
       renderExpenses();
     }
 
     function resetDefaultExpenses() {
       if (!confirm('確定要將記帳列表恢復為預設預訂帳目嗎？')) return;
       expenses = JSON.parse(JSON.stringify(defaultExpenses));
-      localStorage.setItem('busan2026_expenses_v4', JSON.stringify(expenses));
+      localStorage.setItem('busan2026_expenses_v5', JSON.stringify(expenses));
       renderExpenses();
     }
 
@@ -2103,10 +2200,10 @@
       { id: 111, text: "Day 2 晚上清點戰利品並預約 Day 4 ZIM CARRY", done: false }
     ];
 
-    let checklist = JSON.parse(localStorage.getItem('busan2026_checklist_v4') || 'null');
+    let checklist = JSON.parse(localStorage.getItem('busan2026_checklist_v5') || 'null');
     if (!checklist) {
       checklist = [...defaultChecklist];
-      localStorage.setItem('busan2026_checklist_v4', JSON.stringify(checklist));
+      localStorage.setItem('busan2026_checklist_v5', JSON.stringify(checklist));
     }
 
     function renderChecklist() {
@@ -2137,7 +2234,7 @@
 
     function toggleChecklistItem(id) {
       checklist = checklist.map(item => item.id === id ? { ...item, done: !item.done } : item);
-      localStorage.setItem('busan2026_checklist_v4', JSON.stringify(checklist));
+      localStorage.setItem('busan2026_checklist_v5', JSON.stringify(checklist));
       renderChecklist();
     }
 
@@ -2146,21 +2243,21 @@
       const text = input.value.trim();
       if (!text) return;
       checklist.push({ id: Date.now(), text, done: false });
-      localStorage.setItem('busan2026_checklist_v4', JSON.stringify(checklist));
+      localStorage.setItem('busan2026_checklist_v5', JSON.stringify(checklist));
       input.value = '';
       renderChecklist();
     }
 
     function deleteChecklistItem(id) {
       checklist = checklist.filter(item => item.id !== id);
-      localStorage.setItem('busan2026_checklist_v4', JSON.stringify(checklist));
+      localStorage.setItem('busan2026_checklist_v5', JSON.stringify(checklist));
       renderChecklist();
     }
 
     function resetChecklist() {
       if (!confirm('確定要重置隨身行李與待辦清單嗎？')) return;
       checklist = [...defaultChecklist];
-      localStorage.setItem('busan2026_checklist_v4', JSON.stringify(checklist));
+      localStorage.setItem('busan2026_checklist_v5', JSON.stringify(checklist));
       renderChecklist();
     }
 

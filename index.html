@@ -343,7 +343,6 @@
       min-width: 0;
     }
 
-    /* 代表性插畫縮圖（大小與欄位高度協調） */
     .spot-thumb {
       width: 74px;
       height: 74px;
@@ -430,15 +429,25 @@
       align-items: center;
       gap: 4px;
       text-decoration: none;
+      font-family: inherit;
       font-size: 0.76rem;
       font-weight: 700;
       padding: 4px 9px;
       border-radius: 8px;
       border: 1.6px solid var(--ink);
       box-shadow: 1.5px 1.5px 0 var(--ink);
+      cursor: pointer;
+    }
+    .map-btn:active {
+      transform: translate(1.5px, 1.5px);
+      box-shadow: none;
     }
     .map-btn.google { background: var(--google-bg); color: var(--google-blue); }
     .map-btn.naver { background: var(--naver-bg); color: #029e47; }
+    .map-btn.voucher-img-btn {
+      background: var(--sand-yellow);
+      color: var(--ink);
+    }
 
     /* 憑證區 */
     .voucher-grid {
@@ -471,6 +480,7 @@
       border: 1.5px dashed var(--ink);
       border-radius: 8px;
       padding: 4px 8px;
+      margin-bottom: 6px;
     }
     .copy-code { font-family: 'Patrick Hand', monospace; font-size: 0.92rem; font-weight: 700; }
     .copy-btn {
@@ -482,6 +492,20 @@
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
+    }
+    .voucher-open-img-btn {
+      width: 100%;
+      background: var(--med-blue);
+      color: #fff;
+      border: 1.6px solid var(--ink);
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 1.5px 1.5px 0 var(--ink);
+      text-align: center;
     }
 
     .memo-input-group { margin-top: 8px; }
@@ -606,21 +630,92 @@
       color: var(--ink-soft);
     }
 
-    /* 第五欄：Q版地圖總覽 */
+    /* 第五欄：本地圖片展示框 */
     .overview-map-wrap {
       width: 100%;
-      overflow-x: auto;
       border: 2px solid var(--ink);
       border-radius: 14px;
       background: #fffef9;
-      padding: 6px;
+      padding: 8px;
+      text-align: center;
     }
-    .overview-map-wrap svg, .overview-map-wrap img {
+    .overview-map-wrap img {
       width: 100%;
-      min-width: 680px;
       height: auto;
       display: block;
       border-radius: 10px;
+    }
+    .img-missing-tip {
+      display: none;
+      padding: 22px 14px;
+      background: var(--sand-light);
+      border: 2px dashed var(--sunset-orange);
+      border-radius: 12px;
+      color: var(--ink);
+      font-size: 0.86rem;
+      line-height: 1.6;
+    }
+
+    /* 憑證圖檔彈出檢視視窗 (Lightbox Modal) */
+    .voucher-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 26, 32, 0.85);
+      z-index: 1000;
+      padding: 14px;
+      overflow-y: auto;
+      align-items: center;
+      justify-content: center;
+    }
+    .voucher-modal.open {
+      display: flex;
+    }
+    .voucher-modal-box {
+      background: var(--paper-card);
+      border: 2.5px solid var(--ink);
+      border-radius: 16px;
+      max-width: 680px;
+      width: 100%;
+      padding: 14px;
+      box-shadow: 4px 4px 0 #000;
+      position: relative;
+    }
+    .voucher-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px dashed rgba(44, 53, 61, 0.3);
+      margin-bottom: 10px;
+    }
+    .modal-close-btn {
+      background: var(--danger-red);
+      color: #fff;
+      border: 1.8px solid var(--ink);
+      border-radius: 8px;
+      padding: 4px 12px;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .voucher-modal-body {
+      text-align: center;
+      max-height: 75vh;
+      overflow: auto;
+    }
+    .voucher-modal-body img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1.5px solid var(--ink);
+    }
+    .voucher-modal-body iframe {
+      width: 100%;
+      height: 68vh;
+      border: 1.5px solid var(--ink);
+      border-radius: 8px;
     }
 
     .toast {
@@ -636,7 +731,7 @@
       font-weight: 700;
       opacity: 0;
       transition: all 0.25s ease;
-      z-index: 999;
+      z-index: 1100;
     }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
   </style>
@@ -646,7 +741,7 @@
   <header class="hero-banner">
     <div class="hero-badge">2026.12.09 (三) – 12.12 (六) · 三人同行</div>
     <h1 class="hero-title">🌊 釜山海港手繪旅遊手冊</h1>
-    <div class="hero-sub">西面基地 · VBP BIG 5 · 雙地圖一鍵導航 · 自動分帳</div>
+    <div class="hero-sub">西面基地 · VBP BIG 5 · 雙地圖與憑證圖檔一鍵開啟 · 自動分帳</div>
   </header>
 
   <main class="container">
@@ -687,8 +782,8 @@
           <input type="text" id="memo-hotel-pwd" class="memo-input" placeholder="出發前 1-2 天收到後填入，自動儲存於瀏覽器" oninput="saveMemos()">
         </div>
         <div class="memo-input-group">
-          <label>💄 Day 3 (12/11) 10:00 TONE&ME 個人色彩診斷備註</label>
-          <input type="text" id="memo-makeup-info" class="memo-input" placeholder="西面/田浦店｜素顏前往，妹妹記得帶平時常用化妝品健檢" oninput="saveMemos()">
+          <label>💄 Day 3 (12/11) 10:00 TONE&ME 個人色彩診斷地址＆備註</label>
+          <input type="text" id="memo-makeup-info" class="memo-input" value="西面站地下街(서면몰)7號出口10m｜中央大路707 文龍大樓13F（1F黃金交易所）｜素顏前往" oninput="saveMemos()">
         </div>
         <div class="memo-input-group">
           <label>🧳 Day 4 (12/12) 광안이즈굿（Gwangan Is Good）行李寄放資訊</label>
@@ -698,7 +793,7 @@
 
       <div class="zine-card">
         <div class="washi-tape blue"></div>
-        <h2 style="margin:0 0 12px; font-size:1.08rem; color:var(--med-blue);">📋 住宿・航班・票券憑證編號（點按鈕一鍵複製）</h2>
+        <h2 style="margin:0 0 12px; font-size:1.08rem; color:var(--med-blue);">📋 住宿・航班・票券憑證（可複製編號或直接開啟圖檔）</h2>
         <div class="voucher-grid" id="voucher-list"></div>
       </div>
     </section>
@@ -727,9 +822,9 @@
             <div class="sum-val" id="per-person-twd">NT$ 0</div>
           </div>
           <div class="sum-box highlight">
-            <div class="sum-label">💸 請款結算：妹妹＋妹夫（2人份）共需與你結算</div>
+            <div class="sum-label">💸 請款結算：妹妹＋妹夫（2人份）共需匯給你</div>
             <div class="sum-val" id="sister-owe-twd" style="color:var(--sunset-orange);">NT$ 0</div>
-            <div style="font-size:0.76rem; color:var(--ink-soft); margin-top:2px;">已含去程加購 15kg 行李 NT$860 三人均分，並已扣除妹自付機票</div>
+            <div style="font-size:0.76rem; color:var(--ink-soft); margin-top:2px;">已含住宿、VBP、膠囊列車、TONE&ME 色彩診斷、豚笑訂金及去程加購 15kg 行李</div>
           </div>
         </div>
 
@@ -774,166 +869,54 @@
       </div>
     </section>
 
-    <!-- ==================== 5. 行程地圖總覽（Q版菇菇寶貝＆綠水靈導覽） ==================== -->
+    <!-- ==================== 5. 行程地圖總覽（直接載入 image/overview-map.jpg） ==================== -->
     <section id="panel-overview" class="section-panel">
       <div class="zine-card">
         <div class="washi-tape orange"></div>
         <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
           <div>
-            <h2 style="margin:0; font-size:1.05rem; color:var(--med-blue);">🗺️ 釜山四天三夜 Q 版攻略總覽圖（依順序一圖看完）</h2>
-            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ink-soft);">由菇菇寶貝與綠水靈帶路！中央為釜山海岸 Q 版地圖，拉線標註 Day 1～Day 4 景點順序。</p>
+            <h2 style="margin:0; font-size:1.05rem; color:var(--med-blue);">🗺️ 2026 釜山四天三夜 Q 版攻略總覽圖</h2>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ink-soft);">讀取 <code>image/overview-map.jpg</code>（點擊圖片可開啟原圖縮放）</p>
           </div>
-          <label class="copy-btn" style="cursor:pointer; padding:5px 10px;">
-            🖼️ 切換為本機圖片檔
-            <input type="file" accept="image/*" style="display:none;" onchange="loadCustomOverviewImage(event)">
-          </label>
+          <button class="copy-btn" style="padding:5px 10px;" onclick="openVoucherModal('釜山四天三夜 Q 版攻略總覽圖', 'overview-map')">
+            🔍 放大檢視原圖
+          </button>
         </div>
 
-        <div class="overview-map-wrap" id="overview-map-container">
-          <!-- 內建高解析橫式 Q 版手繪釜山攻略地圖 SVG（含菇菇寶貝、綠水靈與拉線圖卡） -->
-          <svg id="built-in-qmap" viewBox="0 0 1120 630" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="seaGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#dff3fc"/>
-                <stop offset="100%" stop-color="#bce4f7"/>
-              </linearGradient>
-              <linearGradient id="landGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#fdf8ec"/>
-                <stop offset="100%" stop-color="#f3ebd6"/>
-              </linearGradient>
-            </defs>
-
-            <!-- 背景海域 -->
-            <rect width="1120" height="630" fill="url(#seaGrad)" rx="16"/>
-            <!-- 海浪裝飾 -->
-            <path d="M40 580 Q70 570 100 580 T160 580 M880 590 Q910 580 940 590 T1000 590 M920 90 Q950 80 980 90 T1040 90" fill="none" stroke="#6bb5d8" stroke-width="3" stroke-linecap="round"/>
-
-            <!-- 精巧標題（不壓縮地圖空間） -->
-            <rect x="395" y="10" width="330" height="34" rx="17" fill="#fffdf8" stroke="#2c353d" stroke-width="2.5"/>
-            <text x="560" y="32" text-anchor="middle" font-size="16" font-weight="900" fill="#266799" font-family="Zen Maru Gothic, Noto Sans TC, sans-serif">🍁 2026 釜山四天三夜 Q版旅遊攻略地圖</text>
-
-            <!-- 正中央：Q版釜山海岸陸地輪廓 -->
-            <path d="M355 115 Q470 85 620 95 Q765 105 815 170 Q830 245 775 305 Q720 355 685 415 Q635 480 560 495 Q490 510 435 475 Q380 440 365 370 Q340 285 335 200 Q335 145 355 115 Z" fill="url(#landGrad)" stroke="#2c353d" stroke-width="3"/>
-            <!-- 影島小島 -->
-            <ellipse cx="485" cy="525" rx="46" ry="26" transform="rotate(-18 485 525)" fill="url(#landGrad)" stroke="#2c353d" stroke-width="2.5"/>
-            <text x="485" y="529" text-anchor="middle" font-size="11" font-weight="900" fill="#5c6773">影島</text>
-            <!-- 廣安大橋 Q版 -->
-            <path d="M675 395 L675 362 M730 385 L730 352" stroke="#266799" stroke-width="3"/>
-            <path d="M655 390 Q675 368 702 385 Q730 362 750 382" fill="none" stroke="#266799" stroke-width="2"/>
-
-            <!-- 中央景點順序路線虛線 -->
-            <path d="M380 230 L475 245 L465 385 L430 465 L485 520 L515 415 L770 155 L755 215 L725 295 L680 340 L535 265 L625 320 L565 315 L665 370 L380 245" fill="none" stroke="#d96b43" stroke-width="2.5" stroke-dasharray="6,5"/>
-
-            <!-- 地圖上景點節點圓點 -->
-            <circle cx="380" cy="235" r="7" fill="#d96b43" stroke="#2c353d" stroke-width="2"/><!-- 機場 -->
-            <circle cx="485" cy="245" r="8" fill="#266799" stroke="#2c353d" stroke-width="2"/><!-- 西面 -->
-            <text x="485" y="232" text-anchor="middle" font-size="12" font-weight="900" fill="#266799">🏠西面基地</text>
-            <circle cx="470" cy="390" r="6" fill="#266799" stroke="#2c353d" stroke-width="2"/><!-- 釜山站 -->
-            <circle cx="425" cy="468" r="6" fill="#266799" stroke="#2c353d" stroke-width="2"/><!-- 松島 -->
-            <circle cx="515" cy="420" r="6" fill="#266799" stroke="#2c353d" stroke-width="2"/><!-- 南浦洞 -->
-            <circle cx="768" cy="155" r="7" fill="#4c7c66" stroke="#2c353d" stroke-width="2"/><!-- 機張 -->
-            <circle cx="755" cy="215" r="7" fill="#4c7c66" stroke="#2c353d" stroke-width="2"/><!-- 樂天/滑車 -->
-            <circle cx="722" cy="295" r="7" fill="#4c7c66" stroke="#2c353d" stroke-width="2"/><!-- 青沙浦/海雲台 -->
-            <circle cx="665" cy="368" r="7" fill="#e11d48" stroke="#2c353d" stroke-width="2"/><!-- 廣安里 -->
-            <circle cx="570" cy="315" r="6" fill="#9333ea" stroke="#2c353d" stroke-width="2"/><!-- 荒嶺山/水營 -->
-
-            <!-- ==================== 左上圖卡：DAY 1 ==================== -->
-            <line x1="305" y1="150" x2="425" y2="468" stroke="#266799" stroke-width="2" stroke-dasharray="4,3"/>
-            <rect x="18" y="45" width="290" height="232" rx="14" fill="#fffdf8" stroke="#266799" stroke-width="2.5"/>
-            <rect x="18" y="45" width="290" height="30" rx="12" fill="#266799"/>
-            <text x="32" y="65" font-size="13" font-weight="900" fill="#fff">DAY 1｜松島・影島海景 → 南浦聖誕街</text>
-            <text x="30" y="95" font-size="12" font-weight="700" fill="#2c353d">① 金海機場落地 → 西面松亭三代豬肉湯飯</text>
-            <text x="30" y="117" font-size="12" font-weight="700" fill="#2c353d">② Urbanstay 寄放行李 → 釜山站領 VBP卡</text>
-            <text x="30" y="139" font-size="12" font-weight="700" fill="#266799">③ 松島海上纜車（透明車廂來回）</text>
-            <text x="30" y="161" font-size="12" font-weight="700" fill="#2c353d">④ 影島明星一隻雞午餐</text>
-            <text x="30" y="183" font-size="12" font-weight="700" fill="#266799">⑤ Arte Museum 光影展 → 白淺灘文化村</text>
-            <text x="30" y="205" font-size="12" font-weight="700" fill="#2c353d">⑥ 南浦洞聖誕樹燈海 ＆ 富平市場買草莓</text>
-            <text x="30" y="227" font-size="12" font-weight="700" fill="#5c6773">⑦ 返回西面飯店入住補眠休息</text>
-            <!-- 菇菇寶貝插畫 #1 (Day 1 旁) -->
-            <g transform="translate(245, 222)">
-              <path d="M5 24 Q25 -4 45 24 Z" fill="#f59e0b" stroke="#2c353d" stroke-width="2"/>
-              <circle cx="17" cy="14" r="3" fill="#fff"/><circle cx="33" cy="14" r="3" fill="#fff"/>
-              <rect x="12" y="24" width="26" height="18" rx="8" fill="#fef3c7" stroke="#2c353d" stroke-width="2"/>
-              <circle cx="20" cy="31" r="2" fill="#2c353d"/><circle cx="30" cy="31" r="2" fill="#2c353d"/>
-              <path d="M23 35 Q25 38 27 35" fill="none" stroke="#2c353d" stroke-width="1.8" stroke-linecap="round"/>
-            </g>
-
-            <!-- ==================== 左下圖卡：DAY 3 ==================== -->
-            <line x1="305" y1="430" x2="570" y2="315" stroke="#9333ea" stroke-width="2" stroke-dasharray="4,3"/>
-            <rect x="18" y="345" width="290" height="225" rx="14" fill="#fffdf8" stroke="#9333ea" stroke-width="2.5"/>
-            <rect x="18" y="345" width="290" height="30" rx="12" fill="#9333ea"/>
-            <text x="32" y="365" font-size="13" font-weight="900" fill="#fff">DAY 3｜🎂 妹妹生日・色彩診斷與夜景</text>
-            <text x="30" y="395" font-size="12" font-weight="700" fill="#2c353d">① 西面輕食咖啡簡單墊胃</text>
-            <text x="30" y="418" font-size="12" font-weight="700" fill="#9333ea">② TONE&ME 個人色彩診斷（素顏＋化妝包）</text>
-            <text x="30" y="441" font-size="12" font-weight="700" fill="#2c353d">③ 水營站李夏亭醬蟹（無油煙不毀妝）</text>
-            <text x="30" y="464" font-size="12" font-weight="700" fill="#2c353d">④ 田浦咖啡街 ＆ 人生四格生日拍貼</text>
-            <text x="30" y="487" font-size="12" font-weight="700" fill="#9333ea">⑤ 西面 Running Man 體驗館闖關</text>
-            <text x="30" y="510" font-size="12" font-weight="700" fill="#2c353d">⑥ 老公寓熟成烤肉晚宴 → 荒嶺山夜景</text>
-            <!-- 綠水靈插畫 #1 (Day 3 旁) -->
-            <g transform="translate(242, 515)">
-              <ellipse cx="26" cy="24" rx="22" ry="16" fill="#4ade80" stroke="#2c353d" stroke-width="2"/>
-              <path d="M26 8 Q32 0 38 6 Q33 10 26 8" fill="#4ade80" stroke="#2c353d" stroke-width="1.8"/>
-              <circle cx="19" cy="22" r="2.5" fill="#2c353d"/><circle cx="33" cy="22" r="2.5" fill="#2c353d"/>
-              <path d="M22 28 Q26 32 30 28" fill="none" stroke="#2c353d" stroke-width="1.8" stroke-linecap="round"/>
-            </g>
-
-            <!-- ==================== 右上圖卡：DAY 2 ==================== -->
-            <line x1="812" y1="165" x2="755" y2="215" stroke="#4c7c66" stroke-width="2" stroke-dasharray="4,3"/>
-            <rect x="812" y="45" width="290" height="232" rx="14" fill="#fffdf8" stroke="#4c7c66" stroke-width="2.5"/>
-            <rect x="812" y="45" width="290" height="30" rx="12" fill="#4c7c66"/>
-            <text x="826" y="65" font-size="13" font-weight="900" fill="#fff">DAY 2｜機張帝王蟹・樂園・夕陽膠囊</text>
-            <text x="824" y="95" font-size="12" font-weight="700" fill="#2c353d">① 睡飽吃草莓 → 搭東海線往機張</text>
-            <text x="824" y="118" font-size="12" font-weight="700" fill="#d96b43">② 機張市場現挑帝王蟹大餐</text>
-            <text x="824" y="141" font-size="12" font-weight="700" fill="#4c7c66">③ Skyline Luge 釜山斜坡滑車（2趟）</text>
-            <text x="824" y="164" font-size="12" font-weight="700" fill="#4c7c66">④ 釜山樂天世界（城堡＆楓之谷周邊）</text>
-            <text x="824" y="187" font-size="12" font-weight="700" fill="#d96b43">⑤ 青沙浦 → 尾浦 夕陽天空膠囊列車</text>
-            <text x="824" y="210" font-size="12" font-weight="700" fill="#2c353d">⑥ 海雲台沙灘星光燈飾 → 巨松燉排骨</text>
-            <!-- 楓之谷小粉紅豬＋菇菇導覽插畫 (Day 2 旁) -->
-            <g transform="translate(1032, 222)">
-              <ellipse cx="26" cy="24" rx="21" ry="16" fill="#f9a8d4" stroke="#2c353d" stroke-width="2"/>
-              <polygon points="10,12 16,4 20,12" fill="#f9a8d4" stroke="#2c353d" stroke-width="1.8"/>
-              <polygon points="32,12 36,4 42,12" fill="#f9a8d4" stroke="#2c353d" stroke-width="1.8"/>
-              <ellipse cx="26" cy="26" rx="7" ry="5" fill="#f472b6" stroke="#2c353d" stroke-width="1.5"/>
-              <circle cx="17" cy="20" r="2" fill="#2c353d"/><circle cx="35" cy="20" r="2" fill="#2c353d"/>
-            </g>
-
-            <!-- ==================== 右下圖卡：DAY 4 ==================== -->
-            <line x1="812" y1="430" x2="665" y2="368" stroke="#d96b43" stroke-width="2" stroke-dasharray="4,3"/>
-            <rect x="812" y="345" width="290" height="225" rx="14" fill="#fffdf8" stroke="#d96b43" stroke-width="2.5"/>
-            <rect x="812" y="345" width="290" height="30" rx="12" fill="#d96b43"/>
-            <text x="826" y="365" font-size="13" font-weight="900" fill="#fff">DAY 4｜豚笑炸豬排・廣安里無人機返台</text>
-            <text x="824" y="395" font-size="12" font-weight="700" fill="#2c353d">① 西面退房 → 廣安里광안이즈굿寄放行李</text>
-            <text x="824" y="418" font-size="12" font-weight="700" fill="#d96b43">② 豚笑（Tonshou）廣安店頂級炸豬排</text>
-            <text x="824" y="441" font-size="12" font-weight="700" fill="#2c353d">③ 廣安里海景咖啡廳放空 ＆ 選物店補貨</text>
-            <text x="824" y="464" font-size="12" font-weight="700" fill="#266799">④ 廣安里 M 無人機燈光秀（冬季首場）</text>
-            <text x="824" y="487" font-size="12" font-weight="700" fill="#c94a4a">⑤ 散場領行李 → 走水營路大馬路叫車赴機場</text>
-            <text x="824" y="510" font-size="12" font-weight="700" fill="#2c353d">⑥ 金海機場託運通關 → 搭機平安返台</text>
-            <!-- 菇菇寶貝＋綠水靈雙導覽插畫 (Day 4 旁) -->
-            <g transform="translate(1025, 514)">
-              <path d="M4 22 Q22 -2 40 22 Z" fill="#fb923c" stroke="#2c353d" stroke-width="2"/>
-              <circle cx="15" cy="13" r="2.5" fill="#fff"/><circle cx="29" cy="13" r="2.5" fill="#fff"/>
-              <rect x="10" y="22" width="24" height="16" rx="7" fill="#fef3c7" stroke="#2c353d" stroke-width="2"/>
-              <circle cx="18" cy="29" r="1.8" fill="#2c353d"/><circle cx="26" cy="29" r="1.8" fill="#2c353d"/>
-            </g>
-
-            <!-- 底部中央導覽員合照區 -->
-            <g transform="translate(475, 562)">
-              <rect x="0" y="6" width="170" height="44" rx="22" fill="#fffdf8" stroke="#2c353d" stroke-width="2"/>
-              <text x="85" y="25" text-anchor="middle" font-size="11" font-weight="900" fill="#d96b43">🍄 菇菇寶貝 ＆ 綠水靈</text>
-              <text x="85" y="41" text-anchor="middle" font-size="10.5" font-weight="700" fill="#5c6773">祝你們釜山之旅大成功！</text>
-            </g>
-          </svg>
-          <img id="custom-overview-img" style="display:none;" alt="自訂釜山旅遊攻略總覽圖" />
+        <div class="overview-map-wrap">
+          <img id="overview-map-img"
+               src="image/overview-map.jpg"
+               alt="2026 釜山四天三夜 Q 版旅遊攻略總覽圖"
+               style="cursor:zoom-in;"
+               onclick="openVoucherModal('釜山四天三夜 Q 版攻略總覽圖', 'overview-map')"
+               onerror="handleOverviewImgError(this)">
+          <div id="img-missing-tip" class="img-missing-tip">
+            ⚠️ 尚未讀取到總覽圖！請確認已在網站根目錄建立 <strong><code>image</code></strong> 資料夾，並將攻略圖命名為 <strong><code>overview-map.jpg</code></strong>（或 <code>.png</code>）放入該資料夾中。
+          </div>
         </div>
       </div>
     </section>
 
   </main>
 
+  <!-- 憑證圖檔 / 掃描檔彈出檢視視窗 -->
+  <div id="voucher-modal" class="voucher-modal" onclick="if(event.target===this) closeVoucherModal()">
+    <div class="voucher-modal-box">
+      <div class="voucher-modal-header">
+        <strong id="modal-title" style="font-size:0.98rem; color:var(--med-blue);">憑證檢視</strong>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <a id="modal-raw-link" href="#" target="_blank" rel="noopener" class="copy-btn" style="text-decoration:none; padding:4px 9px;">↗ 新分頁開啟</a>
+          <button class="modal-close-btn" onclick="closeVoucherModal()">✕ 關閉</button>
+        </div>
+      </div>
+      <div id="modal-body" class="voucher-modal-body"></div>
+    </div>
+  </div>
+
   <div id="toast" class="toast">已複製到剪貼簿！</div>
 
   <script>
-    // ==================== 代表性手繪 SVG 小圖庫（對應每個行程） ====================
+    // ==================== 代表性手繪 SVG 小圖庫 ====================
     const THUMB_ICONS = {
       plane: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#e5f1f8"/><path d="M12 36 L28 32 L36 16 L41 17 L36 31 L50 28 L54 22 L57 23 L54 31 L57 38 L54 39 L50 34 L36 36 L41 49 L36 50 L28 36 L12 39 Z" fill="#266799" stroke="#2c353d" stroke-width="2" stroke-linejoin="round"/></svg>`,
       soup: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fcece5"/><path d="M14 32 Q14 50 32 50 Q50 50 50 32 Z" fill="#d96b43" stroke="#2c353d" stroke-width="2.2"/><ellipse cx="32" cy="32" rx="18" ry="5" fill="#fef3c7" stroke="#2c353d" stroke-width="2"/><path d="M24 22 Q22 16 25 12 M32 20 Q30 14 33 10 M40 22 Q38 16 41 12" fill="none" stroke="#5c6773" stroke-width="2" stroke-linecap="round"/></svg>`,
@@ -960,7 +943,7 @@
       drone: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#1e3a8a"/><circle cx="32" cy="26" r="3" fill="#f3c65f"/><circle cx="22" cy="22" r="2.5" fill="#38bdf8"/><circle cx="42" cy="22" r="2.5" fill="#38bdf8"/><circle cx="26" cy="32" r="2.5" fill="#f43f5e"/><circle cx="38" cy="32" r="2.5" fill="#f43f5e"/><path d="M14 46 L50 46 M22 46 L22 38 M42 46 L42 38" stroke="#93c5fd" stroke-width="2"/></svg>`
     };
 
-    // ==================== 1. 完整行程資料庫（含每日首欄天氣/穿搭/帶傘/注意事項） ====================
+    // ==================== 1. 完整行程資料庫（已知預訂行程皆已綁定對應憑證圖檔） ====================
     const ITINERARY_DATA = [
       {
         day: '1',
@@ -983,6 +966,10 @@
             badgeType: 'booked',
             icon: 'plane',
             iconLabel: '抵達釜山',
+            voucherLinks: [
+              { label: '🎫 我的機票 (ZE988)', file: 'flight-ze988' },
+              { label: '🎫 妹機票 (ZE984)', file: 'flight-ze984' }
+            ],
             desc: '妹妹/妹夫 ZE984（06:05 抵）、我 ZE988（06:15 抵，領 24 吋託運行李箱）。會合後搭輕軌轉地鐵 2 號線至西面。'
           },
           {
@@ -1007,6 +994,9 @@
             badgeType: 'booked',
             icon: 'hotel',
             iconLabel: '飯店寄放',
+            voucherLinks: [
+              { label: '🎫 住宿訂房確認單', file: 'hotel-urbanstay' }
+            ],
             desc: '將共用的 24 吋行李箱鎖進 2F 或 14F 自助行李室，三人背輕便隨身包出發跑行程。'
           },
           {
@@ -1019,6 +1009,11 @@
             badgeType: 'warn',
             icon: 'pass',
             iconLabel: '兌換VBP',
+            voucherLinks: [
+              { label: '🎫 VBP憑證#1', file: 'vbp-1' },
+              { label: '🎫 VBP憑證#2', file: 'vbp-2' },
+              { label: '🎫 VBP憑證#3', file: 'vbp-3' }
+            ],
             desc: '地鐵 1 號線至釜山站 2F 9 號出口旁旅遊諮詢中心（09:00 開門）。領卡後順便去超商儲值交通金。'
           },
           {
@@ -1091,6 +1086,9 @@
             badgeType: '',
             icon: 'hotel',
             iconLabel: '進房休息',
+            voucherLinks: [
+              { label: '🎫 住宿訂房確認單', file: 'hotel-urbanstay' }
+            ],
             desc: '領行李輸入密碼進房（2 間房），吃草莓休息，晚餐視體力於西面吃小吃或叫炸雞外送。'
           }
         ]
@@ -1177,6 +1175,9 @@
             badgeType: 'booked',
             icon: 'capsule',
             iconLabel: '天空膠囊',
+            voucherLinks: [
+              { label: '🎫 出示膠囊列車電子票', file: 'sky-capsule' }
+            ],
             desc: '第 17 場次（3 人車廂），沿海岸高空欣賞海雲台夕陽。'
           },
           {
@@ -1201,7 +1202,7 @@
           weather: '多雲時晴｜氣溫約 3°C～9°C（晚上荒嶺山觀景台海拔較高，氣溫約 0°C～2°C）',
           outfit: '白天可穿美美拍照上衣（建議米白/淺色系方便做色彩診斷），晚上上荒嶺山務必帶齊羽絨外套與圍巾',
           umbrella: '不需要帶傘（乾冷晴朗，荒嶺山夜晚無遮蔽物需防風保暖）',
-          notice: '① 10:00 TONE&ME 個人色彩診斷須「素顏」前往，妹妹記得帶平時常用粉底/眼影/口紅做化妝包健檢；② 18:00 老公寓烤肉已付訂金，到店退還。'
+          notice: '① 10:00 TONE&ME 個人色彩診斷須「素顏」前往（西面地下街7號出口10公尺內文龍大樓13F，非地鐵7號出口），遲到20分鐘視同取消；② 18:00 老公寓烤肉已付訂金。'
         },
         stops: [
           {
@@ -1219,14 +1220,17 @@
           {
             time: '10:00',
             title: '妹妹生日體驗：TONE&ME 個人色彩診斷',
-            krName: '톤앤미 퍼스널컬러 (西面/田浦)',
-            mapQuery: '전포역',
-            googleQuery: 'TONE&ME personal color Busan',
-            badge: '素顏＋帶化妝包',
+            krName: '톤앤미 퍼스널컬러 (부산진구 중앙대로 707 13층)',
+            mapQuery: '부산진구 중앙대로 707',
+            googleQuery: '707 Jungang-daero Busanjin-gu Busan',
+            badge: '已預約 10:00｜素顏',
             badgeType: 'booked',
             icon: 'color',
             iconLabel: '色彩診斷',
-            desc: '測出專屬四季命定色與最適合的髮色/彩妝色號！結束後即可直接化上最適合自己的生日美妝。'
+            voucherLinks: [
+              { label: '🎫 出示預約單＆大樓定位圖', file: 'toneme' }
+            ],
+            desc: '西面地下街（서면몰）7 號出口 10 公尺內、1 樓黃金交易所大樓 13 樓！妹妹記得帶常用彩妝品健檢。'
           },
           {
             time: '12:30',
@@ -1274,6 +1278,9 @@
             badgeType: 'booked',
             icon: 'bbq',
             iconLabel: '生日烤肉宴',
+            voucherLinks: [
+              { label: '🎫 出示老公寓預約確認單', file: 'old-mansion' }
+            ],
             desc: '預約編號 1404790795，專人代烤熟成豬肉輕鬆慶生。'
           },
           {
@@ -1324,6 +1331,9 @@
             badgeType: 'booked',
             icon: 'tonkatsu',
             iconLabel: '豚笑炸豬排',
+            voucherLinks: [
+              { label: '🎫 出示豚笑預約確認單', file: 'tonshou' }
+            ],
             desc: '建議 11:00 前報到！已預付訂金 ₩59,500 並預點 4 份主餐，現場結帳直接折抵。'
           },
           {
@@ -1361,36 +1371,47 @@
             isAlert: true,
             icon: 'plane',
             iconLabel: '赴機場返台',
+            voucherLinks: [
+              { label: '🎫 我的回程機票 (ZE987)', file: 'flight-ze987' },
+              { label: '🎫 妹回程機票 (ZE983)', file: 'flight-ze983' }
+            ],
             desc: '19:15 秀一結束往內陸走回「광안이즈굿」領 24 吋箱 → 續走至後方大馬路水營路（Suyeong-ro）叫 Uber 直奔金海機場（避開海邊車陣）。20:30 抵機場完成 15kg 託運，搭乘 22:00 (ZE983) / 22:10 (ZE987) 返台！'
           }
         ]
       }
     ];
 
-    // ==================== 2. 憑證資料庫 ====================
+    // ==================== 2. 憑證資料庫（全部綁定 image/ 對應檔名） ====================
     const VOUCHERS = [
-      { cat: '✈️ 去程機票（妹＆妹夫）', name: '易斯達航空 ZE984', meta: '12/09 02:10 TPE T1 → 06:05 PUS｜無託運', code: 'T8PD4G' },
-      { cat: '✈️ 去程機票（我）', name: '易斯達航空 ZE988', meta: '12/09 03:00 TPE T1 → 06:15 PUS｜已加購 15kg 託運', code: 'XBHVFA' },
-      { cat: '✈️ 回程機票（妹＆妹夫）', name: '易斯達航空 ZE983', meta: '12/12 22:00 PUS → 00:15+1 TPE｜無託運', code: 'P4FIJF' },
-      { cat: '✈️ 回程機票（我）', name: '易斯達航空 ZE987', meta: '12/12 22:10 PUS → 00:25+1 TPE｜含 15kg 託運', code: 'U1GTMB' },
-      { cat: '🏨 住宿預訂（3晚 × 2間）', name: 'Urbanstay Seomyeon', meta: '12/09 16:00 入住 ～ 12/12 11:00 退房｜城市一室公寓', code: 'ORD0031261978' },
-      { cat: '🏨 住宿備用代號', name: 'Urbanstay 訂房代號', meta: '2F / 14F 行李室當日 09:00 起開放', code: '19XH88R' },
-      { cat: '🎟️ VBP BIG 5 實體卡 #1', name: 'Visit Busan Pass', meta: '釜山站 2F 兌換（需動態 QR + 護照）', code: '26KK226624911' },
-      { cat: '🎟️ VBP BIG 5 實體卡 #2', name: 'Visit Busan Pass', meta: '釜山站 2F 兌換（需動態 QR + 護照）', code: '26KK223624261' },
-      { cat: '🎟️ VBP BIG 5 實體卡 #3', name: 'Visit Busan Pass（妹帳號）', meta: 'Pelago 編號 PG26118TRNEH', code: '26KK226524832' },
-      { cat: '🚃 天空膠囊列車（3人）', name: '青沙浦 → 尾浦 第17場次', meta: '12/10 (四) 16:30–17:00 入場｜票號 26021198210-1', code: 'RS26020584414' },
-      { cat: '🥩 餐廳預約 #1', name: '老公寓（고옥）西面田浦店', meta: '12/11 (五) 18:00｜3 人大廳桌（已付訂金到店退）', code: '1404790795' },
-      { cat: '🐷 餐廳預約 #2', name: '豚笑（Tonshou）廣安店', meta: '12/12 (六) 11:10｜3 人（已預付 ₩59,500 含4份餐）', code: 'TONSHOU-1110' }
+      { cat: '✈️ 去程機票（妹＆妹夫）', name: '易斯達航空 ZE984', meta: '12/09 02:10 TPE T1 → 06:05 PUS｜無託運', code: 'T8PD4G', file: 'flight-ze984' },
+      { cat: '✈️ 去程機票（我）', name: '易斯達航空 ZE988', meta: '12/09 03:00 TPE T1 → 06:15 PUS｜已加購 15kg 託運', code: 'XBHVFA', file: 'flight-ze988' },
+      { cat: '✈️ 回程機票（妹＆妹夫）', name: '易斯達航空 ZE983', meta: '12/12 22:00 PUS → 00:15+1 TPE｜無託運', code: 'P4FIJF', file: 'flight-ze983' },
+      { cat: '✈️ 回程機票（我）', name: '易斯達航空 ZE987', meta: '12/12 22:10 PUS → 00:25+1 TPE｜含 15kg 託運', code: 'U1GTMB', file: 'flight-ze987' },
+      { cat: '🏨 住宿預訂（3晚 × 2間）', name: 'Urbanstay Seomyeon', meta: '12/09 16:00 入住 ～ 12/12 11:00 退房｜城市一室公寓', code: 'ORD0031261978', file: 'hotel-urbanstay' },
+      { cat: '🏨 住宿備用代號', name: 'Urbanstay 訂房代號', meta: '2F / 14F 行李室當日 09:00 起開放', code: '19XH88R', file: 'hotel-urbanstay' },
+      { cat: '🎟️ VBP BIG 5 實體卡 #1', name: 'Visit Busan Pass', meta: '釜山站 2F 兌換（需動態 QR + 護照）', code: '26KK226624911', file: 'vbp-1' },
+      { cat: '🎟️ VBP BIG 5 實體卡 #2', name: 'Visit Busan Pass', meta: '釜山站 2F 兌換（需動態 QR + 護照）', code: '26KK223624261', file: 'vbp-2' },
+      { cat: '🎟️ VBP BIG 5 實體卡 #3', name: 'Visit Busan Pass（妹帳號）', meta: 'Pelago 編號 PG26118TRNEH', code: '26KK226524832', file: 'vbp-3' },
+      { cat: '🚃 天空膠囊列車（3人）', name: '青沙浦 → 尾浦 第17場次', meta: '12/10 (四) 16:30–17:00 入場｜票號 26021198210-1', code: 'RS26020584414', file: 'sky-capsule' },
+      { cat: '🎨 色彩診斷預約', name: 'TONE&ME 個人色彩診斷', meta: '12/11 (五) 10:00｜西面地下街7號出口10m 文龍大樓13F', code: 'TONEME-1000', file: 'toneme' },
+      { cat: '🥩 餐廳預約 #1', name: '老公寓（고옥）西面田浦店', meta: '12/11 (五) 18:00｜3 人大廳桌（已付訂金到店退）', code: '1404790795', file: 'old-mansion' },
+      { cat: '🐷 餐廳預約 #2', name: '豚笑（Tonshou）廣安店', meta: '12/12 (六) 11:10｜3 人（已預付 ₩59,500 含4份餐）', code: 'TONSHOU-1110', file: 'tonshou' }
     ];
 
-    // ==================== 3. 最新預設預訂帳目（已移除停車費，加入去程加購行李 NT$860） ====================
+    // ==================== 3. 最新預設預訂帳目 ====================
     const DEFAULT_EXPENSES = [
       { id: 1, title: '去程機票 ZE988（我）', amount: 1679, currency: 'TWD', payer: 'me', split: 'me' },
       { id: 2, title: '去程機票加購 15kg 託運行李（共用24吋箱）', amount: 860, currency: 'TWD', payer: 'me', split: '3' },
       { id: 3, title: '回程機票 ZE987 含15kg行李（我）', amount: 2980, currency: 'TWD', payer: 'me', split: 'me' },
       { id: 4, title: '去程機票 ZE984（妹＆妹夫 2人）', amount: 3458, currency: 'TWD', payer: 'sister', split: 'sister' },
       { id: 5, title: '回程機票 ZE983（妹＆妹夫 2人）', amount: 3893, currency: 'TWD', payer: 'sister', split: 'sister' },
-      { id: 6, title: '豚笑 Tonshou 預付訂金＆4份主餐', amount: 59500, currency: 'KRW', payer: 'me', split: '3' }
+      { id: 6, title: 'Urbanstay Seomyeon 3晚住宿（我1間）', amount: 2400, currency: 'TWD', payer: 'me', split: 'me' },
+      { id: 7, title: 'Urbanstay Seomyeon 3晚住宿（妹＆妹夫1間）', amount: 2400, currency: 'TWD', payer: 'me', split: 'sister' },
+      { id: 8, title: 'Visit Busan Pass BIG 5 × 3 張', amount: 3405, currency: 'TWD', payer: 'me', split: '3' },
+      { id: 9, title: '天空膠囊列車（青沙浦→尾浦 3人）', amount: 55000, currency: 'KRW', payer: 'me', split: '3' },
+      { id: 10, title: 'TONE&ME 個人色彩診斷（我：男BASIC+翻譯）', amount: 3464, currency: 'TWD', payer: 'me', split: 'me' },
+      { id: 11, title: 'TONE&ME 個人色彩診斷（妹＆妹夫 2人）', amount: 4210, currency: 'TWD', payer: 'me', split: 'sister' },
+      { id: 12, title: '豚笑 Tonshou 預付訂金＆4份主餐', amount: 59500, currency: 'KRW', payer: 'me', split: '3' }
     ];
 
     // ==================== 4. 行前檢核清單 ====================
@@ -1405,7 +1426,7 @@
       { id: 'c8', text: '所有韓國買的草莓、橘子、麝香葡萄須於 12/12 登機前吃完（嚴禁帶入境台灣）', done: false }
     ];
 
-    // ==================== 互動邏輯 ====================
+    // ==================== 互動與智慧憑證檢視器 ====================
     function showToast(msg) {
       const t = document.getElementById('toast');
       t.textContent = msg;
@@ -1415,6 +1436,64 @@
 
     function copyText(text) {
       navigator.clipboard.writeText(text).then(() => showToast('已複製：' + text));
+    }
+
+    // 智慧憑證開啟器：自動嘗試 image/<name>.jpg -> .png -> .pdf
+    function openVoucherModal(title, baseFileName) {
+      const modal = document.getElementById('voucher-modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalBody = document.getElementById('modal-body');
+      const rawLink = document.getElementById('modal-raw-link');
+
+      modalTitle.textContent = title;
+      const jpgPath = `image/${baseFileName}.jpg`;
+      const pngPath = `image/${baseFileName}.png`;
+      const pdfPath = `image/${baseFileName}.pdf`;
+
+      rawLink.href = jpgPath;
+      modalBody.innerHTML = '';
+
+      const img = document.createElement('img');
+      img.alt = title;
+      img.src = jpgPath;
+
+      let step = 0;
+      img.onerror = function() {
+        step++;
+        if (step === 1) {
+          rawLink.href = pngPath;
+          img.src = pngPath;
+        } else if (step === 2) {
+          // 改試 PDF 內嵌預覽
+          rawLink.href = pdfPath;
+          modalBody.innerHTML = `
+            <iframe src="${pdfPath}" title="${title}"></iframe>
+            <p style="font-size:0.78rem; color:var(--ink-soft); margin-top:8px;">
+              若上方未顯示畫面，請確認已將檔案命名為 <code>image/${baseFileName}.jpg</code>（或 <code>.png</code> / <code>.pdf</code>）放入 <code>image</code> 資料夾。
+            </p>
+          `;
+        }
+      };
+
+      modalBody.appendChild(img);
+      modal.classList.add('open');
+    }
+
+    function closeVoucherModal() {
+      document.getElementById('voucher-modal').classList.remove('open');
+      document.getElementById('modal-body').innerHTML = '';
+    }
+
+    // 第 5 分頁總覽圖容錯
+    let overviewFallbackTried = false;
+    function handleOverviewImgError(img) {
+      if (!overviewFallbackTried) {
+        overviewFallbackTried = true;
+        img.src = 'image/overview-map.png';
+      } else {
+        img.style.display = 'none';
+        document.getElementById('img-missing-tip').style.display = 'block';
+      }
     }
 
     // 點擊任一分頁按鈕：只出現該項目，隱藏其他項目
@@ -1455,6 +1534,12 @@
           const badgeClass = s.badgeType === 'vbp' ? 'badge-vbp' : s.badgeType === 'booked' ? 'badge-booked' : s.badgeType === 'warn' ? 'badge-warn' : '';
           const svgThumb = THUMB_ICONS[s.icon] || THUMB_ICONS.plane;
 
+          const voucherBtnsHtml = (s.voucherLinks || []).map(v => `
+            <button type="button" class="map-btn voucher-img-btn" onclick="openVoucherModal('${v.label}', '${v.file}')">
+              ${v.label}
+            </button>
+          `).join('');
+
           return `
             <div class="timeline-item">
               <div class="timeline-dot ${s.isAlert ? 'warn' : ''}"></div>
@@ -1470,6 +1555,7 @@
                   <div class="map-btn-row">
                     <a href="${googleUrl}" target="_blank" rel="noopener" class="map-btn google">📍 Google Maps</a>
                     <a href="${naverUrl}" target="_blank" rel="noopener" class="map-btn naver">🧭 Naver Map</a>
+                    ${voucherBtnsHtml}
                   </div>
                 </div>
                 <div class="spot-thumb" title="${s.title}">
@@ -1526,9 +1612,14 @@
             <div class="voucher-name">${v.name}</div>
             <div class="voucher-meta">${v.meta}</div>
           </div>
-          <div class="copy-row">
-            <span class="copy-code">${v.code}</span>
-            <button class="copy-btn" onclick="copyText('${v.code}')">複製</button>
+          <div>
+            <div class="copy-row">
+              <span class="copy-code">${v.code}</span>
+              <button class="copy-btn" onclick="copyText('${v.code}')">複製編號</button>
+            </div>
+            <button type="button" class="voucher-open-img-btn" onclick="openVoucherModal('${v.name}', '${v.file}')">
+              🎫 出示憑證 / 定位圖檔 (${v.file})
+            </button>
           </div>
         </div>
       `).join('');
@@ -1550,23 +1641,23 @@
     }
 
     // ==================== 記帳分帳邏輯 ====================
-    let expenses = JSON.parse(localStorage.getItem('busan_expenses_v5')) || DEFAULT_EXPENSES;
-    let exchangeRate = parseFloat(localStorage.getItem('busan_rate_v5')) || 46.28;
+    let expenses = JSON.parse(localStorage.getItem('busan_expenses_v6')) || DEFAULT_EXPENSES;
+    let exchangeRate = parseFloat(localStorage.getItem('busan_rate_v6')) || 46.28;
 
     function updateRate() {
       const val = parseFloat(document.getElementById('exchange-rate').value);
       if (val && val > 0) {
         exchangeRate = val;
-        localStorage.setItem('busan_rate_v5', exchangeRate);
+        localStorage.setItem('busan_rate_v6', exchangeRate);
         renderExpenses();
       }
     }
 
     function resetDefaultExpenses() {
       expenses = JSON.parse(JSON.stringify(DEFAULT_EXPENSES));
-      localStorage.setItem('busan_expenses_v5', JSON.stringify(expenses));
+      localStorage.setItem('busan_expenses_v6', JSON.stringify(expenses));
       renderExpenses();
-      showToast('已更新為最新預設帳本（含去程加購行李）');
+      showToast('已更新為最新預設帳本');
     }
 
     function addExpense(e) {
@@ -1579,7 +1670,7 @@
       if (!title || isNaN(amount)) return;
 
       expenses.push({ id: Date.now(), title, amount, currency, payer, split });
-      localStorage.setItem('busan_expenses_v5', JSON.stringify(expenses));
+      localStorage.setItem('busan_expenses_v6', JSON.stringify(expenses));
       document.getElementById('exp-title').value = '';
       document.getElementById('exp-amount').value = '';
       renderExpenses();
@@ -1592,14 +1683,14 @@
       const nextVal = prompt(`修改「${item.title}」的金額 (${item.currency})：`, item.amount);
       if (nextVal !== null && !isNaN(parseFloat(nextVal))) {
         item.amount = parseFloat(nextVal);
-        localStorage.setItem('busan_expenses_v5', JSON.stringify(expenses));
+        localStorage.setItem('busan_expenses_v6', JSON.stringify(expenses));
         renderExpenses();
       }
     }
 
     function deleteExpense(id) {
       expenses = expenses.filter(x => x.id !== id);
-      localStorage.setItem('busan_expenses_v5', JSON.stringify(expenses));
+      localStorage.setItem('busan_expenses_v6', JSON.stringify(expenses));
       renderExpenses();
     }
 
@@ -1665,8 +1756,8 @@
       copyText(lines.join('\n'));
     }
 
-    // ==================== 檢核表與總覽圖載入 ====================
-    let checklist = JSON.parse(localStorage.getItem('busan_checklist_v5')) || DEFAULT_CHECKLIST;
+    // ==================== 檢核表 ====================
+    let checklist = JSON.parse(localStorage.getItem('busan_checklist_v6')) || DEFAULT_CHECKLIST;
 
     function renderChecklist() {
       const container = document.getElementById('checklist-container');
@@ -1680,22 +1771,8 @@
 
     function toggleCheck(idx) {
       checklist[idx].done = !checklist[idx].done;
-      localStorage.setItem('busan_checklist_v5', JSON.stringify(checklist));
+      localStorage.setItem('busan_checklist_v6', JSON.stringify(checklist));
       renderChecklist();
-    }
-
-    function loadCustomOverviewImage(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('built-in-qmap').style.display = 'none';
-        const img = document.getElementById('custom-overview-img');
-        img.src = e.target.result;
-        img.style.display = 'block';
-        showToast('已載入本機攻略圖檔！');
-      };
-      reader.readAsDataURL(file);
     }
 
     // 初始化
